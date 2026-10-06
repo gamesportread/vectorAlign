@@ -20,6 +20,7 @@ import { ReviewModal } from './components/modals/ReviewModal';
 import { FreeFlightModal } from './components/modals/FreeFlightModal';
 import { InstallHelpModal } from './components/modals/InstallHelpModal';
 import { IntroTour } from './components/intro/IntroTour';
+import { HomeView } from './components/home/HomeView';
 
 const keys: Record<string, ['translation' | 'rotation', number, number]> = {
   KeyA: ['translation', 0, -1],
@@ -74,6 +75,9 @@ function useFlight() {
     };
 
     const down = (e: KeyboardEvent) => {
+      // 在主页时不响应飞行操作按键
+      if (useSession.getState().screen === 'home') return;
+
       // 1. 复盘报告弹窗开启时，按 R 键立即重新开始任务
       if (useSession.getState().panel === 'review') {
         if (e.code === 'KeyR' || e.key === 'r' || e.key === 'R') {
@@ -228,6 +232,16 @@ export default function App() {
 
   const isFlying = flight.status === 'flying';
 
+  if (session.screen === 'home') {
+    return (
+      <HomeView
+        onEnterSimulator={() => {
+          session.setScreen('simulator');
+        }}
+      />
+    );
+  }
+
   return (
     <div className={`app-shell ${isFlying && tab === 'mission' ? 'in-flight' : ''}`}>
       <Topbar
@@ -236,6 +250,7 @@ export default function App() {
         canInstall={Boolean(installEvent)}
         onPromptInstall={() => void installEvent?.prompt()}
         onOpenInstallHelp={() => setInstallHelpOpen(true)}
+        onReturnHome={() => session.setScreen('home')}
       />
 
       <Sidebar

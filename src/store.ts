@@ -11,15 +11,18 @@ interface Session {
   camera:'orbit'|'pilot'|'side'; mode:'translate'|'rotate'; guidance:boolean; quality:'low'|'high'; muted:boolean;
   panel:'none'|'brief'|'review'|'guide'|'free'|'intro'; latest?:FlightRecord; storageError:boolean; hydrated:boolean;
   introSeen:boolean; introStep:number; labels:boolean;
+  screen:'home'|'simulator';
   select:(id:number,custom?:ScenarioConfig)=>void; start:(demo?:boolean)=>void; pause:()=>void; resume:()=>void; reset:()=>void;
   setLanguage:(language:Language)=>void; setMode:(mode:'translate'|'rotate')=>void; save:()=>void;
   openIntro:(step?:number)=>void; closeIntro:()=>void;
+  setScreen:(screen:'home'|'simulator')=>void;
 }
 export function clearInput(){runtime.command=emptyCommand();}
 export const useSession=create<Session>((set,get)=>({
   language:'zh',config,flight:runtime.state,running:false,demo:false,completed:[],camera:'orbit',mode:'translate',guidance:true,
   quality:typeof window!=='undefined' && window.matchMedia('(pointer: coarse)').matches?'low':'high',muted:true,panel:'none',storageError:false,hydrated:false,
   introSeen:false,introStep:0,labels:true,
+  screen:typeof window!=='undefined' && new URLSearchParams(window.location.search).get('screen')==='simulator'?'simulator':'home',
   select:(id,custom)=>{const c=structuredClone(custom??getScenario(id));clearInput();runtime.state=createState(c);runtime.stepper.reset();runtime.record=null;runtime.tumbleTicks=0;set({config:c,flight:runtime.state,running:false,demo:false,panel:'none',mode:id===3?'rotate':'translate'});},
   start:(demo=false)=>{clearInput();runtime.state={...createState(get().config),status:'flying'};runtime.stepper.reset();runtime.lastSample=0;runtime.lastWarning=0;runtime.lastBrake=false;runtime.tumbleTicks=0;
     runtime.record={scenario:get().config.id,config:structuredClone(get().config),demo,samples:[sample(runtime.state)],events:[{time:0,type:'start'}],date:new Date().toISOString()};
@@ -31,7 +34,8 @@ export const useSession=create<Session>((set,get)=>({
   setMode:mode=>{clearInput();set({mode});},
   save:()=>{const {completed,language,muted,quality,latest,introSeen}=get();void writeSaved({completed,language,muted,quality,latest,introSeen}).catch(()=>set({storageError:true}));},
   openIntro:(step=0)=>{get().pause();set({panel:'intro',introStep:step});},
-  closeIntro:()=>{set({panel:'none',introSeen:true});get().save();}
+  closeIntro:()=>{set({panel:'none',introSeen:true});get().save();},
+  setScreen:screen=>{get().pause();set({screen});}
 }));
 let initialized=false;
 export async function hydrate(){if(initialized)return;initialized=true;try {const data=await readSaved();const completedList = data?.completed ?? [];if(data){useSession.setState({completed:completedList,language:data.language??'zh',quality:data.quality??'high',muted:data.muted??true,latest:data.latest,introSeen:data.introSeen??false});document.documentElement.lang=data.language==='en'?'en':'zh-CN';}else{useSession.setState({completed:[]});}}catch{useSession.setState({storageError:true});}

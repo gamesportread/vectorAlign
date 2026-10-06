@@ -1,4 +1,5 @@
 export type NavigationTab = 'mission' | 'log' | 'guide';
+export type AppScreen = 'home' | 'simulator';
 
 export interface PWAInstallState {
   canInstall: boolean;

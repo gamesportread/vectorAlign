@@ -1,4 +1,4 @@
-import { BookOpen, Download, Globe2, Orbit, Radio, Volume2, VolumeX } from 'lucide-react';
+import { BookOpen, Download, Globe2, Home, Orbit, Radio, Volume2, VolumeX } from 'lucide-react';
 import type { NavigationTab } from '../../types/app';
 import { tone, useSession } from '../../store';
 
@@ -8,6 +8,7 @@ export interface TopbarProps {
   canInstall: boolean;
   onPromptInstall: () => void;
   onOpenInstallHelp: () => void;
+  onReturnHome?: () => void;
 }
 
 export function Topbar({
@@ -15,7 +16,8 @@ export function Topbar({
   onTabChange,
   canInstall,
   onPromptInstall,
-  onOpenInstallHelp
+  onOpenInstallHelp,
+  onReturnHome
 }: TopbarProps) {
   const language = useSession((s) => s.language);
   const muted = useSession((s) => s.muted);
@@ -38,12 +40,33 @@ export function Topbar({
 
   return (
     <header className="topbar">
-      <a className="brand" href="/" aria-label="Vector Align home">
+      <a 
+        className="brand" 
+        href="#" 
+        onClick={(e) => {
+          e.preventDefault();
+          onReturnHome?.();
+        }}
+        aria-label="Vector Align home"
+      >
         <img src="/favicon.svg" alt="" />
         <span>
           VECTOR<span className="brand-light">ALIGN</span>
         </span>
       </a>
+
+      {onReturnHome && (
+        <button
+          className="home-return-btn"
+          onClick={onReturnHome}
+          aria-label={t('返回主菜单', 'Return to Main Menu')}
+          title={t('返回任务主菜单', 'Return to Mission Menu')}
+          style={{ marginLeft: -15 }}
+        >
+          <Home size={14} />
+          <span>{t('主菜单', 'Menu')}</span>
+        </button>
+      )}
 
       <nav aria-label={t('主导航', 'Main navigation')}>
         {navItems.map((item) => {

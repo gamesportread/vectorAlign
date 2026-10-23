@@ -17,6 +17,7 @@ export function Sidebar({
 }: SidebarProps) {
   const language = useSession((s) => s.language);
   const completed = useSession((s) => s.completed);
+  const activeLevel = useSession((s) => s.activeLevel);
   const currentId = useSession((s) => s.config.id);
 
   const t = (zh: string, en: string) => (language === 'zh' ? zh : en);
@@ -52,9 +53,22 @@ export function Sidebar({
       </div>
 
       <div className="mission-list">
+        {/* 第零关：任务通识与导引 */}
+        <button
+          className={`mission-item mission-zero ${activeLevel === 0 ? 'selected' : ''}`}
+          onClick={() => onSelectMission(0)}
+        >
+          <span className="mission-number">00</span>
+          <span>
+            <strong>{t('任务通识 · 阶段认知', 'Mission Briefing & Orientation')}</strong>
+            <small>{t('认识空间站、飞船与六自由度法则', 'Spacecraft, station & 6-DOF laws')}</small>
+          </span>
+          {activeLevel === 0 && <ChevronRight size={15} />}
+        </button>
+
         {scenarios.map((sc) => {
           const isDone = completed.includes(sc.id);
-          const isSelected = currentId === sc.id;
+          const isSelected = activeLevel === sc.id;
           return (
             <button
               key={sc.id}

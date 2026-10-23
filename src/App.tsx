@@ -4,7 +4,7 @@ import { useRegisterSW } from 'virtual:pwa-register/react';
 import type { NavigationTab } from './types/app';
 import { clamp } from './sim/engine';
 import { constraintFeedback, isAxisLocked } from './sim/feedback';
-import { advanceFrame, clearInput, hydrate, lockTone, runtime, useSession } from './store';
+import { advanceFrame, clearInput, hydrate, lockTone, notifyCommand, runtime, useSession } from './store';
 
 import { Topbar } from './components/layout/Topbar';
 import { Sidebar } from './components/layout/Sidebar';
@@ -21,6 +21,13 @@ import { FreeFlightModal } from './components/modals/FreeFlightModal';
 import { InstallHelpModal } from './components/modals/InstallHelpModal';
 import { IntroTour } from './components/intro/IntroTour';
 import { HomeView } from './components/home/HomeView';
+import { MissionZeroView } from './components/views/MissionZeroView';
+import { LiftoffWorkspace } from './components/liftoff/LiftoffWorkspace';
+import { DepartureWorkspace } from './components/departure/DepartureWorkspace';
+import { LandingWorkspace } from './components/landing/LandingWorkspace';
+
+type ActiveProgram = 'docking' | 'liftoff' | 'departure' | 'landing';
+let currentActiveProgram: ActiveProgram = 'docking';
 
 const keys: Record<string, ['translation' | 'rotation', number, number]> = {
   KeyA: ['translation', 0, -1],
@@ -72,11 +79,12 @@ function useFlight() {
           runtime.command[map[0]][map[1]] = clamp(currentVal + map[2], -1, 1);
         }
       }
+      notifyCommand();
     };
 
     const down = (e: KeyboardEvent) => {
-      // 在主页时不响应飞行操作按键
-      if (useSession.getState().screen === 'home') return;
+      // 在主页或非空间站对接子系统时不响应空间站对接按键
+      if (useSession.getState().screen === 'home' || currentActiveProgram !== 'docking') return;
 
       // 1. 复盘报告弹窗开启时，按 R 键立即重新开始任务
       if (useSession.getState().panel === 'review') {
@@ -91,7 +99,14 @@ function useFlight() {
         }
       }
 
-      if ((e.target as HTMLElement).closest('input,select,textarea,button,[role="dialog"]')) {
+      if ((e.target as HTMLElement).closest('input,select,textarea,[contenteditable="true"]')) {
+        return;
+      }
+
+      // 舱门开关控制快捷键: 按 1 (Digit1 / Numpad1 / key === '1')
+      if (e.code === 'Digit1' || e.code === 'Numpad1' || e.key === '1') {
+        e.preventDefault();
+        useSession.getState().toggleHatch();
         return;
       }
 
@@ -185,13 +200,22 @@ export default function App() {
   useFlight();
 
   const session = useSession();
-  const { language, config, flight, panel, storageError } = session;
+  const { language, flight, panel, storageError } = session;
   const t = (zh: string, en: string) => (language === 'zh' ? zh : en);
 
   const [tab, setTab] = useState<NavigationTab>('mission');
+  const [activeProgram, setActiveProgram] = useState<ActiveProgram>(() => {
+    if (typeof window === 'undefined') return 'docking';
+    const prog = new URLSearchParams(window.location.search).get('program');
+    if (prog === 'liftoff' || prog === 'departure' || prog === 'landing') return prog;
+    return 'docking';
+  });
+  const [liftoffVehicleId, setLiftoffVehicleId] = useState<'saturn-v' | 'cz5' | 'cz2f'>('saturn-v');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [installHelpOpen, setInstallHelpOpen] = useState(false);
   const [installEvent, setInstallEvent] = useState<(Event & { prompt: () => Promise<void> }) | null>(null);
+
+  currentActiveProgram = activeProgram;
 
   const {
     offlineReady: [offlineReady],
@@ -231,19 +255,32 @@ export default function App() {
   };
 
   const isFlying = flight.status === 'flying';
+  const isCockpit = tab === 'mission' && session.activeLevel > 0;
 
   if (session.screen === 'home') {
     return (
       <HomeView
-        onEnterSimulator={() => {
+        onEnterSimulator={(taskId = 2, scenarioId = 'iss-standard') => {
+          if (taskId === 1) {
+            setActiveProgram('liftoff');
+            setLiftoffVehicleId(scenarioId === 'cz5' || scenarioId === 'cz2f' ? 'cz5' : 'saturn-v');
+          } else if (taskId === 3) {
+            setActiveProgram('departure');
+          } else if (taskId === 4) {
+            setActiveProgram('landing');
+          } else {
+            setActiveProgram('docking');
+          }
+          setTab('mission');
           session.setScreen('simulator');
+          useSession.setState({ activeLevel: 0 });
         }}
       />
     );
   }
 
   return (
-    <div className={`app-shell ${isFlying && tab === 'mission' ? 'in-flight' : ''}`}>
+    <div className={`app-shell ${isCockpit ? 'cockpit-screen' : ''} ${isFlying && tab === 'mission' ? 'in-flight' : ''}`}>
       <Topbar
         currentTab={tab}
         onTabChange={handleTabChange}
@@ -253,72 +290,99 @@ export default function App() {
         onReturnHome={() => session.setScreen('home')}
       />
 
-      <Sidebar
-        isOpenMobile={mobileMenuOpen}
-        onSelectMission={(id) => {
-          session.select(id);
-          setTab('mission');
-          setMobileMenuOpen(false);
-        }}
-        onOpenFreeFlight={handleOpenFreeFlight}
-        onOpenGuide={() => handleTabChange('guide')}
-      />
-
-      <main>
-        <button
-          className="mobile-course"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          <Layers3 size={16} />
-          {t('选择训练任务', 'Choose a mission')}
-          <ChevronRight size={14} />
-        </button>
-
-        {storageError && (
-          <div className="notice">
-            {t(
-              '本地存储不可用，本次进度只能保留到页面关闭。',
-              'Local storage is unavailable. Progress lasts for this session only.'
-            )}
-          </div>
-        )}
-
-        {tab === 'mission' ? (
-          <MissionView
-            constraintAlert={constraintAlert}
-            activeShakeAxis={activeShakeAxis}
-            onOpenBriefing={() => {
-              session.pause();
-              useSession.setState({ panel: 'brief' });
-            }}
-          />
-        ) : tab === 'log' ? (
-          <FlightLog />
-        ) : (
-          <FieldGuide />
-        )}
-
-        <AppFooter
-          offlineReady={offlineReady}
-          needRefresh={needRefresh}
-          onUpdateApp={() => void updateServiceWorker(true)}
+      {activeProgram === 'liftoff' && tab === 'mission' ? (
+        <LiftoffWorkspace
+          initialVehicleId={liftoffVehicleId}
+          isOpenMobile={mobileMenuOpen}
+          onToggleMobile={() => setMobileMenuOpen(!mobileMenuOpen)}
+          onCloseMobile={() => setMobileMenuOpen(false)}
         />
-      </main>
+      ) : activeProgram === 'departure' && tab === 'mission' ? (
+        <DepartureWorkspace
+          isOpenMobile={mobileMenuOpen}
+          onCloseMobile={() => setMobileMenuOpen(false)}
+        />
+      ) : activeProgram === 'landing' && tab === 'mission' ? (
+        <LandingWorkspace
+          isOpenMobile={mobileMenuOpen}
+          onCloseMobile={() => setMobileMenuOpen(false)}
+        />
+      ) : (
+        <>
+          <Sidebar
+            isOpenMobile={mobileMenuOpen}
+            onSelectMission={(id) => {
+              if (id === 0) {
+                session.pause();
+                useSession.setState({ activeLevel: 0 });
+              } else {
+                session.select(id);
+                useSession.setState({ activeLevel: id });
+              }
+              setTab('mission');
+              setMobileMenuOpen(false);
+            }}
+            onOpenFreeFlight={handleOpenFreeFlight}
+            onOpenGuide={() => handleTabChange('guide')}
+          />
+
+          <main>
+            <button
+              className="mobile-course"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <Layers3 size={16} />
+              {session.activeLevel === 0 ? t('00 任务通识 · 阶段认知', '00 Stage Briefing') : t('选择训练任务', 'Choose a mission')}
+              <ChevronRight size={14} />
+            </button>
+
+            {storageError && (
+              <div className="notice">
+                {t(
+                  '本地存储不可用，本次进度只能保留到页面关闭。',
+                  'Local storage is unavailable. Progress lasts for this session only.'
+                )}
+              </div>
+            )}
+
+            {tab === 'mission' ? (
+              session.activeLevel === 0 ? (
+                <MissionZeroView
+                  onStartFlight={() => {
+                    session.select(1);
+                    useSession.setState({ activeLevel: 1 });
+                  }}
+                />
+              ) : (
+                <MissionView
+                  constraintAlert={constraintAlert}
+                  activeShakeAxis={activeShakeAxis}
+                  onOpenBriefing={() => {
+                    session.pause();
+                    useSession.setState({ panel: 'brief' });
+                  }}
+                />
+              )
+            ) : tab === 'log' ? (
+              <FlightLog />
+            ) : (
+              <FieldGuide />
+            )}
+
+            <AppFooter
+              offlineReady={offlineReady}
+              needRefresh={needRefresh}
+              onUpdateApp={() => void updateServiceWorker(true)}
+            />
+          </main>
+        </>
+      )}
 
       {/* 弹窗集中装配 */}
-      {panel === 'intro' && (
-        <Modal
-          title={t('新手讲解 · 这些都是什么？', 'Getting started · What is everything?')}
-          className="intro-modal"
-          onClose={session.closeIntro}
-        >
-          <IntroTour />
-        </Modal>
-      )}
 
       {panel === 'brief' && (
         <Modal
-          title={t('任务简报', 'Mission briefing')}
+          title={t('通关攻略', 'Mission briefing')}
           onClose={() => useSession.setState({ panel: 'none' })}
         >
           <BriefingModal onStartFlight={() => session.start()} />
@@ -340,6 +404,16 @@ export default function App() {
           onClose={() => useSession.setState({ panel: 'none' })}
         >
           <FreeFlightModal onStart={() => setTab('mission')} />
+        </Modal>
+      )}
+
+      {panel === 'intro' && (
+        <Modal
+          title={t('空间站对接图解导引', 'Docking visual guide')}
+          onClose={() => useSession.getState().closeIntro()}
+          className="intro-modal"
+        >
+          <IntroTour />
         </Modal>
       )}
 

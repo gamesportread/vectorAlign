@@ -1,9 +1,8 @@
-import { BookOpen, ChevronRight, Crosshair } from 'lucide-react';
+import { Target } from 'lucide-react';
 import type { ActiveAlert } from '../../sim/feedback';
 import { useSession } from '../../store';
 import { AttitudeMonitor } from '../simulator/AttitudeMonitor';
 import { ControlPanelSection } from '../simulator/ControlPad';
-import { FlightActions } from '../simulator/FlightActions';
 import { SimulatorView } from '../simulator/SimulatorView';
 
 export interface MissionViewProps {
@@ -24,13 +23,8 @@ export function MissionView({
 
   return (
     <>
-      <div className="mission-heading">
-        <div>
-          <div className="breadcrumb">
-            {t('任务训练', 'MISSIONS')}
-            <ChevronRight size={12} />
-            <span>{t('近距离对接', 'PROXIMITY OPERATIONS')}</span>
-          </div>
+      <div className="mission-heading cockpit-header-bar">
+        <div className="heading-title-col">
           <h1>
             <span className="title-number">0{config.id}</span>
             {config.title[language]}
@@ -38,44 +32,38 @@ export function MissionView({
               {config.id === 4 ? t('综合任务', 'FINAL MISSION') : t('基础训练', 'FOUNDATIONS')}
             </span>
           </h1>
-          <p>
-            {config.subtitle[language]}
-            <span className="heading-divider">/</span>
-            {t('原理教学训练', 'Educational flight simulation')}
-          </p>
         </div>
 
-        <div className="heading-coordinate">
-          <Crosshair size={22} />
-          <span>
-            {t('国际空间站 · 和谐号舱', 'ISS · HARMONY')}
-            <small>{t('前向对接口', 'FORWARD DOCKING PORT')}</small>
-          </span>
+        {/* 关卡具体目标与通关要求（同行紧凑集成） */}
+        <div className="mission-goal-banner">
+          <div className="goal-banner-header">
+            <div className="goal-badge">
+              <Target size={14} />
+              <span>{t('本关目标', 'OBJECTIVE')}</span>
+            </div>
+            <div className="goal-criteria-pill">
+              <span className="criteria-label">{t('🏁 通关要求：', '🏁 Pass: ')}</span>
+              <span className="criteria-val">{config.passCriteria ? config.passCriteria[language] : ''}</span>
+            </div>
+          </div>
+          <div className="goal-banner-body">
+            <div className="goal-operation-hint">
+              <span className="hint-label">{t('🕹️ 怎么操作：', '🕹️ Controls: ')}</span>
+              <span className="hint-text">{config.hint ? config.hint[language] : config.brief[language]}</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* 3D 仿真器与 HUD */}
-      <SimulatorView constraintAlert={constraintAlert} />
-
-      {/* 动作栏 */}
-      <FlightActions onOpenBriefing={onOpenBriefing} />
+      {/* 3D 仿真器与 HUD（遥测栏已集成动作控制与开始键） */}
+      <SimulatorView constraintAlert={constraintAlert} onOpenBriefing={onOpenBriefing} />
 
       {/* 控制台与姿态监视器双列 */}
       <div className="lower-panels">
         <ControlPanelSection activeShakeAxis={activeShakeAxis} />
         <AttitudeMonitor />
       </div>
-
-      {/* 关卡笔记 */}
-      <div className="lesson-strip">
-        <span className="lesson-icon">
-          <BookOpen size={18} />
-        </span>
-        <p>
-          <strong>{t('飞行笔记', 'Flight note')}</strong>
-          {config.lesson[language]}
-        </p>
-      </div>
     </>
   );
 }
+

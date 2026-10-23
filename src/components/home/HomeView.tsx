@@ -8,21 +8,25 @@ import {
   Layers, 
   Settings as SettingsIcon, 
   Users, 
-  BookOpen, 
   CheckCircle2, 
   AlertCircle,
   Volume2,
   VolumeX,
   Globe2,
-  Monitor
+  Monitor,
+  Lock,
+  ExternalLink,
+  Compass,
+  RotateCcw
 } from 'lucide-react';
 import { HOME_MISSIONS, type HomeMissionItem, type HistoricalScenario } from '../../data/homeMissions';
 import { Modal } from '../common/Modal';
 import { tone, useSession } from '../../store';
+import { HomePanorama } from './HomePanorama';
 import './home.css';
 
 export interface HomeViewProps {
-  onEnterSimulator: () => void;
+  onEnterSimulator: (taskId?: number, scenarioId?: string) => void;
 }
 
 export function HomeView({ onEnterSimulator }: HomeViewProps) {
@@ -35,8 +39,8 @@ export function HomeView({ onEnterSimulator }: HomeViewProps) {
   const t = (zh: string, en: string) => (language === 'zh' ? zh : en);
 
   // Selected mission (1: 升空, 2: 太空站对接, 3: 太空站离开, 4: 舱体降落)
-  const [selectedTaskId, setSelectedTaskId] = useState<number>(2);
-  const [selectedScenarioId, setSelectedScenarioId] = useState<string>('iss-standard');
+  const [selectedTaskId, setSelectedTaskId] = useState<number>(1);
+  const [selectedScenarioId, setSelectedScenarioId] = useState<string>('saturn-v');
 
   // Modals state
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -44,8 +48,13 @@ export function HomeView({ onEnterSimulator }: HomeViewProps) {
   const [devNoticeOpen, setDevNoticeOpen] = useState(false);
   const [scenarioTooltip, setScenarioTooltip] = useState<string | null>(null);
 
+  // 360° 全景视角控制状态 (Bonus)
+  const [isAutoRotating, setIsAutoRotating] = useState<boolean>(true);
+  const [viewAngles, setViewAngles] = useState<{ yaw: number; pitch: number }>({ yaw: 0, pitch: 0 });
+  const [resetSignal, setResetSignal] = useState<number>(0);
+
   const currentMission: HomeMissionItem = 
-    HOME_MISSIONS.find((m) => m.id === selectedTaskId) ?? HOME_MISSIONS[1];
+    HOME_MISSIONS.find((m) => m.id === selectedTaskId) ?? HOME_MISSIONS[0];
 
   const handleSelectTask = (id: number) => {
     tone();
@@ -60,7 +69,7 @@ export function HomeView({ onEnterSimulator }: HomeViewProps) {
   const handleEnterClick = () => {
     tone();
     if (currentMission.isImplemented) {
-      onEnterSimulator();
+      onEnterSimulator(selectedTaskId, selectedScenarioId);
     } else {
       setDevNoticeOpen(true);
     }
@@ -107,15 +116,13 @@ export function HomeView({ onEnterSimulator }: HomeViewProps) {
 
   return (
     <div className="home-container" data-testid="mission-select-home">
-      {/* Background images for all 4 missions with crossfade */}
-      {HOME_MISSIONS.map((m) => (
-        <div
-          key={m.id}
-          className={`home-bg-layer ${selectedTaskId === m.id ? 'active' : ''}`}
-          style={{ backgroundImage: `url(${m.image})` }}
-          aria-hidden={selectedTaskId !== m.id}
-        />
-      ))}
+      {/* 360° 全景三维动态背景 (Bonus) */}
+      <HomePanorama
+        selectedTaskId={selectedTaskId}
+        autoRotate={isAutoRotating}
+        onAngleChange={(yaw, pitch) => setViewAngles({ yaw, pitch })}
+        resetSignal={resetSignal}
+      />
 
       {/* Gradients ensuring readability on the left while preserving visual focus on the right */}
       <div className="home-overlay" />
@@ -126,202 +133,167 @@ export function HomeView({ onEnterSimulator }: HomeViewProps) {
         {/* Top-Left: Big Brand & Mission Title */}
         <header className="home-header">
           <div className="home-brand-tag">
-            <span className="indicator-dot" />
             <span>{t('航天飞行模拟系统 · 交互课堂', 'Orbital Flight Simulation Academy')}</span>
           </div>
           <h1 className="home-title">
             <span>VECTOR</span>
             <span className="title-accent">ALIGN</span>
           </h1>
-          <p className="home-subtitle">
-            {t('矢量轨道 · 太空任务与交会对接沉浸式模拟', 'Hands-on Orbital Mechanics & Spacecraft Docking')}
-          </p>
         </header>
 
-        {/* Middle Section: Left Briefing Info + Right Historical Scenario Selector */}
-        <div className="home-content-row">
-          {/* Left Briefing Card (Teenager-friendly specs & explanation) */}
-          <section className="home-briefing-card" aria-label={t('任务简报', 'Mission Briefing')}>
-            <div className="briefing-header">
-              <div className="briefing-mission-badge">
-                <Rocket size={14} />
-                <span>
-                  {t('任务阶段', 'PHASE')} 0{currentMission.num} · {t(currentMission.titleZh, currentMission.titleEn)}
-                </span>
-              </div>
-              <span className="briefing-tagline">
-                {t(currentMission.taglineZh, currentMission.taglineEn)}
-              </span>
-            </div>
+        {/* Main single-screen layout: Left Cluster (Menu + 场景 Card with matching top/bottom bounds) + Right 360 HUD */}
+        <div className="home-main-layout">
+          {/* Left Cluster: 一级菜单 + 场景卡片，上下界绝对水平对齐 */}
+          <div className="home-left-cluster">
+            {/* 一级菜单: 序号已去除，实装标签已去除 */}
+            <nav className="home-menu-stack" aria-label={t('主菜单', 'Main Menu')}>
+              {/* 升空 */}
+              <button
+                type="button"
+                className={`home-menu-btn ${selectedTaskId === 1 ? 'active' : ''}`}
+                onClick={() => handleSelectTask(1)}
+              >
+                <span>{t('升空', 'Liftoff')}</span>
+              </button>
 
-            <div className="briefing-specs-grid">
-              <div className="spec-item">
-                <span className="spec-label">
-                  <Clock size={12} style={{ display: 'inline', marginRight: 4, verticalAlign: -1 }} />
-                  {t('模拟时间', 'TIME')}
-                </span>
-                <span className="spec-value">{t(currentMission.specs.timeZh, currentMission.specs.timeEn)}</span>
-              </div>
-              <div className="spec-item">
-                <span className="spec-label">
-                  <Layers size={12} style={{ display: 'inline', marginRight: 4, verticalAlign: -1 }} />
-                  {t('演练阶段', 'STAGE')}
-                </span>
-                <span className="spec-value">{t(currentMission.specs.stageZh, currentMission.specs.stageEn)}</span>
-              </div>
-              <div className="spec-item">
-                <span className="spec-label">
-                  <MapPin size={12} style={{ display: 'inline', marginRight: 4, verticalAlign: -1 }} />
-                  {t('任务地点', 'ORBIT')}
-                </span>
-                <span className="spec-value">{t(currentMission.specs.locationZh, currentMission.specs.locationEn)}</span>
-              </div>
-              <div className="spec-item">
-                <span className="spec-label">
-                  <Rocket size={12} style={{ display: 'inline', marginRight: 4, verticalAlign: -1 }} />
-                  {t('飞船型号', 'VEHICLE')}
-                </span>
-                <span className="spec-value">{t(currentMission.specs.vehicleZh, currentMission.specs.vehicleEn)}</span>
-              </div>
-            </div>
+              {/* 太空站对接 */}
+              <button
+                type="button"
+                className={`home-menu-btn ${selectedTaskId === 2 ? 'active' : ''}`}
+                onClick={() => handleSelectTask(2)}
+              >
+                <span>{t('太空站对接', 'Station Docking')}</span>
+              </button>
 
-            <p className="briefing-summary">
-              {t(currentMission.summaryZh, currentMission.summaryEn)}
-            </p>
+              {/* 太空站离开 */}
+              <button
+                type="button"
+                className={`home-menu-btn ${selectedTaskId === 3 ? 'active' : ''}`}
+                onClick={() => handleSelectTask(3)}
+              >
+                <span>{t('太空站离开', 'Departure')}</span>
+              </button>
 
-            {/* Science Explanation Box for Teenagers */}
-            <div className="science-tip-box">
-              <div className="science-tip-title">
-                <Sparkles size={13} />
-                <span>
-                  {t('青少年航天小百科 · ', 'Space Science Tip · ')}
-                  {t(currentMission.scienceTip.termZh, currentMission.scienceTip.termEn)}
-                </span>
-              </div>
-              <p className="science-tip-desc">
-                {t(currentMission.scienceTip.explanationZh, currentMission.scienceTip.explanationEn)}
-              </p>
-            </div>
-          </section>
+              {/* 舱体降落 */}
+              <button
+                type="button"
+                className={`home-menu-btn ${selectedTaskId === 4 ? 'active' : ''}`}
+                onClick={() => handleSelectTask(4)}
+              >
+                <span>{t('舱体降落', 'Landing')}</span>
+              </button>
 
-          {/* Right-Side Mission Scenario Selector (Reserved for future historical docking missions) */}
-          <aside className="home-right-panel" aria-label={t('历史任务选择', 'Historical Mission Selector')}>
-            <div className="scenario-card">
-              <div className="scenario-card-header">
-                <div className="scenario-card-title">
-                  <BookOpen size={14} />
-                  <span>{t('演练场景与历史任务', 'Historical Missions')}</span>
-                </div>
-                <span className="scenario-card-badge">
-                  {currentMission.isImplemented ? t('已开放 1 个', '1 Available') : t('筹备中', 'Planning')}
-                </span>
-              </div>
+              {/* 选项 */}
+              <button
+                type="button"
+                className="home-menu-btn secondary-action"
+                onClick={() => { tone(); setSettingsOpen(true); }}
+              >
+                <span>{t('选项', 'Options')}</span>
+              </button>
 
+              {/* 制作人员与致谢 */}
+              <button
+                type="button"
+                className="home-menu-btn secondary-action"
+                onClick={() => { tone(); setCreditsOpen(true); }}
+              >
+                <span>{t('制作人员与致谢', 'Credits & Acknowledgements')}</span>
+              </button>
+            </nav>
+
+            {/* 二级菜单卡片：放置于一级菜单右侧，上下界与菜单对齐 */}
+            <aside className="scenario-card" aria-label={t('二级菜单', 'Secondary Menu')}>
               <div className="scenario-list">
                 {currentMission.historicalScenarios?.map((s) => (
-                  <button
-                    key={s.id}
-                    type="button"
-                    className={`scenario-item ${selectedScenarioId === s.id && s.isAvailable ? 'active' : ''}`}
-                    onClick={() => handleScenarioSelect(s)}
-                  >
-                    <div className="scenario-top-line">
-                      <span className="scenario-name">{t(s.titleZh, s.titleEn)}</span>
-                      <span className={`scenario-status ${s.isAvailable ? 'active' : 'pending'}`}>
-                        {t(s.statusZh, s.statusEn)}
+                  <div key={s.id} className={`scenario-block ${s.isAvailable ? 'available' : 'unavailable'}`}>
+                    {/* 任务标题按钮 */}
+                    <button
+                      type="button"
+                      className={`scenario-task-btn ${s.isAvailable ? 'task-btn-convex' : 'task-btn-disabled'}`}
+                      onClick={() => {
+                        if (s.isAvailable) {
+                          tone();
+                          onEnterSimulator(selectedTaskId, s.id);
+                        } else {
+                          tone();
+                          setScenarioTooltip(
+                            language === 'zh'
+                              ? `【${s.titleZh}】任务尚未开放，正在参数标定与研发中！`
+                              : `[${s.titleEn}] is currently under development!`
+                          );
+                        }
+                      }}
+                      aria-label={t(s.titleZh, s.titleEn)}
+                      aria-disabled={!s.isAvailable}
+                    >
+                      <span className="task-btn-title">
+                        {t(s.titleZh, s.titleEn)}
                       </span>
+                      {s.isAvailable ? (
+                        <span className="task-btn-badge available">
+                          <span>{t('进入关卡', 'LAUNCH')}</span>
+                          <ArrowRight size={14} />
+                        </span>
+                      ) : (
+                        <span className="task-btn-badge locked">
+                          <Lock size={12} />
+                          <span>{t(s.statusZh, s.statusEn)}</span>
+                        </span>
+                      )}
+                    </button>
+
+                    {/* 小字放到按钮下方 */}
+                    <div className={`scenario-task-subtext ${s.isAvailable ? 'available' : 'locked'}`}>
+                      {s.eraZh && (
+                        <span className="scenario-task-era">
+                          <Sparkles size={11} />
+                          <span>{t(s.eraZh, s.eraEn)}</span>
+                        </span>
+                      )}
+                      <p className="scenario-task-desc">{t(s.descZh, s.descEn)}</p>
                     </div>
-                    <p className="scenario-desc">{t(s.descZh, s.descEn)}</p>
-                  </button>
+                  </div>
                 ))}
               </div>
 
               {scenarioTooltip && (
-                <div style={{ marginTop: 10, fontSize: 11, color: '#e5be85', display: 'flex', alignItems: 'center', gap: 6 }}>
+                <div className="scenario-tooltip-bar">
                   <AlertCircle size={13} />
                   <span>{scenarioTooltip}</span>
                 </div>
               )}
-            </div>
-          </aside>
-        </div>
+            </aside>
+          </div>
 
-        {/* Bottom Row: 6 Menu Buttons on Left, Enter Button on Right */}
-        <footer className="home-bottom-row">
-          {/* Left-Bottom: Exactly the 6 requested menu items */}
-          <nav className="home-menu-stack" aria-label={t('主菜单', 'Main Menu')}>
-            {/* 1 升空 */}
+          {/* 360° 全景操作提示与交互 HUD (Bonus) */}
+          <div className="home-panorama-hud">
             <button
               type="button"
-              className={`home-menu-btn ${selectedTaskId === 1 ? 'active' : ''}`}
-              onClick={() => handleSelectTask(1)}
+              className={`panorama-pill-btn ${isAutoRotating ? 'active' : ''}`}
+              onClick={() => setIsAutoRotating((v) => !v)}
+              title={t('点击切换 360° 自动巡航', 'Toggle 360° Auto-Cruise')}
             >
-              <span>1  {t('升空', 'Liftoff')}</span>
+              <Compass size={14} />
+              <span>{t('360° 全景', '360° Panorama')}</span>
+              <span className="panorama-bearing">{`AZ: ${viewAngles.yaw}°`}</span>
             </button>
 
-            {/* 2 太空站对接 (原项目实现) */}
             <button
               type="button"
-              className={`home-menu-btn ${selectedTaskId === 2 ? 'active' : ''}`}
-              onClick={() => handleSelectTask(2)}
+              className="panorama-reset-btn"
+              onClick={() => setResetSignal((s) => s + 1)}
+              title={t('重置正向视角', 'Reset View Angle')}
             >
-              <span>2  {t('太空站对接', 'Station Docking')}</span>
-              <span className="menu-badge">{t('实装', 'LIVE')}</span>
+              <RotateCcw size={12} />
+              <span>{t('重置', 'Reset')}</span>
             </button>
 
-            {/* 3 太空站离开 */}
-            <button
-              type="button"
-              className={`home-menu-btn ${selectedTaskId === 3 ? 'active' : ''}`}
-              onClick={() => handleSelectTask(3)}
-            >
-              <span>3  {t('太空站离开', 'Departure')}</span>
-            </button>
-
-            {/* 4 舱体降落 */}
-            <button
-              type="button"
-              className={`home-menu-btn ${selectedTaskId === 4 ? 'active' : ''}`}
-              onClick={() => handleSelectTask(4)}
-            >
-              <span>4  {t('舱体降落', 'Landing')}</span>
-            </button>
-
-            {/* 5 选项 */}
-            <button
-              type="button"
-              className="home-menu-btn secondary-action"
-              onClick={() => { tone(); setSettingsOpen(true); }}
-            >
-              <span>5  {t('选项', 'Options')}</span>
-            </button>
-
-            {/* 6 制作人员 */}
-            <button
-              type="button"
-              className="home-menu-btn secondary-action"
-              onClick={() => { tone(); setCreditsOpen(true); }}
-            >
-              <span>6  {t('制作人员', 'Credits')}</span>
-            </button>
-          </nav>
-
-          {/* Right-Bottom: Prominent Enter Button */}
-          <div className="home-enter-btn-wrap">
-            <button
-              type="button"
-              className="home-enter-btn"
-              onClick={handleEnterClick}
-              aria-label={t('进入本次模拟', 'Enter Simulation')}
-            >
-              <span>{t('进入模拟', 'ENTER SIMULATION')}</span>
-              <ArrowRight size={20} />
-            </button>
-            <span className="home-enter-hint">
-              {t('支持鼠标点击或直接按 Enter 键进入', 'Click or press Enter key to start')}
+            <span className="panorama-hint-text">
+              {t('🖱️ 拖拽探索 360° 全景', '🖱️ Drag to explore 360°')}
             </span>
           </div>
-        </footer>
+        </div>
       </div>
 
       {/* 5 选项 Modal */}
@@ -439,13 +411,51 @@ export function HomeView({ onEnterSimulator }: HomeViewProps) {
             </div>
 
             <div className="credits-section">
-              <h4>{t('航天模型与数据致谢', 'Asset Credits & Data')}</h4>
+              <h4>{t('航天模型与数据致谢', 'Asset Credits & NASA Sources')}</h4>
               <p>
                 {t(
                   '国际空间站 3D 模型源自 NASA 开放航天资源；真实比例地球卫星贴图源自 NASA Visible Earth 与 Blue Marble 空间观测数据。',
                   'ISS 3D model courtesy of NASA open 3D resources. True-scale Earth textures provided by NASA Visible Earth and Blue Marble imagery.'
                 )}
               </p>
+              <div className="credits-sources-list">
+                <a
+                  href="https://www.nasa.gov/international-space-station/harmony-module/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="credits-source-link"
+                >
+                  <span>{t('NASA · 和谐号节点舱', 'NASA · Harmony module')}</span>
+                  <ExternalLink size={14} />
+                </a>
+                <a
+                  href="https://science.nasa.gov/resource/international-space-station-3d-model/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="credits-source-link"
+                >
+                  <span>{t('NASA · 国际空间站 3D 官方模型', 'NASA VTAD · International Space Station model')}</span>
+                  <ExternalLink size={14} />
+                </a>
+                <a
+                  href="https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/base-map/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="credits-source-link"
+                >
+                  <span>{t('NASA 地球观测站 · 蓝色弹珠', 'NASA Earth Observatory · Blue Marble')}</span>
+                  <ExternalLink size={14} />
+                </a>
+                <a
+                  href="https://www.nasa.gov/stem-content/crew-orbital-docking-simulation-coding-sim/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="credits-source-link"
+                >
+                  <span>{t('NASA STEM · 载人轨道对接模拟', 'NASA STEM · Crew Orbital Docking Simulation')}</span>
+                  <ExternalLink size={14} />
+                </a>
+              </div>
             </div>
 
             <div className="credits-section">

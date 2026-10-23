@@ -57,16 +57,17 @@ export function Modal({ title, children, onClose, className }: ModalProps) {
         aria-label={title}
         tabIndex={-1}
       >
-        <div className="modal-heading">
-          <h2>{title}</h2>
-          <button
-            className="icon-button"
-            aria-label="Close / 关闭"
-            onClick={onClose}
-          >
-            <X size={20} />
-          </button>
+        <div className="modal-heading" style={{ pointerEvents: 'none' }}>
+          <h2 style={{ pointerEvents: 'none' }}>{title}</h2>
         </div>
+        <button
+          className="icon-button modal-close"
+          aria-label="Close / 关闭"
+          onClick={onClose}
+          style={{ pointerEvents: 'auto', zIndex: 10 }}
+        >
+          <X size={20} />
+        </button>
         {children}
       </section>
     </div>

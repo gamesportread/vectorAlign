@@ -1,18 +1,18 @@
 :root{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:#e8eded;background:#101315;font-synthesis:none;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-weight:400;--lime:#b3f56b;--muted:#88918e;--line:#2b3130;--panel:#171b1d;--mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace}
-*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button,a{-webkit-tap-highlight-color:transparent}button{cursor:pointer;color:inherit;border:0;background:none}button:disabled{cursor:not-allowed;opacity:.3}button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--lime);outline-offset:4px}button{transition:background .15s,color .15s,border-color .15s}a{color:inherit;text-decoration:none}p{line-height:1.75}button svg{flex-shrink:0}h1,h2,h3,p{margin-top:0}h1{font-size:30px;font-weight:550;letter-spacing:-1px}h2{font-size:21px;font-weight:550}h3{font-size:16px;font-weight:550}small{font-size:12px}.topbar{height:54px;display:flex;align-items:center;border-bottom:1px solid var(--line);padding:0 24px;gap:40px;background:#14181a;position:relative;z-index:4}.brand{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:750;letter-spacing:-.5px}.brand img{width:28px;height:28px;border-radius:7px}.brand-light{font-weight:350;color:#bec7c2}.brand small{display:none}.topbar nav{display:flex;gap:26px;align-self:stretch}.topbar nav button{display:flex;gap:8px;align-items:center;font-size:14px;color:#929c98;border-bottom:2px solid transparent;padding:0 3px}.topbar nav button.nav-active{color:var(--lime);border-bottom-color:var(--lime)}.header-actions{margin-left:auto;display:flex;gap:12px;align-items:center}.icon-button{display:inline-flex;align-items:center;justify-content:center;padding:7px;color:#a7b0ad;border-radius:5px}.icon-button:hover{background:#252d29;color:#eef4ed}.language{font-size:12px;gap:7px}.sidebar{position:absolute;top:54px;bottom:0;min-height:calc(100vh - 54px);width:254px;padding:24px 19px;background:#15191b;border-right:1px solid var(--line);display:flex;flex-direction:column}.course-label{display:flex;align-items:center;justify-content:space-between;padding:0 8px;margin-bottom:21px}.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:1.7px;font-weight:400;color:#929f97}.small-pill{font-family:var(--mono);font-size:10px;background:#283024;border:1px solid #3a472e;padding:3px 6px;color:#b2c79d;border-radius:3px}.sidebar h2{font-size:21px;line-height:1.5;margin:0 8px 10px}.sidebar-intro{font-size:13px;color:#919b95;margin:0 8px 29px;line-height:1.8}.progress-caption{display:flex;justify-content:space-between;margin:0 8px 11px;font-size:12px;color:#a3afa8}.progress-caption strong{font-family:var(--mono);color:#d4ddd7;font-weight:400}.progress-caption strong span{color:#717e76}.progress-track{display:flex;gap:4px;margin:0 8px 27px}.progress-track>span{height:3px;flex:1;background:#343c36;border-radius:3px}.progress-track .complete{background:var(--lime)}.mission-list{display:flex;flex-direction:column;gap:7px}.mission-item{text-align:left;display:flex;align-items:center;gap:12px;border:1px solid transparent;border-radius:7px;padding:14px 10px;min-height:76px;width:100%}.mission-item:hover{background:#1c2221}.mission-number{border:1px solid #3b4440;border-radius:7px;width:31px;height:34px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-family:var(--mono);color:#86958b}.mission-item strong{font-size:14px;font-weight:500;display:block}.mission-item small{display:block;color:#7f8e86;font-size:11px;margin-top:7px}.mission-item>svg{margin-left:auto;color:var(--lime)}.mission-item.selected{background:#243020;border-color:#455a32}.selected .mission-number{background:var(--lime);color:#1c3012;border-color:var(--lime)}.selected strong{color:#d9edc9}.selected small{color:#9cae8f}.free-link{margin:22px 8px 0;padding:18px 0;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;font-size:13px;color:#7c8881}.free-link>svg:last-child{margin-left:auto}.free-link.unlocked{color:var(--lime)}.sidebar-note{padding:20px 15px;background:#1b211e;border:1px solid #2c3730;border-radius:8px;margin:52px 7px 25px}.note-orbit{color:#b9c9ac;margin-bottom:15px}.sidebar-note p{font-size:13px;color:#b6c2b8;margin:10px 0 17px}.sidebar-note button{display:flex;align-items:center;gap:8px;color:var(--lime);font-size:12px;padding:0}.local-status{margin-top:auto;padding:8px;display:flex;gap:6px;align-items:center;font-size:10px;color:#6f7f76}main{margin-left:254px;padding:29px 34px 0;max-width:1800px}.mission-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:25px}.breadcrumb{display:flex;gap:9px;align-items:center;font-family:var(--mono);font-size:10px;color:#79857e;letter-spacing:.7px;margin-bottom:16px}.breadcrumb>span{color:#a3afa7}.mission-heading h1{display:flex;align-items:center;gap:13px;margin-bottom:9px}.title-number{color:#566359;font-family:var(--mono);font-size:23px;font-weight:400}.level-pill{color:#a8ba99;font-size:10px;letter-spacing:.5px;border:1px solid #374331;padding:5px 7px;border-radius:4px;font-weight:400;margin-left:3px;white-space:nowrap}.mission-heading p{font-size:13px;color:#8d9a92;margin-bottom:0}.heading-divider{padding:0 13px;color:#4a5850}.heading-coordinate{display:flex;gap:13px;align-items:center;color:#b1bfb4;font-family:var(--mono);font-size:11px;letter-spacing:.5px}.heading-coordinate>svg{color:#829579}.heading-coordinate small{display:block;font-size:9px;color:#6f8175;letter-spacing:1px;margin-top:6px}.simulator{border:1px solid #354137;border-radius:10px;overflow:hidden;background:#10161a}.scene-toolbar{height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:#1b211f;border-bottom:1px solid #313d33}.view-switch{display:flex;gap:4px}.view-switch button{display:flex;align-items:center;gap:7px;font-size:11px;border-radius:5px;color:#8e9d92;padding:7px 10px}.view-switch button.active{color:#dfead9;background:#313c2e}.scene-tools{display:flex;gap:13px;align-items:center}.scene-tools button{display:flex;align-items:center;gap:5px;padding:4px;font-size:10px;color:#7a897e}.scene-tools button.enabled{color:#b2c998}.scene-container{height:428px;position:relative;overflow:hidden;background:#090e13}.scene-container canvas{touch-action:none}.scene-top-left,.scene-top-right{position:absolute;top:20px;pointer-events:none;display:flex;flex-direction:column;gap:9px}.scene-top-left{left:23px}.scene-top-right{right:22px;align-items:flex-end}.scene-tag{font-family:var(--mono);font-size:9px;letter-spacing:1.4px;color:#bac8bc}.scene-subtag{font-family:var(--mono);font-size:8px;letter-spacing:1px;color:#728779}.flight-state{display:flex;align-items:center;gap:7px;padding:5px 8px;background:#111c1c99;border:1px solid #3e51415c;border-radius:4px;font-size:10px;letter-spacing:.6px;color:#99b58e}.flight-state i{height:5px;width:5px;border-radius:50%;background:#91a387}.flight-state.live{color:var(--lime)}.flight-state.live i{background:var(--lime)}.mission-clock{font-family:var(--mono);font-size:11px;color:#a2b9ac;letter-spacing:1.8px}.scene-brief{position:absolute;left:23px;top:105px;width:224px;pointer-events:none;padding:17px;background:#0d151bdd;border:1px solid #2f4145;border-radius:7px;backdrop-filter:blur(8px)}.scene-brief .eyebrow{color:#a9c696;font-size:9px;letter-spacing:1.1px}.scene-brief h3{font-size:16px;line-height:1.7;margin:10px 0}.scene-brief p{color:#9aaab0;font-size:12px;line-height:1.9;margin:0 0 17px}.brief-foot{display:flex;align-items:center;gap:6px;font-size:10px;color:#73898c;border-top:1px solid #2a3b3e;padding-top:12px}.scene-bottom-left{position:absolute;bottom:17px;left:23px;display:flex;gap:10px;align-items:center;pointer-events:none;color:#8da49c;font-family:var(--mono);font-size:9px;letter-spacing:.6px}.axis-symbol{font-size:24px;color:#a7c8a4}.scene-scale{position:absolute;bottom:24px;right:25px;width:56px;text-align:center;font-family:var(--mono);font-size:9px;color:#92a699;pointer-events:none}.scene-scale i{display:block;height:5px;border:1px solid #668075;border-top:0;margin-top:5px}.telemetry{display:grid;grid-template-columns:repeat(4,1fr);padding:19px 2px;background:#191f1d;border-top:1px solid #364137}.metric{padding:0 23px;border-right:1px solid #333d35;position:relative}.metric:last-child{border-right:0}.metric-label{display:block;font-size:10px;letter-spacing:.9px;color:#90a38f;font-family:var(--mono);margin-bottom:8px}.metric strong{font-family:var(--mono);font-weight:400;font-size:29px;letter-spacing:-1.4px;white-space:nowrap}.metric strong small{font-family:var(--mono);font-size:12px;letter-spacing:0;color:#8fa18f;padding-left:7px}.metric.accent strong{color:var(--lime)}.metric-detail{display:block;color:#708572;font-size:9px;margin-top:6px}.fuel-track{height:3px;position:absolute;right:25px;left:25px;bottom:-9px;background:#35432e}.fuel-track i{display:block;height:100%;background:#95c86b}.flight-actions{display:flex;justify-content:space-between;gap:14px;align-items:center;margin:17px 0 24px}.constraint{display:flex;gap:7px;font-size:11px;color:#87988c;max-width:40%;line-height:1.7}.constraint svg{flex-shrink:0;color:#98b786}.action-buttons{display:flex;align-items:center;gap:9px}.primary-button,.secondary-button{display:inline-flex;gap:8px;align-items:center;justify-content:center;border-radius:6px;padding:12px 17px;font-size:12px;white-space:nowrap;font-weight:500}.primary-button{background:var(--lime);color:#1e2c14;border:1px solid var(--lime)}.primary-button:hover{background:#c5ff86}.secondary-button{background:#1c231f;border:1px solid #354237;color:#b9c8bb}.secondary-button:hover{background:#2c3a2b}.reset{margin-right:3px}.lower-panels{display:grid;grid-template-columns:1.18fr 1fr;gap:17px}.control-panel,.attitude-panel{background:#181e1b;border:1px solid #303b31;border-radius:8px;padding:18px 20px}.panel-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:21px}.panel-heading h3{display:flex;gap:8px;align-items:center;font-size:13px;color:#c9d4c9;margin:0}.panel-heading h3 svg{color:#8b9d84}.mode-tabs{display:flex;border:1px solid #3d493b;border-radius:5px;overflow:hidden}.mode-tabs button{padding:5px 10px;font-size:10px;color:#7b8f7b}.mode-tabs button.active{background:#303e2b;color:#c4d9b8}.control-groups{display:flex;gap:14px;justify-content:space-between}.control-group{flex:1}.control-group>span{display:flex;gap:4px;align-items:center;justify-content:center;color:#83957f;font-size:10px;margin-bottom:9px}.control-group>div{display:flex;gap:5px;justify-content:center}.control-group button{display:flex;gap:9px;align-items:center;justify-content:center;background:#222c23;border:1px solid #3b4a36;border-radius:5px;padding:9px 10px;color:#c1d2b6;min-width:48px;touch-action:none;user-select:none}.control-group button:not(:disabled):active{background:#455e33;color:var(--lime);border-color:var(--lime)}kbd{font-family:var(--mono);font-size:10px;color:#7e9277}.control-hint{margin-top:19px;font-size:8px;letter-spacing:.5px;color:#6b826b;display:flex;align-items:center;justify-content:space-between;gap:10px}.brake-button{display:flex;align-items:center;gap:6px;font-size:10px;touch-action:none}.brake-button span{font-size:8px;border:1px solid #43583d;border-radius:3px;padding:3px 5px;color:#b4c3a8}.brake-button:active{color:var(--lime)}.attitude-values{display:flex;justify-content:space-between;gap:26px}.attitude-values>div{flex:1}.attitude-values>div>span{color:#869882;font-size:10px;letter-spacing:.5px}.attitude-values strong{display:block;font-size:24px;font-family:var(--mono);font-weight:400;letter-spacing:-1px;margin-top:11px}.attitude-values small{font-size:13px;color:#839b7e}.angle-track{position:relative;height:5px;border-bottom:1px solid #435139;margin-top:12px;background:repeating-linear-gradient(90deg,transparent 0,transparent calc(10% - 1px),#435139 calc(10% - 1px),#435139 10%)}.angle-track i{position:absolute;top:-2px;width:3px;height:9px;background:var(--lime)}.attitude-panel p{display:flex;gap:6px;color:#7d957a;font-size:10px;margin:19px 0 0}.attitude-panel p b{font-family:var(--mono);color:#b4c3aa;font-weight:400}.attitude-panel p>span{margin-left:auto}.lesson-strip{display:flex;gap:12px;align-items:center;padding:16px 17px;margin-top:18px;border:1px solid #2c382c;border-radius:7px;background:#172018}.lesson-icon{color:#9bbd80;flex-shrink:0}.lesson-strip p{font-size:12px;color:#90a187;margin:0}.lesson-strip strong{color:#c1d3b4;margin-right:12px;font-weight:500}footer{padding:25px 0 20px;display:flex;justify-content:space-between;font-size:9px;letter-spacing:.5px;color:#667966}.footer-dot{padding:0 10px}.mobile-course{display:none}.reticle{width:130px;height:130px;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:1px solid #afd69b77;border-radius:50%;pointer-events:none}.reticle:before,.reticle:after{content:'';position:absolute;background:#b3f56b99}.reticle:before{width:1px;height:170px;left:50%;top:-20px}.reticle:after{height:1px;width:170px;top:50%;left:-20px}.reticle span{position:absolute;inset:55px;border:1px solid #b3f56b;transform:rotate(45deg)}.simulator:fullscreen{height:100%;display:flex;flex-direction:column}.simulator:fullscreen .scene-container{flex:1}.scene-fallback{padding:140px 25px;text-align:center;color:#a4c28c}.notice{padding:12px;background:#463525;border:1px solid #8d6641;color:#e2be87;font-size:13px;margin-bottom:15px}.modal-backdrop{position:fixed;inset:0;background:#040b0ad4;z-index:20;backdrop-filter:blur(6px);display:flex;justify-content:center;align-items:center;padding:24px}.modal{width:590px;max-height:90dvh;overflow:auto;border:1px solid #475842;border-radius:14px;background:#191f1c;padding:27px;box-shadow:0 24px 100px #0008}.modal-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}.modal-heading h2{margin:0;font-size:20px}.modal h3{font-size:22px;line-height:1.5;margin-top:15px}.modal p{font-size:14px;color:#a4b19f;line-height:1.9}.modal-highlight{padding:17px;border-left:2px solid var(--lime);background:#252f21}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:23px}.result-icon{width:57px;height:57px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:8px auto}.result-icon.success{color:var(--lime);background:#2e4123}.result-icon.failure{color:#eab796;background:#3d3029}.result-title{text-align:center;font-weight:500}.review-metrics{display:flex;justify-content:space-between;margin:24px 0;padding:20px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.review-metrics span{display:block;font-size:12px;color:#91a48b}.review-metrics strong{display:block;margin-top:8px;font-family:var(--mono);font-size:23px;font-weight:400}.flight-charts{margin-top:23px}.flight-charts svg{width:100%;display:block}.chart-caption,.chart-time{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:#8aa780}.chart-time{margin-bottom:20px}.event-list{padding:0;list-style:none;font-size:12px;color:#a7b5a1}.event-list li{display:flex;gap:12px;margin-top:12px;line-height:1.7}.event-list time{font-family:var(--mono);color:#abc995;flex-shrink:0}.content-page{max-width:850px;padding:22px 10px 40px;margin:auto;min-height:calc(100vh - 170px)}.content-page h1{margin-top:16px;font-size:34px}.content-page>p{font-size:15px;color:#a9b9a1}.content-page .result-icon{margin-top:45px}.empty-state{padding:100px 25px;text-align:center;color:#8aa17d;background:#172019;border:1px solid #33412c;border-radius:10px;margin-top:35px}.empty-state h3{margin-top:25px;font-size:21px;color:#c8dabd}.empty-state p{font-size:14px}.guide-lesson{display:flex;gap:25px;padding:26px 0;border-bottom:1px solid #303c2d}.guide-lesson>span{font-family:var(--mono);color:var(--lime);font-size:20px;padding-top:2px}.guide-lesson h2{font-size:20px}.guide-lesson p{font-size:16px;color:#a7b79e}.guide-lesson small{color:#7e9873}.science-note,.sources{margin-top:40px}.science-note p,.sources p{font-size:14px;color:#a7b79e;line-height:1.9}.sources a{display:flex;justify-content:space-between;gap:12px;font-size:14px;padding:14px 0;color:var(--lime);border-bottom:1px solid #303c2d}.slider-field{display:block;margin:25px 0}.slider-field>span{display:flex;justify-content:space-between;font-size:14px;color:#aab9a1}.slider-field strong{font-family:var(--mono);font-weight:400;color:var(--lime)}input[type="range"]{width:100%;accent-color:var(--lime);margin-top:15px}.locked-lab{text-align:center;padding:20px}.locked-lab>svg{color:#9bb187}.update-toast{position:fixed;bottom:22px;right:22px;padding:16px 20px;background:#2d3d25;border:1px solid var(--lime);border-radius:8px;z-index:10;font-size:14px}.update-toast button{margin-left:18px;color:var(--lime);text-decoration:underline}
+*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button,a{-webkit-tap-highlight-color:transparent}button{cursor:pointer;color:inherit;border:0;background:none}button:disabled{cursor:not-allowed;opacity:.3}button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--lime);outline-offset:4px}button{transition:background .15s,color .15s,border-color .15s}a{color:inherit;text-decoration:none}p{line-height:1.75}button svg{flex-shrink:0}h1,h2,h3,p{margin-top:0}h1{font-size:30px;font-weight:550;letter-spacing:-1px}h2{font-size:21px;font-weight:550}h3{font-size:16px;font-weight:550}small{font-size:12px}.topbar{height:54px;display:flex;align-items:center;border-bottom:1px solid var(--line);padding:0 24px;gap:40px;background:#14181a;position:relative;z-index:30}.brand{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:750;letter-spacing:-.5px}.brand img{width:28px;height:28px;border-radius:7px}.brand-light{font-weight:350;color:#bec7c2}.brand small{display:none}.topbar nav{display:flex;gap:26px;align-self:stretch}.topbar nav button{display:flex;gap:8px;align-items:center;font-size:14px;color:#929c98;border-bottom:2px solid transparent;padding:0 3px}.topbar nav button.nav-active{color:var(--lime);border-bottom-color:var(--lime)}.header-actions{margin-left:auto;display:flex;gap:12px;align-items:center}.icon-button{display:inline-flex;align-items:center;justify-content:center;padding:7px;color:#a7b0ad;border-radius:5px}.icon-button:hover{background:#252d29;color:#eef4ed}.language{font-size:12px;gap:7px}.sidebar{position:absolute;top:54px;bottom:0;min-height:calc(100vh - 54px);width:254px;padding:24px 19px;background:#15191b;border-right:1px solid var(--line);display:flex;flex-direction:column}.course-label{display:flex;align-items:center;justify-content:space-between;padding:0 8px;margin-bottom:21px}.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:1.7px;font-weight:400;color:#929f97}.small-pill{font-family:var(--mono);font-size:10px;background:#283024;border:1px solid #3a472e;padding:3px 6px;color:#b2c79d;border-radius:3px}.sidebar h2{font-size:21px;line-height:1.5;margin:0 8px 10px}.sidebar-intro{font-size:13px;color:#919b95;margin:0 8px 29px;line-height:1.8}.progress-caption{display:flex;justify-content:space-between;margin:0 8px 11px;font-size:12px;color:#a3afa8}.progress-caption strong{font-family:var(--mono);color:#d4ddd7;font-weight:400}.progress-caption strong span{color:#717e76}.progress-track{display:flex;gap:4px;margin:0 8px 27px}.progress-track>span{height:3px;flex:1;background:#343c36;border-radius:3px}.progress-track .complete{background:var(--lime)}.mission-list{display:flex;flex-direction:column;gap:7px}.mission-item{text-align:left;display:flex;align-items:center;gap:12px;border:1px solid transparent;border-radius:7px;padding:14px 10px;min-height:76px;width:100%}.mission-item:hover{background:#1c2221}.mission-number{border:1px solid #3b4440;border-radius:7px;width:31px;height:34px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-family:var(--mono);color:#86958b}.mission-item strong{font-size:14px;font-weight:500;display:block}.mission-item small{display:block;color:#7f8e86;font-size:11px;margin-top:7px}.mission-item>svg{margin-left:auto;color:var(--lime)}.mission-item.selected{background:#243020;border-color:#455a32}.selected .mission-number{background:var(--lime);color:#1c3012;border-color:var(--lime)}.selected strong{color:#d9edc9}.selected small{color:#9cae8f}.free-link{margin:22px 8px 0;padding:18px 0;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;font-size:13px;color:#7c8881}.free-link>svg:last-child{margin-left:auto}.free-link.unlocked{color:var(--lime)}.sidebar-note{padding:20px 15px;background:#1b211e;border:1px solid #2c3730;border-radius:8px;margin:52px 7px 25px}.note-orbit{color:#b9c9ac;margin-bottom:15px}.sidebar-note p{font-size:13px;color:#b6c2b8;margin:10px 0 17px}.sidebar-note button{display:flex;align-items:center;gap:8px;color:var(--lime);font-size:12px;padding:0}.local-status{margin-top:auto;padding:8px;display:flex;gap:6px;align-items:center;font-size:10px;color:#6f7f76}main{margin-left:254px;padding:29px 34px 0;max-width:1800px}.mission-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:25px}.breadcrumb{display:flex;gap:9px;align-items:center;font-family:var(--mono);font-size:10px;color:#79857e;letter-spacing:.7px;margin-bottom:16px}.breadcrumb>span{color:#a3afa7}.mission-heading h1{display:flex;align-items:center;gap:13px;margin-bottom:9px}.title-number{color:#566359;font-family:var(--mono);font-size:23px;font-weight:400}.level-pill{color:#a8ba99;font-size:10px;letter-spacing:.5px;border:1px solid #374331;padding:5px 7px;border-radius:4px;font-weight:400;margin-left:3px;white-space:nowrap}.mission-heading p{font-size:13px;color:#8d9a92;margin-bottom:0}.heading-divider{padding:0 13px;color:#4a5850}.heading-coordinate{display:flex;gap:13px;align-items:center;color:#b1bfb4;font-family:var(--mono);font-size:11px;letter-spacing:.5px}.heading-coordinate>svg{color:#829579}.heading-coordinate small{display:block;font-size:9px;color:#6f8175;letter-spacing:1px;margin-top:6px}.simulator{border:1px solid #354137;border-radius:10px;overflow:hidden;background:#10161a}.scene-toolbar{height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:#1b211f;border-bottom:1px solid #313d33}.view-switch{display:flex;gap:4px}.view-switch button{display:flex;align-items:center;gap:7px;font-size:11px;border-radius:5px;color:#8e9d92;padding:7px 10px}.view-switch button.active{color:#dfead9;background:#313c2e}.scene-tools{display:flex;gap:13px;align-items:center}.scene-tools button{display:flex;align-items:center;gap:5px;padding:4px;font-size:10px;color:#7a897e}.scene-tools button.enabled{color:#b2c998}.scene-container{height:428px;position:relative;overflow:hidden;background:#090e13}.scene-container canvas{touch-action:none}.scene-top-left,.scene-top-right{position:absolute;top:20px;pointer-events:none;display:flex;flex-direction:column;gap:9px}.scene-top-left{left:23px}.scene-top-right{right:22px;align-items:flex-end}.scene-tag{font-family:var(--mono);font-size:9px;letter-spacing:1.4px;color:#bac8bc}.scene-subtag{font-family:var(--mono);font-size:8px;letter-spacing:1px;color:#728779}.flight-state{display:flex;align-items:center;gap:7px;padding:5px 8px;background:#111c1c99;border:1px solid #3e51415c;border-radius:4px;font-size:10px;letter-spacing:.6px;color:#99b58e}.flight-state i{height:5px;width:5px;border-radius:50%;background:#91a387}.flight-state.live{color:var(--lime)}.flight-state.live i{background:var(--lime)}.mission-clock{font-family:var(--mono);font-size:11px;color:#a2b9ac;letter-spacing:1.8px}.scene-brief{position:absolute;left:23px;top:105px;width:224px;pointer-events:none;padding:17px;background:#0d151bdd;border:1px solid #2f4145;border-radius:7px;backdrop-filter:blur(8px)}.scene-brief .eyebrow{color:#a9c696;font-size:9px;letter-spacing:1.1px}.scene-brief h3{font-size:16px;line-height:1.7;margin:10px 0}.scene-brief p{color:#9aaab0;font-size:12px;line-height:1.9;margin:0 0 17px}.brief-foot{display:flex;align-items:center;gap:6px;font-size:10px;color:#73898c;border-top:1px solid #2a3b3e;padding-top:12px}.scene-bottom-left{position:absolute;bottom:17px;left:23px;display:flex;gap:10px;align-items:center;pointer-events:none;color:#8da49c;font-family:var(--mono);font-size:9px;letter-spacing:.6px}.axis-symbol{font-size:24px;color:#a7c8a4}.scene-scale{position:absolute;bottom:24px;right:25px;width:56px;text-align:center;font-family:var(--mono);font-size:9px;color:#92a699;pointer-events:none}.scene-scale i{display:block;height:5px;border:1px solid #668075;border-top:0;margin-top:5px}.telemetry{display:grid;grid-template-columns:repeat(4,1fr);padding:19px 2px;background:#191f1d;border-top:1px solid #364137}.metric{padding:0 23px;border-right:1px solid #333d35;position:relative}.metric:last-child{border-right:0}.metric-label{display:block;font-size:10px;letter-spacing:.9px;color:#90a38f;font-family:var(--mono);margin-bottom:8px}.metric strong{font-family:var(--mono);font-weight:400;font-size:29px;letter-spacing:-1.4px;white-space:nowrap}.metric strong small{font-family:var(--mono);font-size:12px;letter-spacing:0;color:#8fa18f;padding-left:7px}.metric.accent strong{color:var(--lime)}.metric-detail{display:block;color:#708572;font-size:9px;margin-top:6px}.fuel-track{height:3px;position:absolute;right:25px;left:25px;bottom:-9px;background:#35432e}.fuel-track i{display:block;height:100%;background:#95c86b}.flight-actions{display:flex;justify-content:space-between;gap:14px;align-items:center;margin:17px 0 24px}.constraint{display:flex;gap:7px;font-size:11px;color:#87988c;max-width:40%;line-height:1.7}.constraint svg{flex-shrink:0;color:#98b786}.action-buttons{display:flex;align-items:center;gap:9px}.primary-button,.secondary-button{display:inline-flex;gap:8px;align-items:center;justify-content:center;border-radius:6px;padding:12px 17px;font-size:12px;white-space:nowrap;font-weight:500}.primary-button{background:var(--lime);color:#1e2c14;border:1px solid var(--lime)}.primary-button:hover{background:#c5ff86}.secondary-button{background:#1c231f;border:1px solid #354237;color:#b9c8bb}.secondary-button:hover{background:#2c3a2b}.reset{margin-right:3px}.lower-panels{display:grid;grid-template-columns:1.18fr 1fr;gap:17px}.control-panel,.attitude-panel{background:#181e1b;border:1px solid #303b31;border-radius:8px;padding:18px 20px}.panel-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:21px}.panel-heading h3{display:flex;gap:8px;align-items:center;font-size:13px;color:#c9d4c9;margin:0}.panel-heading h3 svg{color:#8b9d84}.mode-tabs{display:flex;border:1px solid #3d493b;border-radius:5px;overflow:hidden}.mode-tabs button{padding:5px 10px;font-size:10px;color:#7b8f7b}.mode-tabs button.active{background:#303e2b;color:#c4d9b8}.control-groups{display:flex;gap:14px;justify-content:space-between}.control-group{flex:1}.control-group>span{display:flex;gap:4px;align-items:center;justify-content:center;color:#83957f;font-size:10px;margin-bottom:9px}.control-group>div{display:flex;gap:5px;justify-content:center}.control-group button{display:flex;gap:9px;align-items:center;justify-content:center;background:#222c23;border:1px solid #3b4a36;border-radius:5px;padding:9px 10px;color:#c1d2b6;min-width:48px;touch-action:none;user-select:none}.control-group button:not(:disabled):active{background:#455e33;color:var(--lime);border-color:var(--lime)}kbd{font-family:var(--mono);font-size:10px;color:#7e9277}.control-hint{margin-top:19px;font-size:8px;letter-spacing:.5px;color:#6b826b;display:flex;align-items:center;justify-content:space-between;gap:10px}.brake-button{display:flex;align-items:center;gap:6px;font-size:10px;touch-action:none}.brake-button span{font-size:8px;border:1px solid #43583d;border-radius:3px;padding:3px 5px;color:#b4c3a8}.brake-button:active{color:var(--lime)}.attitude-values{display:flex;justify-content:space-between;gap:26px}.attitude-values>div{flex:1}.attitude-values>div>span{color:#869882;font-size:10px;letter-spacing:.5px}.attitude-values strong{display:block;font-size:24px;font-family:var(--mono);font-weight:400;letter-spacing:-1px;margin-top:11px}.attitude-values small{font-size:13px;color:#839b7e}.angle-track{position:relative;height:5px;border-bottom:1px solid #435139;margin-top:12px;background:repeating-linear-gradient(90deg,transparent 0,transparent calc(10% - 1px),#435139 calc(10% - 1px),#435139 10%)}.angle-track i{position:absolute;top:-2px;width:3px;height:9px;background:var(--lime)}.attitude-panel p{display:flex;gap:6px;color:#7d957a;font-size:10px;margin:19px 0 0}.attitude-panel p b{font-family:var(--mono);color:#b4c3aa;font-weight:400}.attitude-panel p>span{margin-left:auto}.lesson-strip{display:flex;gap:12px;align-items:center;padding:16px 17px;margin-top:18px;border:1px solid #2c382c;border-radius:7px;background:#172018}.lesson-icon{color:#9bbd80;flex-shrink:0}.lesson-strip p{font-size:12px;color:#90a187;margin:0}.lesson-strip strong{color:#c1d3b4;margin-right:12px;font-weight:500}footer{padding:25px 0 20px;display:flex;justify-content:space-between;font-size:9px;letter-spacing:.5px;color:#667966}.footer-dot{padding:0 10px}.mobile-course{display:none}.reticle{width:130px;height:130px;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:1px solid #afd69b77;border-radius:50%;pointer-events:none}.reticle:before,.reticle:after{content:'';position:absolute;background:#b3f56b99}.reticle:before{width:1px;height:170px;left:50%;top:-20px}.reticle:after{height:1px;width:170px;top:50%;left:-20px}.reticle span{position:absolute;inset:55px;border:1px solid #b3f56b;transform:rotate(45deg)}.simulator:fullscreen{height:100%;display:flex;flex-direction:column}.simulator:fullscreen .scene-container{flex:1}.scene-fallback{padding:140px 25px;text-align:center;color:#a4c28c}.notice{padding:12px;background:#463525;border:1px solid #8d6641;color:#e2be87;font-size:13px;margin-bottom:15px}.modal-backdrop{position:fixed;inset:0;background:#040b0ad4;z-index:20;backdrop-filter:blur(6px);display:flex;justify-content:center;align-items:center;padding:24px}.modal{position:relative;width:min(590px,100%);max-height:90dvh;overflow:auto;border:1px solid #475842;border-radius:14px;background:#191f1c;padding:27px;box-shadow:0 24px 100px #0008}.modal-heading{display:flex;align-items:center;margin-bottom:25px;padding-right:48px;pointer-events:none}.modal-heading h2{margin:0;font-size:20px;min-width:0;flex:1;pointer-events:none;user-select:none}.modal-close{position:absolute;top:18px;right:18px;z-index:10;display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;color:#a7b0ad;border-radius:6px;cursor:pointer;pointer-events:auto}.modal-close:hover{background:#252d29;color:#eef4ed}.modal h3{font-size:22px;line-height:1.5;margin-top:15px}.modal p{font-size:14px;color:#a4b19f;line-height:1.9}.modal-highlight{padding:17px;border-left:2px solid var(--lime);background:#252f21}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:23px}.result-icon{width:57px;height:57px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:8px auto}.result-icon.success{color:var(--lime);background:#2e4123}.result-icon.failure{color:#eab796;background:#3d3029}.result-title{text-align:center;font-weight:500}.review-metrics{display:flex;justify-content:space-between;margin:24px 0;padding:20px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.review-metrics span{display:block;font-size:12px;color:#91a48b}.review-metrics strong{display:block;margin-top:8px;font-family:var(--mono);font-size:23px;font-weight:400}.flight-charts{margin-top:23px}.flight-charts svg{width:100%;display:block}.chart-caption,.chart-time{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:#8aa780}.chart-time{margin-bottom:20px}.event-list{padding:0;list-style:none;font-size:12px;color:#a7b5a1}.event-list li{display:flex;gap:12px;margin-top:12px;line-height:1.7}.event-list time{font-family:var(--mono);color:#abc995;flex-shrink:0}.content-page{max-width:850px;padding:22px 10px 40px;margin:auto;min-height:calc(100vh - 170px)}.content-page h1{margin-top:16px;font-size:34px}.content-page>p{font-size:15px;color:#a9b9a1}.content-page .result-icon{margin-top:45px}.empty-state{padding:100px 25px;text-align:center;color:#8aa17d;background:#172019;border:1px solid #33412c;border-radius:10px;margin-top:35px}.empty-state h3{margin-top:25px;font-size:21px;color:#c8dabd}.empty-state p{font-size:14px}.guide-lesson{display:flex;gap:25px;padding:26px 0;border-bottom:1px solid #303c2d}.guide-lesson>span{font-family:var(--mono);color:var(--lime);font-size:20px;padding-top:2px}.guide-lesson h2{font-size:20px}.guide-lesson p{font-size:16px;color:#a7b79e}.guide-lesson small{color:#7e9873}.science-note,.sources{margin-top:40px}.science-note p,.sources p{font-size:14px;color:#a7b79e;line-height:1.9}.sources a{display:flex;justify-content:space-between;gap:12px;font-size:14px;padding:14px 0;color:var(--lime);border-bottom:1px solid #303c2d}.slider-field{display:block;margin:25px 0}.slider-field>span{display:flex;justify-content:space-between;font-size:14px;color:#aab9a1}.slider-field strong{font-family:var(--mono);font-weight:400;color:var(--lime)}input[type="range"]{width:100%;accent-color:var(--lime);margin-top:15px}.locked-lab{text-align:center;padding:20px}.locked-lab>svg{color:#9bb187}.update-toast{position:fixed;bottom:22px;right:22px;padding:16px 20px;background:#2d3d25;border:1px solid var(--lime);border-radius:8px;z-index:10;font-size:14px}.update-toast button{margin-left:18px;color:var(--lime);text-decoration:underline}
 @media(min-width:1550px){.scene-container{height:500px}.sidebar{width:280px}main{margin-left:280px;padding-left:42px;padding-right:42px}.sidebar h2{font-size:23px}}
 @media(max-width:1200px){.topbar{gap:20px;padding:0 22px}.brand{font-size:16px}.sidebar{width:225px;padding:26px 13px}main{margin-left:225px;padding:25px 22px 0}.heading-coordinate{display:none}.topbar nav{gap:22px}.metric{padding:0 15px}.metric strong{font-size:25px}.constraint{font-size:10px}.control-panel,.attitude-panel{padding:16px 14px}.control-groups{gap:8px}.control-group button{min-width:39px;padding:9px 6px;gap:5px}.scene-container{height:398px}.primary-button,.secondary-button{font-size:11px;padding:11px 12px}.scene-brief{width:207px}.control-hint{font-size:8px;flex-wrap:wrap}.sidebar-note{margin-top:35px}.mission-item{gap:9px}}
 @media(max-width:960px){.sidebar{width:196px;padding:24px 10px}.brand{font-size:14px}.brand img{width:26px;height:26px}.topbar{height:54px;gap:16px;padding:0 16px}.topbar nav{gap:15px}.topbar nav button{font-size:12px;gap:5px}.header-actions{gap:5px}.sidebar{top:54px}.sidebar h2{font-size:18px}.sidebar-intro{font-size:12px}.eyebrow{font-size:9px}.mission-item strong{font-size:12px}.mission-item small{font-size:10px}.mission-number{width:27px;height:30px}.mission-item{padding:13px 7px}.sidebar-note{padding:15px 11px}.sidebar-note p{font-size:12px}main{margin-left:196px;padding:24px 18px 0}.mission-heading h1{font-size:25px;gap:9px}.level-pill{font-size:9px}.scene-container{height:370px}.scene-brief{width:182px;left:16px;padding:13px;top:89px}.scene-brief h3{font-size:14px}.scene-brief p{font-size:11px}.scene-toolbar{padding:0 10px}.view-switch button{padding:6px;font-size:10px}.scene-tools{gap:7px}.metric{padding:0 11px}.metric strong{font-size:23px}.metric strong small{font-size:10px;padding-left:4px}.metric-detail{font-size:8px}.flight-actions{flex-wrap:wrap;justify-content:flex-end}.constraint{max-width:none;flex:1;min-width:100%;font-size:11px}.lower-panels{grid-template-columns:1fr}.attitude-panel{padding:18px}.attitude-values{gap:45px}.scene-top-left{left:16px}.scene-tag{font-size:8px}.local-status{font-size:9px}footer{font-size:8px;gap:15px;line-height:1.5}}
-@media(max-width:700px){.topbar{height:52px;padding:0 14px;gap:8px;justify-content:space-between}.brand{min-width:0;gap:7px;font-size:14px}.brand img{width:26px;height:26px}.topbar nav{position:fixed;bottom:0;left:0;right:0;height:58px;padding-bottom:env(safe-area-inset-bottom);background:#172019fa;border-top:1px solid #36482e;z-index:12;justify-content:space-around;gap:0}.topbar nav button{font-size:11px;padding:10px 12px;border-bottom:0;border-top:2px solid transparent}.topbar nav button.nav-active{border-top-color:var(--lime)}.header-actions{margin-left:0;gap:3px}.header-actions .icon-button{padding:7px}.header-actions .language{font-size:10px}.sidebar{display:none;position:fixed;top:52px;bottom:58px;min-height:0;width:265px;z-index:8;overflow:auto;box-shadow:20px 0 60px #0008}.sidebar.mobile-open{display:flex}.sidebar-note{margin-top:20px}.local-status{margin-top:20px}.mobile-course{display:flex;gap:7px;align-items:center;font-size:11px;color:#a0b58f;margin-bottom:21px;padding:0}.mobile-course svg:last-child{margin-left:4px}main{margin:0;padding:19px 14px 60px}.mission-heading{margin-bottom:19px}.breadcrumb{font-size:8px;margin-bottom:12px}.mission-heading h1{font-size:25px;gap:9px;letter-spacing:-.5px}.title-number{font-size:19px}.level-pill{font-size:8px;padding:4px 5px}.mission-heading p{font-size:11px}.heading-divider{padding:0 8px}.scene-container{height:354px}.scene-toolbar{height:43px;padding:0 7px}.view-switch{gap:2px}.view-switch button{padding:6px;font-size:9px;gap:5px}.view-switch button svg{width:12px}.scene-tools{gap:4px}.scene-tools button{padding:3px;font-size:8px}.scene-tools button span{display:none}.scene-tools button svg{width:14px}.scene-top-left{left:13px;top:15px;gap:8px}.scene-tag{font-size:7px;letter-spacing:.5px}.scene-subtag{font-size:7px;letter-spacing:.5px}.scene-top-right{right:13px;top:14px;gap:8px}.flight-state{font-size:8px;padding:4px 6px}.mission-clock{font-size:9px}.scene-brief{left:13px;top:82px;width:165px;padding:11px}.scene-brief .eyebrow{font-size:8px}.scene-brief h3{font-size:13px;margin:8px 0}.scene-brief p{font-size:11px;line-height:1.8;margin-bottom:11px}.brief-foot{font-size:9px;line-height:1.5;gap:4px;padding-top:9px}.brief-foot svg{width:11px}.scene-bottom-left{left:13px;bottom:10px;font-size:7px;gap:5px}.scene-scale{bottom:18px;right:15px;width:39px;font-size:8px}.telemetry{padding:14px 0}.metric{padding:0 9px}.metric-label{font-size:8px;letter-spacing:.2px}.metric strong{font-size:20px;letter-spacing:-1px}.metric strong small{font-size:8px;display:inline;padding-left:3px}.metric-detail{display:none}.fuel-track{left:9px;right:9px;bottom:-6px}.flight-actions{gap:13px;margin:16px 0 20px}.constraint{font-size:10px;gap:5px}.constraint svg{width:14px}.action-buttons{gap:7px;width:100%;justify-content:space-between}.primary-button,.secondary-button{font-size:11px;padding:11px 12px;gap:6px}.reset{padding:7px;margin:0}.action-buttons svg{width:15px}.control-panel,.attitude-panel{padding:16px}.panel-heading h3{font-size:13px}.mode-tabs button{font-size:11px}.control-group>span{font-size:11px}.control-group button{min-width:48px;min-height:45px;padding:9px 8px}.control-groups{gap:10px}.control-hint{font-size:8px}.brake-button{font-size:10px;min-height:30px}.lower-panels{gap:13px}.lesson-strip{margin-top:13px;padding:13px 12px;gap:10px;align-items:flex-start}.lesson-strip p{font-size:11px;line-height:1.9}.lesson-strip strong{display:block;margin-bottom:3px}.lesson-icon svg{width:16px;margin-top:3px}footer{flex-direction:column;gap:9px;padding:22px 2px;font-size:8px}.modal-backdrop{padding:13px}.modal{padding:22px 18px;max-height:88dvh}.modal h3{font-size:20px}.modal p{font-size:13px}.modal-heading h2{font-size:18px}.content-page{padding:10px 4px 30px}.content-page h1{font-size:29px}.guide-lesson{gap:17px}.guide-lesson p{font-size:14px}.guide-lesson h2{font-size:18px}.sources a{font-size:12px}.empty-state{padding:65px 18px}.review-metrics strong{font-size:20px}}
+@media(max-width:700px){.topbar{height:52px;padding:0 14px;gap:8px;justify-content:space-between;position:relative;z-index:100}.brand{min-width:0;gap:7px;font-size:14px}.brand img{width:26px;height:26px}.topbar nav{position:fixed;bottom:0;left:0;right:0;height:58px;padding-bottom:env(safe-area-inset-bottom);background:#172019fa;border-top:1px solid #36482e;z-index:1000;justify-content:space-around;gap:0}.topbar nav button{font-size:11px;padding:10px 12px;border-bottom:0;border-top:2px solid transparent}.topbar nav button.nav-active{border-top-color:var(--lime)}.header-actions{margin-left:0;gap:3px}.header-actions .icon-button{padding:7px}.header-actions .language{font-size:10px}.sidebar{display:none;position:fixed;top:52px;bottom:58px;min-height:0;width:265px;z-index:8;overflow:auto;box-shadow:20px 0 60px #0008}.sidebar.mobile-open{display:flex}.sidebar-note{margin-top:20px}.local-status{margin-top:20px}.mobile-course{display:flex;gap:7px;align-items:center;font-size:11px;color:#a0b58f;margin-bottom:21px;padding:0}.mobile-course svg:last-child{margin-left:4px}main{margin:0;padding:19px 14px 60px}.mission-heading{margin-bottom:19px}.breadcrumb{font-size:8px;margin-bottom:12px}.mission-heading h1{font-size:25px;gap:9px;letter-spacing:-.5px}.title-number{font-size:19px}.level-pill{font-size:8px;padding:4px 5px}.mission-heading p{font-size:11px}.heading-divider{padding:0 8px}.scene-container{height:354px}.scene-toolbar{height:43px;padding:0 7px}.view-switch{gap:2px}.view-switch button{padding:6px;font-size:9px;gap:5px}.view-switch button svg{width:12px}.scene-tools{gap:4px}.scene-tools button{padding:3px;font-size:8px}.scene-tools button span{display:none}.scene-tools button svg{width:14px}.scene-top-left{left:13px;top:15px;gap:8px}.scene-tag{font-size:7px;letter-spacing:.5px}.scene-subtag{font-size:7px;letter-spacing:.5px}.scene-top-right{right:13px;top:14px;gap:8px}.flight-state{font-size:8px;padding:4px 6px}.mission-clock{font-size:9px}.scene-brief{left:13px;top:82px;width:165px;padding:11px}.scene-brief .eyebrow{font-size:8px}.scene-brief h3{font-size:13px;margin:8px 0}.scene-brief p{font-size:11px;line-height:1.8;margin-bottom:11px}.brief-foot{font-size:9px;line-height:1.5;gap:4px;padding-top:9px}.brief-foot svg{width:11px}.scene-bottom-left{left:13px;bottom:10px;font-size:7px;gap:5px}.scene-scale{bottom:18px;right:15px;width:39px;font-size:8px}.telemetry{padding:14px 0}.metric{padding:0 9px}.metric-label{font-size:8px;letter-spacing:.2px}.metric strong{font-size:20px;letter-spacing:-1px}.metric strong small{font-size:8px;display:inline;padding-left:3px}.metric-detail{display:none}.fuel-track{left:9px;right:9px;bottom:-6px}.flight-actions{gap:13px;margin:16px 0 20px}.constraint{font-size:10px;gap:5px}.constraint svg{width:14px}.action-buttons{gap:7px;width:100%;justify-content:space-between}.primary-button,.secondary-button{font-size:11px;padding:11px 12px;gap:6px}.reset{padding:7px;margin:0}.action-buttons svg{width:15px}.control-panel,.attitude-panel{padding:16px}.panel-heading h3{font-size:13px}.mode-tabs button{font-size:11px}.control-group>span{font-size:11px}.control-group button{min-width:48px;min-height:45px;padding:9px 8px}.control-groups{gap:10px}.control-hint{font-size:8px}.brake-button{font-size:10px;min-height:30px}.lower-panels{gap:13px}.lesson-strip{margin-top:13px;padding:13px 12px;gap:10px;align-items:flex-start}.lesson-strip p{font-size:11px;line-height:1.9}.lesson-strip strong{display:block;margin-bottom:3px}.lesson-icon svg{width:16px;margin-top:3px}footer{flex-direction:column;gap:9px;padding:22px 2px;font-size:8px}.modal-backdrop{padding:13px}.modal{padding:22px 18px;max-height:88dvh}.modal h3{font-size:20px}.modal p{font-size:13px}.modal-heading{padding-right:48px;max-width:calc(100% - 48px);pointer-events:none}.modal-heading h2{font-size:18px}.modal-close{pointer-events:auto;z-index:10}.content-page{padding:10px 4px 30px}.content-page h1{font-size:29px}.guide-lesson{gap:17px}.guide-lesson p{font-size:14px}.guide-lesson h2{font-size:18px}.sources a{font-size:12px}.empty-state{padding:65px 18px}.review-metrics strong{font-size:20px}}
 @media(max-width:400px){.header-actions{gap:0}.header-actions .icon-button{padding:6px}.metric{padding:0 7px}.metric strong{font-size:18px}.metric strong small{font-size:7px}.action-buttons{gap:5px}.primary-button,.secondary-button{padding:11px 9px;font-size:10px}.view-switch button{font-size:8px;padding:5px}.control-group button{min-width:41px}.mission-heading h1{font-size:23px}.scene-brief{width:154px}}
 @media(max-height:550px) and (orientation:landscape){.topbar{height:48px}.sidebar{top:48px}.scene-container{height:300px}.mission-heading{margin-bottom:15px}.scene-brief{top:72px}.sidebar-note{display:none}.sidebar{overflow:auto}main{padding-top:18px}.mobile-course{margin-bottom:12px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 
 /* Readable working controls: metadata is secondary, lessons remain body text. */
-.sidebar-intro,.sidebar-note p,.scene-brief p,.modal p,.science-note p,.sources p{font-size:1rem}
+.sidebar-intro,.sidebar-note p,.modal p,.science-note p,.sources p{font-size:1rem}
 .mission-item strong,.panel-heading h3,.primary-button,.secondary-button,.mode-tabs button,.control-group>span,.topbar nav button,.view-switch button{font-size:.875rem}
 .eyebrow,.sidebar .eyebrow,.metric-label,.mission-item small,.metric-detail,.constraint,.lesson-strip p,.control-hint,.attitude-panel p,.attitude-values>div>span,.brief-foot,.scene-tag,.scene-subtag,.flight-state,.scene-bottom-left,.local-status,footer,.breadcrumb,.scene-tools button,.brake-button,kbd{font-size:.75rem}
-.scene-brief{width:245px;top:92px}.scene-brief h3{font-size:1.125rem}.scene-brief p{font-size:.875rem;line-height:1.7}.scene-brief .eyebrow{font-size:.75rem}
+.scene-brief{width:285px;top:48px}
 .mission-item small{line-height:1.5}.sidebar h2{font-size:1.25rem}.sidebar-intro{font-size:.875rem}.sidebar-note p{font-size:.875rem}.sidebar-note button,.free-link{font-size:.875rem}
 .control-group button{min-height:44px;min-width:48px}.control-hint{flex-wrap:wrap;line-height:1.6}.metric-detail{font-size:.75rem}.metric strong small{font-size:.75rem}.flight-actions{flex-wrap:wrap}.constraint{max-width:none;flex:1;min-width:180px}.scene-scale{display:none}
 .lesson-strip p{font-size:.875rem}.attitude-panel p{line-height:1.7}.sidebar{height:auto;bottom:auto}.app-shell{position:relative;min-height:100vh}.sidebar{min-height:calc(100vh - 54px)}
@@ -22,9 +22,9 @@
 
 @media(max-width:700px){
   .app-shell:not(.in-flight) main:has(.simulator){display:flex;flex-direction:column}
-  .app-shell:not(.in-flight) .mobile-course{order:0}.app-shell:not(.in-flight) .mission-heading{order:1}.app-shell:not(.in-flight) .flight-actions{order:2;margin-top:0}.app-shell:not(.in-flight) .simulator{order:3}.app-shell:not(.in-flight) .lower-panels{order:4;margin-top:16px}.app-shell:not(.in-flight) .lesson-strip{order:5}.app-shell:not(.in-flight) footer{order:6}
+  .app-shell:not(.in-flight) .mobile-course{order:0}.app-shell:not(.in-flight) .heading-title-col{order:1}.app-shell:not(.in-flight) .flight-actions{order:2;margin-top:0}.app-shell:not(.in-flight) .simulator{order:3}.app-shell:not(.in-flight) .lower-panels{order:4;margin-top:16px}.app-shell:not(.in-flight) .lesson-strip{order:5}.app-shell:not(.in-flight) footer{order:6}
   .in-flight main{height:calc(100dvh - 122px);display:flex;flex-direction:column;padding:8px 10px;overflow:hidden}
-  .in-flight .mission-heading,.in-flight .mobile-course,.in-flight .lesson-strip,.in-flight .attitude-panel,.in-flight footer,.in-flight .constraint,.in-flight .action-buttons .secondary-button{display:none}
+  .in-flight .heading-title-col,.in-flight .heading-coordinate,.in-flight .mobile-course,.in-flight .lesson-strip,.in-flight .attitude-panel,.in-flight footer,.in-flight .constraint,.in-flight .action-buttons .secondary-button{display:none}
   .in-flight .simulator{flex:1;min-height:150px;display:flex;flex-direction:column}
   .in-flight .scene-container{flex:1;height:auto;min-height:100px}.in-flight .scene-toolbar{min-height:36px;padding:2px 5px}.in-flight .scene-top-left{top:10px;left:10px}.in-flight .scene-subtag{display:none}.in-flight .scene-top-right{top:10px;right:10px}.in-flight .scene-bottom-left{display:none}
   .in-flight .telemetry{padding:9px 0}.in-flight .metric-label{min-height:18px;font-size:.625rem;margin-bottom:3px}.in-flight .metric strong{font-size:1.125rem}.in-flight .fuel-track{bottom:-3px}
@@ -32,7 +32,7 @@
   .in-flight .lower-panels{display:block;flex-shrink:0}.in-flight .control-panel{padding:10px 12px}.in-flight .panel-heading{margin-bottom:9px}.in-flight .control-group>span{font-size:.75rem;margin-bottom:5px}.in-flight .control-group button{min-height:44px;padding:7px 10px}.in-flight .control-hint{margin-top:7px;font-size:.625rem}.in-flight .brake-button{min-height:24px}.in-flight .mode-tabs button{padding:4px 8px}
 }
 @media(max-height:550px) and (orientation:landscape) and (pointer:coarse){
-  .in-flight .sidebar,.in-flight .mission-heading,.in-flight .mobile-course,.in-flight .lesson-strip,.in-flight .attitude-panel,.in-flight footer,.in-flight .constraint,.in-flight .action-buttons .secondary-button{display:none}
+  .in-flight .sidebar,.in-flight .heading-title-col,.in-flight .heading-coordinate,.in-flight .mobile-course,.in-flight .lesson-strip,.in-flight .attitude-panel,.in-flight footer,.in-flight .constraint,.in-flight .action-buttons .secondary-button{display:none}
   .in-flight .topbar{height:54px}.in-flight main{height:calc(100dvh - 54px);margin:0;padding:8px 12px;display:grid;grid-template-columns:minmax(0,1fr) 285px;grid-template-rows:minmax(0,1fr) auto;gap:8px;overflow:hidden}
   .in-flight .simulator{grid-row:1/3;grid-column:1;min-height:0;display:flex;flex-direction:column}.in-flight .scene-container{height:auto;flex:1;min-height:80px}.in-flight .scene-toolbar{height:36px;flex-shrink:0}.in-flight .scene-tools{display:none}.in-flight .scene-top-left{top:8px}.in-flight .scene-top-right{top:8px}.in-flight .scene-bottom-left{display:none}
   .in-flight .lower-panels{grid-row:1;grid-column:2;display:block}.in-flight .control-panel{height:100%;padding:12px}.in-flight .panel-heading{margin-bottom:12px}.in-flight .panel-heading h3{font-size:.75rem}.in-flight .mode-tabs button{font-size:.75rem;padding:5px}.in-flight .control-groups{gap:4px}.in-flight .control-group button{min-width:36px;padding:8px 5px;gap:3px;min-height:44px}.in-flight .control-hint{margin-top:12px;font-size:.625rem}
@@ -378,6 +378,7 @@
 .pill-alignment{background:rgba(190,120,255,.2);border:1px solid rgba(200,140,255,.5);color:#d3adf7}
 .pill-fuel{background:rgba(255,90,90,.2);border:1px solid rgba(255,100,100,.5);color:#ffa39e}
 .pill-escape,.pill-timeout{background:rgba(200,200,200,.15);border:1px solid rgba(200,200,200,.3);color:#d9e0dd}
+.pill-hatch_closed,.pill-hatch{background:rgba(255,140,40,.24);border:1px solid rgba(255,170,60,.6);color:#ffbe78}
 .pill-success{background:rgba(80,220,140,.22);border:1px solid rgba(100,240,160,.55);color:#7de8be}
 .debrief-scenario-pill{font-size:.75rem;color:#9cb2aa;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:3px 8px;border-radius:4px}
 .modal .debrief-container .result-title{margin:0 0 6px;font-size:1.125rem;line-height:1.4;color:#f2f7f5}
@@ -422,4 +423,1968 @@
 
 .guide-highlight{border-color:rgba(182,240,107,.55)!important;box-shadow:0 0 10px rgba(182,240,107,.2)}
 .guide-new-badge{background:var(--lime);color:#12200d;font-size:.625rem;font-weight:700;padding:1px 5px;border-radius:4px;margin-left:4px;line-height:1}
+
+/* ==========================================================================
+   航天座舱高精仪表盘与飞行控制台升级样式 (Aerospace Glass Cockpit HUD & RCS Controls)
+   ========================================================================== */
+
+@keyframes beaconPulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.35); opacity: 0.4; }
+}
+
+@keyframes thrustFlareGlow {
+  0% { box-shadow: 0 0 8px rgba(0, 229, 255, 0.4), inset 0 0 6px rgba(0, 229, 255, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(0, 229, 255, 0.8), inset 0 0 14px rgba(0, 229, 255, 0.6); }
+  100% { box-shadow: 0 0 8px rgba(0, 229, 255, 0.4), inset 0 0 6px rgba(0, 229, 255, 0.3); }
+}
+
+@keyframes reticleLockPulse {
+  0%, 100% { border-color: rgba(179, 245, 107, 0.6); box-shadow: 0 0 8px rgba(179, 245, 107, 0.2); }
+  50% { border-color: rgba(179, 245, 107, 1); box-shadow: 0 0 18px rgba(179, 245, 107, 0.5); }
+}
+
+
+/* ==========================================================================
+   航天座舱高精仪表盘与飞行控制台紧凑样式 (Compact Aerospace Cockpit HUD & Controls)
+   ========================================================================== */
+
+/* 控制台与姿态监视器双列外层：恢复自适应宽度与上方操作栏对齐 */
+.lower-panels {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+/* 面板通用外壳：精致航天仪表质感 */
+.control-panel,
+.attitude-panel {
+  background: linear-gradient(180deg, #18221d 0%, #121815 100%);
+  border: 1px solid #334436;
+  border-radius: 8px;
+  padding: 13px 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* 顶部标题组 */
+.control-panel .panel-heading,
+.attitude-panel .panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.panel-heading h3 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #e4eee7;
+  margin: 0;
+}
+
+.panel-heading h3 svg,
+.panel-heading h3 .heading-icon {
+  color: var(--lime);
+  filter: drop-shadow(0 0 5px rgba(179, 245, 107, 0.4));
+}
+
+.rcs-beacon-pill {
+  font-family: var(--mono);
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-left: 5px;
+}
+.rcs-beacon-pill.cyan {
+  background: rgba(0, 229, 255, 0.15);
+  color: #00e5ff;
+  border: 1px solid rgba(0, 229, 255, 0.35);
+}
+.rcs-beacon-pill.red {
+  background: rgba(255, 100, 60, 0.18);
+  color: #ff8c69;
+  border: 1px solid rgba(255, 100, 60, 0.4);
+}
+
+.aligned-tag {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--lime);
+  background: rgba(179, 245, 107, 0.15);
+  border: 1px solid rgba(179, 245, 107, 0.35);
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-left: 5px;
+}
+
+/* 模式切换按钮组 */
+.control-panel .mode-tabs {
+  display: flex;
+  border: 1px solid #3d4c3f;
+  border-radius: 5px;
+  overflow: hidden;
+  background: #141b17;
+}
+
+.control-panel .mode-tabs button {
+  padding: 4px 10px;
+  font-size: 11px;
+  color: #8da294;
+  transition: all 0.15s ease;
+}
+
+.control-panel .mode-tabs button.active {
+  background: #2b3929;
+  color: #d8edd0;
+  font-weight: 500;
+}
+
+/* 三轴控制单元组 */
+.control-groups {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.control-group {
+  flex: 1;
+}
+
+.control-group > span {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  color: #8da294;
+  font-size: 10px;
+  margin-bottom: 8px;
+}
+
+.control-group > div {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.control-group button {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  background: #202a22;
+  border: 1px solid #384936;
+  border-radius: 5px;
+  padding: 8px 9px;
+  color: #c8dac0;
+  min-width: 44px;
+  touch-action: none;
+  user-select: none;
+  transition: all 0.12s ease;
+}
+
+.control-group button:not(:disabled):hover {
+  background: #2a372c;
+  border-color: #4f684c;
+}
+
+.control-group button:not(:disabled):active,
+.control-group button.active-firing {
+  background: #39542a !important;
+  color: var(--lime) !important;
+  border-color: var(--lime) !important;
+  box-shadow: 0 0 10px rgba(179, 245, 107, 0.4) !important;
+}
+
+.control-group button.btn-axis-locked {
+  cursor: not-allowed;
+  opacity: 0.4;
+  border-color: #443731;
+  background: #1c1817;
+}
+
+/* 底部操作指引与辅助制动条 */
+.control-panel .control-hint {
+  margin-top: 14px;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  color: #728a76;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.brake-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  touch-action: none;
+  cursor: pointer;
+  color: #b8c8b4;
+  transition: all 0.15s ease;
+}
+
+.brake-button span {
+  font-size: 9px;
+  border: 1px solid #43583d;
+  border-radius: 3px;
+  padding: 2px 5px;
+  color: #b4c3a8;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.brake-button:hover:not(:disabled) {
+  color: #dcf2d4;
+}
+
+.brake-button:active:not(:disabled),
+.brake-button.active-brake {
+  color: var(--lime);
+}
+
+.brake-button.active-brake span {
+  border-color: var(--lime);
+  color: var(--lime);
+  box-shadow: 0 0 6px rgba(179, 245, 107, 0.3);
+}
+
+/* 姿态数值与刻度条 */
+.attitude-values {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.attitude-values > div {
+  flex: 1;
+}
+
+.attitude-values > div > span {
+  color: #8da294;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+}
+
+.attitude-values strong {
+  display: block;
+  font-size: 24px;
+  font-family: var(--mono);
+  font-weight: 400;
+  letter-spacing: -1px;
+  margin-top: 9px;
+  color: #ffffff;
+}
+
+.attitude-values strong.val-aligned {
+  color: var(--lime);
+  text-shadow: 0 0 8px rgba(179, 245, 107, 0.35);
+}
+
+.attitude-values small {
+  font-size: 13px;
+  color: #8da294;
+}
+
+.attitude-panel .angle-track {
+  position: relative;
+  height: 5px;
+  border-bottom: 1px solid #435139;
+  margin-top: 10px;
+  background: repeating-linear-gradient(90deg, transparent 0, transparent calc(10% - 1px), #435139 calc(10% - 1px), #435139 10%);
+}
+
+.attitude-panel .angle-track i {
+  position: absolute;
+  top: -2px;
+  width: 3px;
+  height: 9px;
+  border-radius: 1px;
+  background: var(--lime);
+  box-shadow: 0 0 5px var(--lime);
+}
+
+.attitude-panel p {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #849c88;
+  font-size: 10px;
+  margin: 15px 0 0;
+}
+
+.attitude-panel p b {
+  font-family: var(--mono);
+  color: #bdd2b7;
+  font-weight: 400;
+}
+
+.attitude-panel p b.val-aligned {
+  color: var(--lime);
+}
+
+.attitude-panel p > span {
+  margin-left: auto;
+}
+
+/* 飞行笔记单行横幅：自适应与下方面板对齐 */
+.lesson-strip {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 13px 16px;
+  margin-top: 14px;
+  border: 1px solid #2f3e30;
+  border-left: 3px solid var(--lime);
+  border-radius: 7px;
+  background: #162018;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+.lesson-icon {
+  color: var(--lime);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.lesson-strip p {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #9ab198;
+  margin: 0;
+}
+
+.lesson-strip strong {
+  color: #cee2c5;
+  margin-right: 10px;
+  font-weight: 600;
+}
+
+/* 响应式断点适配 */
+@media (max-width: 840px) {
+  .lower-panels {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .control-groups,
+  .attitude-panel .attitude-values {
+    gap: 8px;
+  }
+  .control-group button {
+    min-width: 38px;
+    padding: 7px 5px;
+  }
+}
+
+/* ==========================================================================
+   遥测栏集成飞行操作与紧凑空间压缩 (Telemetry HUD & Flight Controls Integration)
+   ========================================================================== */
+
+/* 顶部任务标题区：超紧凑航天仪表头部 */
+.mission-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.heading-title-col {
+  flex: 0 0 auto;
+}
+
+.heading-title-col .breadcrumb {
+  margin-bottom: 3px;
+  font-size: 10px;
+}
+
+.heading-title-col h1 {
+  font-size: 22px;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.heading-title-col .title-number {
+  font-size: 19px;
+}
+
+.heading-coordinate {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+/* 3D 仿真器与遥测 HUD 栏紧凑化 */
+.simulator {
+  margin-bottom: 12px;
+}
+
+.telemetry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 18px;
+  background: #151b18;
+  border-top: 1px solid #2d3a2e;
+  gap: 16px;
+}
+
+.telemetry-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.telemetry-metrics .metric {
+  padding: 0 16px;
+  border-right: 1px solid #28342a;
+  position: relative;
+}
+
+.telemetry-metrics .metric:first-child {
+  padding-left: 0;
+}
+
+.metric-label {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.8px;
+  color: #8fa28f;
+  font-family: var(--mono);
+  margin-bottom: 3px;
+}
+
+.metric strong {
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: 24px;
+  letter-spacing: -1px;
+  white-space: nowrap;
+}
+
+.metric strong small {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0;
+  color: #8fa18f;
+  padding-left: 4px;
+}
+
+.metric.accent strong {
+  color: var(--lime);
+}
+
+.metric-detail {
+  display: block;
+  color: #728773;
+  font-size: 8px;
+  margin-top: 3px;
+}
+
+.fuel-track {
+  height: 3px;
+  position: absolute;
+  right: 16px;
+  left: 16px;
+  bottom: -4px;
+  background: #2b3925;
+}
+
+/* 遥测栏右侧动作控制区 (开始键 + 辅助工具 + 约束状态) */
+.telemetry .flight-actions {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 5px;
+  margin: 0;
+  padding-left: 14px;
+}
+
+.telemetry .action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.telemetry .action-buttons .primary-button {
+  padding: 7px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 5px;
+  background: var(--lime);
+  color: #16240f;
+  border: 1px solid var(--lime);
+  box-shadow: 0 0 14px rgba(179, 245, 107, 0.28);
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.telemetry .action-buttons .primary-button:hover {
+  background: #c5ff86;
+  box-shadow: 0 0 20px rgba(179, 245, 107, 0.42);
+}
+
+.telemetry .action-buttons .secondary-button {
+  padding: 6px 11px;
+  font-size: 11px;
+  border-radius: 5px;
+  background: #17211b;
+  border: 1px solid #2f3e31;
+  color: #b5c5b7;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.telemetry .action-buttons .secondary-button:hover {
+  background: #223025;
+  border-color: #435745;
+  color: #e2ece2;
+}
+
+.telemetry .action-buttons .icon-button.reset {
+  padding: 6px 7px;
+  border: 1px solid #2f3e31;
+  border-radius: 5px;
+  background: #17211b;
+  color: #9cb0a0;
+  transition: all 0.15s ease;
+}
+
+.telemetry .action-buttons .icon-button.reset:hover {
+  background: #223025;
+  border-color: #435745;
+  color: #e2ece2;
+}
+
+.telemetry .constraint {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  font-size: 10px;
+  color: #8ba091;
+  line-height: 1.2;
+  text-align: right;
+  max-width: none;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.telemetry .constraint svg {
+  flex-shrink: 0;
+  color: #98b786;
+}
+
+/* 中小屏与平板适配 (701px - 960px) */
+@media (max-width: 960px) and (min-width: 701px) {
+  .mission-heading {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .telemetry {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 10px 14px;
+  }
+  .telemetry .flight-actions {
+    align-items: stretch;
+    padding-left: 0;
+    border-top: 1px solid #253127;
+    padding-top: 8px;
+  }
+  .telemetry .action-buttons {
+    justify-content: space-between;
+  }
+  .telemetry .action-buttons .primary-button {
+    flex: 1;
+  }
+  .telemetry .constraint {
+    justify-content: flex-start;
+    text-align: left;
+  }
+}
+
+/* 移动端适配 (<= 700px) */
+@media (max-width: 700px) {
+  .mission-heading {
+    margin-bottom: 6px;
+  }
+  .heading-coordinate {
+    display: none !important;
+  }
+  .telemetry {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 8px 10px;
+  }
+  .telemetry-metrics {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .telemetry-metrics .metric {
+    padding: 0 4px;
+  }
+  .metric-label {
+    font-size: 8px;
+  }
+  .metric strong {
+    font-size: 18px;
+  }
+  .metric-detail {
+    display: none;
+  }
+  .telemetry .flight-actions {
+    align-items: stretch;
+    padding-left: 0;
+    margin: 0;
+  }
+  .telemetry .action-buttons {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .telemetry .action-buttons .primary-button {
+    flex: 1;
+    padding: 8px 14px;
+  }
+  .telemetry .constraint {
+    justify-content: flex-start;
+    text-align: left;
+    white-space: normal;
+    font-size: 9px;
+  }
+  .in-flight .telemetry .action-buttons .secondary-button,
+  .in-flight .telemetry .constraint {
+    display: none !important;
+  }
+  .in-flight .telemetry .action-buttons {
+    justify-content: space-between;
+  }
+  .in-flight .telemetry .action-buttons .primary-button {
+    flex: 0 1 auto;
+    padding: 7px 18px;
+  }
+}
+
+/* ==========================================================================
+   具体目标与操作指引组件 (Mission Goal & HUD Guidance)
+   ========================================================================== */
+
+.mission-subtitle {
+  font-size: 13px;
+  color: #a4b79b;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.subtitle-target-tag {
+  color: var(--lime);
+  font-weight: 600;
+  font-size: 11px;
+  background: rgba(179, 245, 107, 0.12);
+  border: 1px solid rgba(179, 245, 107, 0.28);
+  padding: 1px 7px;
+  border-radius: 4px;
+}
+
+/* 本关具体目标与操作横幅（紧凑单行条） */
+.mission-goal-banner {
+  background: linear-gradient(135deg, #131b15 0%, #17211a 100%);
+  border: 1px solid #364a34;
+  border-left: 3px solid var(--lime);
+  border-radius: 6px;
+  padding: 6px 12px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.goal-banner-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.goal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--lime);
+  text-transform: uppercase;
+}
+
+.goal-criteria-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #c8dcbf;
+  background: rgba(43, 61, 41, 0.55);
+  border: 1px solid #3d5639;
+  padding: 1px 8px;
+  border-radius: 10px;
+}
+
+.goal-criteria-pill .criteria-label {
+  color: #9cb593;
+  font-weight: 600;
+}
+
+.goal-criteria-pill .criteria-val {
+  color: #d6ead0;
+  font-weight: 500;
+}
+
+.goal-banner-body {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1 1 auto;
+  min-width: 0;
+  justify-content: flex-end;
+}
+
+.goal-main-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: #f1f7ef;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.goal-operation-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #a4be9e;
+  background: rgba(18, 25, 20, 0.6);
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px dashed #344832;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.goal-operation-hint .hint-label {
+  color: #b7ef83;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* 飞行中实时浮动 HUD 指引 */
+.scene-hud-guide {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(14, 22, 17, 0.94);
+  border: 1px solid rgba(179, 245, 107, 0.45);
+  border-radius: 20px;
+  padding: 6px 18px;
+  backdrop-filter: blur(8px);
+  z-index: 10;
+  pointer-events: none;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.65), 0 0 12px rgba(179, 245, 107, 0.15);
+  animation: hudPulse 3s infinite ease-in-out;
+}
+
+@keyframes hudPulse {
+  0%, 100% { border-color: rgba(179, 245, 107, 0.45); }
+  50% { border-color: rgba(179, 245, 107, 0.85); box-shadow: 0 4px 20px rgba(0,0,0,0.65), 0 0 16px rgba(179, 245, 107, 0.3); }
+}
+
+.hud-guide-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: #eaf7e4;
+  line-height: 1.4;
+  letter-spacing: 0.2px;
+}
+
+/* 飞行中头锥保护罩提示横幅（轻量紧凑浮动胶囊 HUD，防 3D 视野遮挡） */
+.hatch-tip-banner {
+  position: absolute;
+  top: 52px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(10, 24, 32, 0.82);
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  border-radius: 20px;
+  padding: 4px 12px;
+  max-width: min(560px, 92%);
+  text-align: left;
+  backdrop-filter: blur(10px);
+  z-index: 12;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 10px rgba(56, 189, 248, 0.15);
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.hatch-tip-banner:hover {
+  background: rgba(14, 32, 42, 0.94);
+  border-color: rgba(56, 189, 248, 0.8);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.65), 0 0 14px rgba(56, 189, 248, 0.3);
+}
+
+.hatch-tip-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.hatch-tip-title {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #38bdf8;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hatch-tip-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.hatch-tip-info-btn,
+.hatch-tip-close-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: #c7f9cc;
+  border-radius: 12px;
+  padding: 2px 7px;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.hatch-tip-close-btn {
+  padding: 2px 5px;
+  color: #94a3b8;
+}
+
+.hatch-tip-info-btn:hover {
+  background: rgba(56, 189, 248, 0.2);
+  color: #ffffff;
+  border-color: rgba(56, 189, 248, 0.7);
+}
+
+.hatch-tip-close-btn:hover {
+  background: rgba(239, 68, 68, 0.25);
+  color: #fca5a5;
+  border-color: rgba(239, 68, 68, 0.6);
+}
+
+.hatch-tip-desc {
+  font-size: 11px;
+  line-height: 1.45;
+  color: #e2fbe8;
+  opacity: 0.95;
+  overflow: hidden;
+  transition: max-height 0.25s ease, opacity 0.25s ease, margin-top 0.25s ease;
+}
+
+/* 默认紧凑模式折叠详细科普，绝不遮挡玩家飞行视野 */
+.hatch-tip-banner.compact .hatch-tip-desc {
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+  pointer-events: none;
+}
+
+/* 展开或 hover 浮层显示详细青少年科普 */
+.hatch-tip-banner.expanded .hatch-tip-desc,
+.hatch-tip-banner.compact:hover .hatch-tip-desc {
+  max-height: 220px;
+  opacity: 1;
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(56, 189, 248, 0.3);
+  pointer-events: auto;
+}
+
+/* 视口内待机目标卡片强化（紧凑且自适应防遮挡） */
+.scene-brief {
+  position: absolute;
+  left: 18px;
+  top: 48px;
+  width: 285px;
+  max-width: calc(100% - 36px);
+  max-height: calc(100% - 60px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  pointer-events: auto;
+  padding: 12px 14px 10px;
+  background: rgba(12, 19, 22, 0.94);
+  border: 1px solid #364e48;
+  border-radius: 8px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.55);
+  z-index: 6;
+}
+
+.scene-brief::-webkit-scrollbar {
+  width: 3px;
+}
+
+.scene-brief::-webkit-scrollbar-thumb {
+  background: #364e48;
+  border-radius: 2px;
+}
+
+.scene-brief-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.brief-id-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--lime);
+  background: #1e2e1c;
+  padding: 1px 6px;
+  border-radius: 3px;
+  border: 1px solid #375333;
+}
+
+.scene-brief h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e6f3e5;
+  margin: 0 0 5px 0;
+  line-height: 1.35;
+}
+
+.brief-objective {
+  font-size: 11px;
+  line-height: 1.45;
+  color: #a8bec3;
+  margin: 0 0 7px 0;
+}
+
+.brief-action-box {
+  background: rgba(22, 34, 30, 0.7);
+  border: 1px solid #2f453a;
+  border-radius: 5px;
+  padding: 6px 9px;
+  margin-bottom: 8px;
+}
+
+.action-box-title {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--lime);
+  margin-bottom: 2px;
+}
+
+.action-box-text {
+  font-size: 11px;
+  line-height: 1.45;
+  color: #c2d8c9;
+  margin: 0;
+}
+
+.scene-brief p {
+  font-size: 11px !important;
+  line-height: 1.45 !important;
+}
+
+.scene-brief .brief-foot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #a6c98e;
+  border-top: 1px solid rgba(42, 59, 62, 0.6);
+  padding-top: 7px;
+  padding-bottom: 2px;
+  margin-top: 0;
+  line-height: 1.35;
+  width: 100%;
+}
+
+.scene-brief .brief-foot span {
+  font-size: 11px;
+  line-height: 1.35;
+  color: inherit;
+}
+
+.scene-brief .brief-foot:hover {
+  color: var(--lime);
+}
+
+/* 新手讲解第 1 步目标卡 */
+.intro-mission-goal-box {
+  background: #19251c;
+  border: 1px solid #3e5637;
+  border-left: 3px solid var(--lime);
+  border-radius: 7px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+
+.goal-box-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.goal-box-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--lime);
+  background: #233423;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid #395237;
+}
+
+.goal-box-title strong {
+  font-size: 14px;
+  color: #edf7e9;
+}
+
+.goal-box-desc {
+  font-size: 12px;
+  line-height: 1.7;
+  color: #9cb598;
+  margin: 0;
+}
+
+/* 飞行简报弹窗结构 */
+.briefing-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.briefing-modal-title {
+  font-size: 20px;
+  margin: 0;
+  color: #eaf5e6;
+}
+
+.briefing-card-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.briefing-card {
+  background: #141b17;
+  border: 1px solid #2f3e30;
+  border-radius: 7px;
+  padding: 12px 14px;
+}
+
+.briefing-card.goal-card {
+  border-color: #3f5a3b;
+  background: #162219;
+}
+
+.briefing-card .card-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--lime);
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.briefing-card .card-text {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #c9ded0;
+  margin: 0;
+}
+
+.briefing-note-box {
+  background: #19201a;
+  border-left: 2px solid var(--lime);
+  padding: 10px 14px;
+  border-radius: 0 6px 6px 0;
+}
+
+.briefing-note-box .note-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #9ecb83;
+  margin-bottom: 4px;
+}
+
+.briefing-note-box p {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #9cb099;
+  margin: 0;
+}
+
+.briefing-constraints-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: #849886;
+}
+
+.briefing-start-btn {
+  width: 100%;
+  justify-content: center;
+  padding: 13px;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+/* 响应式移动端规则 */
+@media (max-width: 700px) {
+  .mission-goal-banner {
+    order: 2;
+    margin-bottom: 12px;
+    padding: 10px 12px;
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 100%;
+    overflow: hidden;
+    gap: 8px;
+  }
+  .goal-banner-header {
+    flex-wrap: wrap;
+    max-width: 100%;
+    gap: 6px;
+  }
+  .goal-criteria-pill {
+    max-width: 100%;
+    flex-wrap: wrap;
+    font-size: 10px;
+  }
+  .mission-goal-banner .goal-main-text {
+    font-size: 13px;
+  }
+  .mission-goal-banner .goal-operation-hint {
+    font-size: 11px;
+    flex-direction: column;
+    gap: 3px;
+    max-width: 100%;
+    word-break: break-word;
+  }
+  .in-flight .mission-goal-banner {
+    display: none !important;
+  }
+  .scene-hud-guide {
+    top: 8px;
+    padding: 4px 12px;
+    max-width: 95%;
+  }
+  .hud-guide-text {
+    font-size: 11px;
+  }
+  .hatch-tip-banner {
+    top: 44px;
+    padding: 3px 10px;
+    max-width: 96%;
+    border-radius: 16px;
+  }
+  .hatch-tip-title {
+    font-size: 10.5px;
+    max-width: 220px;
+  }
+  .hatch-tip-desc {
+    font-size: 10px;
+  }
+}
+
+/* 顶部栏新手讲解按钮 */
+.topbar-guide-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 6px;
+  background: #1a231e;
+  border: 1px solid #334438;
+  color: #c2d4c6;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.topbar-guide-btn:hover {
+  background: #233228;
+  border-color: #4b6651;
+  color: #f0f7f1;
+}
+
+.topbar-guide-btn.guide-highlight {
+  border-color: rgba(179, 245, 107, 0.45);
+  background: rgba(30, 42, 33, 0.9);
+  color: #d8eed2;
+}
+
+.topbar-guide-btn.guide-highlight:hover {
+  border-color: var(--lime);
+  color: #ffffff;
+}
+
+.guide-new-badge {
+  font-size: 10px;
+  padding: 1px 5px;
+  background: var(--lime);
+  color: #122110;
+  border-radius: 10px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+@media (max-width: 700px) {
+  .topbar-guide-btn {
+    padding: 4px 8px;
+    font-size: 11px;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar-guide-btn span:not(.guide-new-badge) {
+    display: none;
+  }
+  .topbar-guide-btn {
+    padding: 6px;
+  }
+}
+
+/* Spaceship hatch control button styles */
+.hatch-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+}
+.hatch-btn.enabled {
+  color: #b5f97b !important;
+  border-color: rgba(181, 249, 123, 0.4);
+}
+
+/* Briefing Fun Fact Box */
+.briefing-fun-fact-box {
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-left: 3px solid #38bdf8;
+  padding: 12px 14px;
+  border-radius: 6px;
+}
+.briefing-fun-fact-box .fun-fact-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #7dd3fc;
+  margin-bottom: 6px;
+}
+.briefing-fun-fact-box p {
+  font-size: 12px;
+  line-height: 1.65;
+  color: #cbd5e1;
+  margin: 0;
+}
+
+/* HUD 舱门指示与触摸按钮 */
+.hud-controls-overlay {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.hatch-control-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hatch-status-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  user-select: none;
+  min-height: 38px;
+  touch-action: manipulation;
+}
+
+.hatch-status-button.state-closed {
+  background: rgba(30, 41, 59, 0.88);
+  border: 1px solid rgba(245, 158, 11, 0.55);
+  color: #fbbf24;
+}
+.hatch-status-button.state-closed:hover {
+  background: rgba(45, 58, 80, 0.95);
+  border-color: #f59e0b;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.35);
+}
+
+.hatch-status-button.state-opening,
+.hatch-status-button.state-closing {
+  background: rgba(30, 41, 59, 0.92);
+  border: 1px solid rgba(56, 189, 248, 0.7);
+  color: #38bdf8;
+  animation: pulse-hatch 1.2s infinite ease-in-out;
+}
+
+@keyframes pulse-hatch {
+  0%, 100% { border-color: rgba(56, 189, 248, 0.4); box-shadow: 0 0 8px rgba(56, 189, 248, 0.2); }
+  50% { border-color: rgba(56, 189, 248, 0.9); box-shadow: 0 0 18px rgba(56, 189, 248, 0.45); }
+}
+
+.hatch-status-button.state-open {
+  background: rgba(20, 36, 24, 0.92);
+  border: 1px solid rgba(163, 230, 53, 0.8);
+  color: #a3e635;
+  box-shadow: 0 0 14px rgba(163, 230, 53, 0.25);
+}
+.hatch-status-button.state-open:hover {
+  background: rgba(28, 52, 34, 0.96);
+  border-color: #bef264;
+  box-shadow: 0 0 20px rgba(163, 230, 53, 0.4);
+}
+
+.hatch-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hatch-icon.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.hatch-touch-badge {
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.hatch-help-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.hatch-help-trigger:hover {
+  color: #f1f5f9;
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(51, 65, 85, 0.9);
+}
+
+.hatch-hud-tooltip {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+  z-index: 20;
+}
+.hatch-hud-tooltip p {
+  margin: 0 0 8px;
+  font-size: 11px;
+  line-height: 1.55;
+  color: #cbd5e1;
+}
+.hatch-hud-tooltip p strong {
+  color: #38bdf8;
+}
+.hatch-tooltip-close {
+  display: block;
+  margin-left: auto;
+  font-size: 10px;
+  padding: 3px 8px;
+  background: #1e293b;
+  border: 1px solid #475569;
+  color: #e2e8f0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.hatch-tooltip-close:hover {
+  background: #334155;
+}
+
+/* Control Pad 中的舱门辅助按钮 */
+.hatch-pad-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #1e293b;
+  border: 1px solid #475569;
+  color: #e2e8f0;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 38px;
+}
+.hatch-pad-btn span {
+  background: rgba(255, 255, 255, 0.12);
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 10px;
+  color: #93c5fd;
+}
+.hatch-pad-btn.hatch-open {
+  border-color: #84cc16;
+  color: #bef264;
+  background: rgba(20, 36, 24, 0.8);
+}
+.hatch-pad-btn.hatch-open span {
+  color: #a3e635;
+  background: rgba(163, 230, 53, 0.2);
+}
+.hatch-pad-btn:hover:not(:disabled) {
+  border-color: #38bdf8;
+}
+
+@media (max-width: 700px) {
+  .hud-controls-overlay {
+    top: 52px;
+  }
+  .hatch-status-button {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+  .hatch-hud-tooltip {
+    width: 250px;
+  }
+}
+
+/* ==========================================================================
+   一屏式紧凑驾驶舱布局 (Single-Screen Cockpit Layout - No Vertical Scroll)
+   ========================================================================== */
+
+.app-shell.cockpit-screen {
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.cockpit-screen .topbar {
+  height: 48px;
+  flex-shrink: 0;
+}
+
+@media (min-width: 701px) {
+  .cockpit-screen .sidebar {
+    position: fixed;
+    top: 48px;
+    bottom: 0;
+    left: 0;
+    height: calc(100dvh - 48px);
+    min-height: 0;
+    width: 236px;
+    padding: 12px 12px;
+    overflow-y: auto;
+    z-index: 5;
+  }
+
+  .cockpit-screen .sidebar .course-label {
+    margin-bottom: 6px;
+  }
+
+  .cockpit-screen .sidebar h2 {
+    font-size: 16px;
+    margin: 0 6px 2px;
+  }
+
+  .cockpit-screen .sidebar .sidebar-intro {
+    font-size: 11.5px;
+    margin: 0 6px 8px;
+    line-height: 1.35;
+  }
+
+  .cockpit-screen .sidebar .progress-caption {
+    margin: 0 6px 4px;
+    font-size: 11px;
+  }
+
+  .cockpit-screen .sidebar .progress-track {
+    margin: 0 6px 8px;
+  }
+
+  .cockpit-screen .sidebar .mission-list {
+    gap: 4px;
+  }
+
+  .cockpit-screen .sidebar .mission-item {
+    min-height: 48px;
+    padding: 6px 8px;
+    gap: 8px;
+  }
+
+  .cockpit-screen .sidebar .mission-number {
+    width: 26px;
+    height: 28px;
+    font-size: 11px;
+  }
+
+  .cockpit-screen .sidebar .mission-item strong {
+    font-size: 12.5px;
+  }
+
+  .cockpit-screen .sidebar .mission-item small {
+    margin-top: 2px;
+    font-size: 10px;
+    line-height: 1.25;
+  }
+
+  .cockpit-screen .sidebar .free-link {
+    margin: 6px 6px 0;
+    padding: 8px 0;
+    font-size: 12px;
+  }
+
+  .cockpit-screen .sidebar .sidebar-note {
+    margin: 8px 4px 6px;
+    padding: 8px 10px;
+  }
+
+  .cockpit-screen .sidebar .note-orbit {
+    margin-bottom: 4px;
+  }
+
+  .cockpit-screen .sidebar .sidebar-note p {
+    font-size: 11px;
+    margin: 2px 0 6px;
+    line-height: 1.35;
+  }
+
+  .cockpit-screen .sidebar .local-status {
+    padding: 4px 6px;
+    font-size: 9.5px;
+  }
+
+  .cockpit-screen main {
+    margin-left: 236px;
+    height: calc(100dvh - 48px);
+    max-height: calc(100dvh - 48px);
+    padding: 8px 16px 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    overflow: hidden;
+  }
+
+  .cockpit-screen .cockpit-header-bar {
+    flex-shrink: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: nowrap;
+  }
+
+  .cockpit-screen .heading-title-col h1 {
+    font-size: 18px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+
+  .cockpit-screen .heading-title-col .title-number {
+    font-size: 16px;
+  }
+
+  .cockpit-screen .mission-goal-banner {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    padding: 4px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    overflow: hidden;
+  }
+
+  .cockpit-screen .goal-banner-header {
+    gap: 8px;
+    min-width: 0;
+    flex-shrink: 1;
+    overflow: hidden;
+  }
+
+  .cockpit-screen .goal-criteria-pill {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .cockpit-screen .goal-banner-body {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .cockpit-screen .goal-operation-hint {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 2px 8px;
+  }
+
+  .cockpit-screen .goal-operation-hint .hint-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .cockpit-screen .simulator {
+    flex: 1 1 0;
+    min-height: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cockpit-screen .scene-toolbar {
+    height: 36px;
+    min-height: 36px;
+    flex-shrink: 0;
+    padding: 0 12px;
+  }
+
+  .cockpit-screen .scene-container {
+    flex: 1 1 0;
+    height: auto !important;
+    min-height: 150px;
+  }
+
+  .cockpit-screen .scene-top-left {
+    top: 10px;
+    left: 14px;
+    gap: 3px;
+  }
+
+  .cockpit-screen .scene-top-right {
+    top: 10px;
+    right: 14px;
+    gap: 4px;
+  }
+
+  .cockpit-screen .scene-brief {
+    top: 36px;
+    left: 14px;
+    width: 262px;
+    max-height: calc(100% - 62px);
+    padding: 9px 12px;
+  }
+
+  .cockpit-screen .scene-brief h3 {
+    font-size: 13px;
+    margin: 0 0 4px 0;
+  }
+
+  .cockpit-screen .brief-objective {
+    font-size: 10.5px;
+    margin: 0 0 5px 0;
+    line-height: 1.35;
+  }
+
+  .cockpit-screen .brief-action-box {
+    padding: 5px 8px;
+    margin-bottom: 6px;
+  }
+
+  .cockpit-screen .action-box-text {
+    font-size: 10.5px;
+    line-height: 1.35;
+  }
+
+  .cockpit-screen .scene-bottom-left {
+    bottom: 8px;
+    left: 14px;
+  }
+
+  .cockpit-screen .telemetry {
+    flex-shrink: 0;
+    padding: 5px 14px;
+  }
+
+  .cockpit-screen .metric strong {
+    font-size: 21px;
+  }
+
+  .cockpit-screen .metric-label {
+    margin-bottom: 1px;
+    font-size: 8.5px;
+    min-height: 0;
+  }
+
+  .cockpit-screen .metric-detail {
+    margin-top: 1px;
+    font-size: 8px;
+  }
+
+  .cockpit-screen .fuel-track {
+    bottom: -2px;
+  }
+
+  .cockpit-screen .lower-panels {
+    flex-shrink: 0;
+    margin: 0;
+    gap: 10px;
+    grid-template-columns: 1.24fr 1fr;
+  }
+
+  .cockpit-screen .control-panel,
+  .cockpit-screen .attitude-panel {
+    padding: 8px 14px;
+  }
+
+  .cockpit-screen .panel-heading {
+    margin-bottom: 6px;
+  }
+
+  .cockpit-screen .panel-heading h3 {
+    font-size: 12.5px;
+  }
+
+  .cockpit-screen .control-group > span {
+    margin-bottom: 4px;
+    font-size: 10px;
+  }
+
+  .cockpit-screen .control-group button {
+    min-height: 34px;
+    padding: 5px 8px;
+  }
+
+  .cockpit-screen .control-panel .control-hint {
+    margin-top: 6px;
+  }
+
+  .cockpit-screen .hatch-pad-btn {
+    min-height: 28px;
+    padding: 3px 10px;
+    font-size: 10.5px;
+  }
+
+  .cockpit-screen .brake-button {
+    min-height: 28px;
+    font-size: 10.5px;
+  }
+
+  .cockpit-screen .attitude-values strong {
+    font-size: 20px;
+    margin-top: 4px;
+  }
+
+  .cockpit-screen .attitude-panel .angle-track {
+    margin-top: 6px;
+  }
+
+  .cockpit-screen .attitude-panel p {
+    margin: 6px 0 0;
+    font-size: 10px;
+  }
+
+  .cockpit-screen footer {
+    flex-shrink: 0;
+    padding: 1px 2px 0;
+    font-size: 8.5px;
+    line-height: 1.1;
+  }
+}
+
+@media (max-width: 700px) {
+  .cockpit-screen main {
+    height: calc(100dvh - 106px);
+    max-height: calc(100dvh - 106px);
+    padding: 6px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    overflow: hidden;
+  }
+
+  .cockpit-screen .mobile-course {
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .cockpit-screen .cockpit-header-bar {
+    flex-shrink: 0;
+    margin: 0;
+  }
+
+  .cockpit-screen .heading-title-col h1 {
+    font-size: 17px;
+    margin: 0;
+  }
+
+  .cockpit-screen .mission-goal-banner {
+    display: none !important;
+  }
+
+  .cockpit-screen .simulator {
+    flex: 1 1 0;
+    min-height: 130px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cockpit-screen .scene-container {
+    flex: 1 1 0;
+    height: auto !important;
+    min-height: 100px;
+  }
+
+  .cockpit-screen .telemetry {
+    flex-shrink: 0;
+    padding: 5px 8px;
+    gap: 5px;
+  }
+
+  .cockpit-screen .metric-label {
+    min-height: 0;
+    margin-bottom: 1px;
+  }
+
+  .cockpit-screen .lower-panels {
+    flex-shrink: 0;
+    margin: 0 !important;
+    display: block;
+  }
+
+  .cockpit-screen .attitude-panel {
+    display: none;
+  }
+
+  .cockpit-screen .control-panel {
+    padding: 8px 10px;
+  }
+
+  .cockpit-screen .panel-heading {
+    margin-bottom: 5px;
+  }
+
+  .cockpit-screen .control-group > span {
+    margin-bottom: 3px;
+    font-size: 10px;
+  }
+
+  .cockpit-screen .control-group button {
+    min-height: 36px;
+    padding: 5px 6px;
+  }
+
+  .cockpit-screen .control-panel .control-hint {
+    margin-top: 5px;
+  }
+
+  .cockpit-screen .hatch-pad-btn {
+    min-height: 26px;
+    padding: 3px 8px;
+    font-size: 10px;
+  }
+
+  .cockpit-screen footer {
+    flex-shrink: 0;
+    padding: 1px 2px 0;
+    font-size: 7.5px;
+    flex-direction: row;
+  }
+}
+
+
 

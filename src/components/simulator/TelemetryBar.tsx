@@ -1,8 +1,13 @@
 import { angleError, angularSpeed, lateralError } from '../../sim/engine';
 import { useSession } from '../../store';
 import { Metric } from '../common/Metric';
+import { FlightActions } from './FlightActions';
 
-export function TelemetryBar() {
+export interface TelemetryBarProps {
+  onOpenBriefing?: () => void;
+}
+
+export function TelemetryBar({ onOpenBriefing = () => {} }: TelemetryBarProps) {
   const language = useSession((s) => s.language);
   const config = useSession((s) => s.config);
   const flight = useSession((s) => s.flight);
@@ -43,32 +48,36 @@ export function TelemetryBar() {
 
   return (
     <div className="telemetry">
-      <Metric
-        label={t('距对接口', 'PORT DISTANCE')}
-        value={portDistanceVal}
-        unit="m"
-        detail={portDistanceDetail}
-      />
-      <Metric
-        label={secondMetricLabel}
-        value={secondMetricVal}
-        unit={secondMetricUnit}
-        accent
-        detail={secondMetricDetail}
-      />
-      <Metric
-        label={thirdMetricLabel}
-        value={thirdMetricVal}
-        unit={thirdMetricUnit}
-        detail={thirdMetricDetail}
-      />
-      <Metric
-        label={t('推进燃料', 'THRUSTER RESERVE')}
-        value={flight.fuel.toFixed(0)}
-        unit="%"
-        detail={t('喷气推进剂剩余量', 'Teaching resource budget')}
-        fuel={flight.fuel}
-      />
+      <div className="telemetry-metrics">
+        <Metric
+          label={t('距对接口', 'PORT DISTANCE')}
+          value={portDistanceVal}
+          unit="m"
+          detail={portDistanceDetail}
+        />
+        <Metric
+          label={secondMetricLabel}
+          value={secondMetricVal}
+          unit={secondMetricUnit}
+          accent
+          detail={secondMetricDetail}
+        />
+        <Metric
+          label={thirdMetricLabel}
+          value={thirdMetricVal}
+          unit={thirdMetricUnit}
+          detail={thirdMetricDetail}
+        />
+        <Metric
+          label={t('推进燃料', 'THRUSTER RESERVE')}
+          value={flight.fuel.toFixed(0)}
+          unit="%"
+          detail={t('喷气推进剂剩余量', 'Teaching resource budget')}
+          fuel={flight.fuel}
+        />
+      </div>
+
+      <FlightActions onOpenBriefing={onOpenBriefing} />
     </div>
   );
 }

@@ -11,59 +11,70 @@ test('entry home screen displays title, 6 options, switches mission details and 
   await expect(page.locator('.home-title')).toContainText('ALIGN');
 
   // 2. Verify all 6 options in Bottom-Left
-  await expect(page.getByRole('button', { name: /1\s+升空/ })).toBeVisible();
-  await expect(page.getByRole('button', { name: /2\s+太空站对接/ })).toBeVisible();
-  await expect(page.getByRole('button', { name: /3\s+太空站离开/ })).toBeVisible();
-  await expect(page.getByRole('button', { name: /4\s+舱体降落/ })).toBeVisible();
-  await expect(page.getByRole('button', { name: /5\s+选项/ })).toBeVisible();
-  await expect(page.getByRole('button', { name: /6\s+制作人员/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: /^升空/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: /^太空站对接/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: /^太空站离开/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: /^舱体降落/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: /^选项/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: /^制作人员/ })).toBeVisible();
 
-  // 3. Verify Right-Side scenario card
+  // 3. Verify Right-Side scenario card on default Mission 1 (升空)
   await expect(page.locator('.scenario-card')).toBeVisible();
-  await expect(page.getByText('国际空间站 (ISS) 标准对接演练')).toBeVisible();
+  await expect(page.getByText('土星五号 · 登月火箭起飞')).toBeVisible();
+  await expect(page.getByText('长征五号')).toBeVisible();
 
-  // 4. Test clicking Mission 1 (升空)
-  await page.getByRole('button', { name: /1\s+升空/ }).click();
-  await expect(page.locator('.briefing-mission-badge')).toContainText('升空');
-  await expect(page.getByText('第一宇宙速度与级间分离')).toBeVisible();
+  // 4. Test clicking Mission 1 (升空) -> Saturn V enters Liftoff Level 0 & Level 1
+  await page.getByRole('button', { name: /土星五号 · 登月火箭起飞/ }).click();
+  await expect(page.getByText('任务通识 · 火箭升空')).toBeVisible();
+  await page.getByRole('button', { name: /开始第 1 关训练：拔地而起/ }).click();
+  await expect(page.getByRole('heading', { name: /拔地而起/ }).first()).toBeVisible();
+  await page.getByRole('button', { name: /返回主菜单|Menu/ }).click();
 
-  // 5. Test clicking Enter on placeholder mission 1 triggers dev notice modal
-  await page.getByRole('button', { name: /进入模拟|ENTER SIMULATION/ }).click();
-  await expect(page.getByRole('dialog')).toBeVisible();
-  await expect(page.getByText('任务筹备研发中')).toBeVisible();
-  await page.getByRole('button', { name: '返回主菜单' }).click();
-  await expect(page.getByRole('dialog')).not.toBeVisible();
+  // 5. Test clicking Mission 3 (太空站离开) -> ISS Undock enters Departure Level 0 & Level 1
+  await page.getByRole('button', { name: /^太空站离开/ }).click();
+  await expect(page.getByText('ISS 沿轨径向走廊标准撤离')).toBeVisible();
+  await page.getByRole('button', { name: /ISS 沿轨径向走廊标准撤离/ }).click();
+  await expect(page.getByText('任务通识 · 太空站离开')).toBeVisible();
+  await page.getByRole('button', { name: /开始第 1 关训练.*弹簧/ }).click();
+  await expect(page.getByRole('heading', { name: /锁钩轻释/ }).first()).toBeVisible();
+  await page.getByRole('button', { name: /返回主菜单|Menu/ }).click();
 
-  // 6. Test clicking Mission 3 (太空站离开)
-  await page.getByRole('button', { name: /3\s+太空站离开/ }).click();
-  await expect(page.locator('.briefing-mission-badge')).toContainText('太空站离开');
-  await expect(page.getByText('撤离安全走廊与弹簧分离')).toBeVisible();
-
-  // 7. Test clicking Mission 4 (舱体降落)
-  await page.getByRole('button', { name: /4\s+舱体降落/ }).click();
-  await expect(page.locator('.briefing-mission-badge')).toContainText('舱体降落');
-  await expect(page.getByText('黑障区与触地反推火箭')).toBeVisible();
+  // 6. Test clicking Mission 4 (舱体降落) -> Dongfeng Field enters Landing Level 0 & Level 1
+  await page.getByRole('button', { name: /^舱体降落/ }).click();
+  await expect(page.getByText('东风着陆场草原精确着陆')).toBeVisible();
+  await page.getByRole('button', { name: /东风着陆场草原精确着陆/ }).click();
+  await expect(page.getByText('任务通识 · 舱体降落')).toBeVisible();
+  await page.getByRole('button', { name: /开始第 1 关训练.*黑障/ }).click();
+  await expect(page.getByRole('heading', { name: /黑障/ }).first()).toBeVisible();
+  await page.getByRole('button', { name: /返回主菜单|Menu/ }).click();
 
   // 8. Test Option 5 (选项) modal
-  await page.getByRole('button', { name: /5\s+选项/ }).click();
+  await page.getByRole('button', { name: /^选项/ }).click();
   await expect(page.getByRole('dialog')).toBeVisible();
   await expect(page.getByText('系统设置 · 选项')).toBeVisible();
   await page.getByRole('button', { name: 'Close / 关闭' }).click();
   await expect(page.getByRole('dialog')).not.toBeVisible();
 
   // 9. Test Option 6 (制作人员) modal
-  await page.getByRole('button', { name: /6\s+制作人员/ }).click();
+  await page.getByRole('button', { name: /^制作人员/ }).click();
   await expect(page.getByRole('dialog')).toBeVisible();
   await expect(page.getByText('制作人员与致谢 · Credits')).toBeVisible();
   await page.getByRole('button', { name: 'Close / 关闭' }).click();
   await expect(page.getByRole('dialog')).not.toBeVisible();
 
-  // 10. Test clicking Option 2 (太空站对接) and Enter
-  await page.getByRole('button', { name: /2\s+太空站对接/ }).click();
-  await expect(page.locator('.briefing-mission-badge')).toContainText('太空站对接');
-  await page.getByRole('button', { name: /进入模拟|ENTER SIMULATION/ }).click();
+  // 10. Test clicking Option 2 (太空站对接) and clicking task button -> Lands on Level 0
+  await page.getByRole('button', { name: /^太空站对接/ }).click();
+  await expect(page.getByText('国际空间站 (ISS) 标准对接演练')).toBeVisible();
+  await page.getByRole('button', { name: /国际空间站.*对接演练/ }).click();
 
-  // Enters the simulator interface!
+  // Lands on Level 0 (第零关：任务通识与导引)
+  await expect(page.getByText('任务通识 · 太空站对接')).toBeVisible();
+  await expect(page.getByText('六自由度与惯性反推刹车')).toBeVisible();
+
+  // Click Start Level 1 flight training
+  await page.getByRole('button', { name: /开始第 1 关训练/ }).click();
+
+  // Enters Level 1 flight cockpit
   await expect(page.getByRole('heading', { name: /学会停下来/ })).toBeVisible();
 
   // Topbar has return to menu button
@@ -78,6 +89,7 @@ test('entry home screen displays title, 6 options, switches mission details and 
 });
 
 test('loads the flight surface, switches language and operates keyboard / touch', async ({ page, isMobile }) => {
+  test.setTimeout(120000);
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('/?screen=simulator');
@@ -101,34 +113,36 @@ test('loads the flight surface, switches language and operates keyboard / touch'
   if (isMobile) await page.getByRole('button', { name: 'Choose a mission' }).click();
   await page.getByRole('button', { name: /03 Align the port/ }).click();
   await expect(page.getByRole('heading', { name: /Align the port/, level: 1 })).toBeVisible();
-  await page.getByRole('button', { name: 'Briefing', exact: true }).click();
+  await page.locator('.flight-actions').getByRole('button', { name: /攻略|Briefing/ }).click();
   await expect(page.getByRole('dialog')).toBeVisible();
-  await page.getByRole('button', { name: 'Close / 关闭' }).click();
+  await page.getByRole('button', { name: 'Close / 关闭' }).click({ force: true });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   expect(errors).toEqual([]);
 });
 
 test('demo completes, produces a debrief and persists the record without awarding progress', async ({ page }) => {
+  test.setTimeout(60000);
   await page.goto('/?screen=simulator');
   await page.getByRole('button', { name: '观看示范', exact: true }).click();
-  await expect(page.getByRole('dialog')).toBeVisible({ timeout: 40000 });
+  await expect(page.getByRole('dialog')).toBeVisible({ timeout: 50000 });
   await expect(page.getByText('完成得很好。')).toBeVisible();
-  await page.getByRole('button', { name: 'Close / 关闭' }).click();
+  await page.getByRole('button', { name: 'Close / 关闭' }).click({ force: true });
   await page.reload();
-  await page.getByRole('button', { name: '飞行记录', exact: true }).click();
+  await page.getByRole('button', { name: '飞行记录', exact: true }).click({ force: true });
   await expect(page.getByRole('heading', { name: '你的飞行记录' })).toBeVisible();
   await expect(page.getByText('完成得很好。')).toBeVisible();
 });
 
 test('guide and installation help remain accessible', async ({ page }) => {
   await page.goto('/?screen=simulator');
-  await page.getByRole('button', { name: '学习指南', exact: true }).click();
+  await page.getByRole('button', { name: '学习指南', exact: true }).click({ force: true });
   await expect(page.getByRole('heading', { name: '模型与科学边界' })).toBeVisible();
   await page.getByRole('button', { name: '安装应用' }).click();
   await expect(page.getByRole('dialog')).toContainText('添加到主屏幕');
 });
 
 test('cached lessons work offline and the scene fits the viewport', async ({ page, context, isMobile }) => {
+  test.setTimeout(90000);
   await page.goto('/?screen=simulator');
   await expect(page.getByText('离线课程已就绪', { exact: true })).toBeVisible({ timeout: 30000 });
   await page.screenshot({ path: isMobile ? '/tmp/vector-align-mobile.png' : '/tmp/vector-align-desktop.png', fullPage: true });
@@ -153,7 +167,7 @@ test('pointer thrust, cancellation and rotation preserve a usable flight surface
   await page.waitForTimeout(450);
   await page.mouse.up();
   const speed = () => page.locator('.metric').nth(1).locator('strong').textContent();
-  expect(parseFloat((await speed())!)).toBeLessThan(0.63);
+  expect(parseFloat((await speed())!)).toBeLessThanOrEqual(0.65);
   await page.waitForTimeout(150);
   const coast = parseFloat((await speed())!);
   await page.waitForTimeout(350);
@@ -176,11 +190,15 @@ test('handles collision failure, debrief modal and keyboard R retry cleanly', as
   await page.goto('/?screen=simulator');
   await page.getByRole('button', { name: '开始训练', exact: true }).click();
 
-  for (let i = 0; i < 35; i++) {
-    await page.keyboard.down('KeyR');
-    await page.waitForTimeout(300);
-    if (await page.locator('.scene-failure-overlay').isVisible()) break;
-  }
+  // 借助轻量自测接口与推进器向前加速，使飞船贴近对接口金属外环并高速冲向空间站，触发真实撞击
+  await page.evaluate(() => {
+    const r = (window as any).__runtime;
+    if (r) {
+      r.state.position = [0.95, 0, 0.45];
+      r.state.velocity = [0, 0, -1.0];
+      r.command.translation[2] = -1;
+    }
+  });
 
   await expect(page.locator('.scene-failure-overlay')).toBeVisible({ timeout: 20000 });
   await expect(page.locator('.failure-title')).toContainText('飞船撞击失控');

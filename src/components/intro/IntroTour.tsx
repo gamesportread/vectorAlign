@@ -39,13 +39,28 @@ export function IntroTour() {
     {
       tab: t('画面里有什么', 'What’s on screen'),
       title: t('先认一认：画面里都是什么？', 'First: what is everything on screen?'),
-      lead: t('这是从侧面看的示意图，和正式训练的 3D 画面一一对应。点一点图上的数字（或下面的按钮），看看每样东西是什么。', 'A side-view sketch matching the 3D training scene. Tap the numbers (or the buttons below) to see what each thing is.'),
-      body: <Explorer t={t} items={sceneHotspots(t)} Art={SceneMap} />
+      body: (
+        <>
+          <div className="intro-mission-goal-box">
+            <div className="goal-box-title">
+              <span className="goal-box-badge">🎯 {t('本关核心目标', 'Mission Goal')}</span>
+              <strong>{t('驾驶飞船在前方 8 米的「黄色圆圈」处彻底停稳', 'Fly the ship and stop steadily inside the 8 m yellow ring')}</strong>
+            </div>
+            <p className="goal-box-desc">
+              {t('飞船正在滑向空间站。太空没有地面摩擦阻力，松开按键飞船不会自己停下。按键盘 F 键（向前喷火反向刹车），把速度降到 0 并稳住 1.5 秒即可通关！', 'The ship is gliding toward the station. Space has no friction: releasing keys will not stop you. Press key F (forward thrusters) to brake, bring speed to 0, and hold steady for 1.5 s to pass!')}
+            </p>
+          </div>
+          <Explorer t={t} items={sceneHotspots(t)} Art={SceneMap} />
+        </>
+      )
     },
     {
       tab: t('你的飞船', 'Your ship'),
       title: t('那个“尖头”是什么？——是你的飞船', 'What is the pointy thing? Your spaceship'),
-      lead: t('你的任务：开着这艘飞船，让它的“门”和空间站的“门”轻轻连在一起，这就叫“对接”。点一点飞船的各个部分。', 'Your job: fly this ship so its door joins the station’s door gently. That is called docking. Tap each part of the ship.'),
+      lead: t(
+        '你的任务：开着这艘飞船，让它的“门”和空间站的“门”轻轻连在一起，这就叫“对接”。机头的头锥保护罩就像头盔面罩，按下 [1] 键打开它露出对接口（IDA）才能锁扣连接！点一点飞船的各个部分：',
+        'Your job: fly this ship so its door joins the station’s door gently. That is called docking. The nosecone hatch works like a helmet visor—press [1] to open it, reveal the docking adapter (IDA) to lock on! Tap each part of the ship:'
+      ),
       body: <Explorer t={t} items={shipHotspots(t)} Art={ShipCloseup} />
     },
     {
@@ -90,12 +105,13 @@ export function IntroTour() {
             <div><span>{t('推进燃料', 'THRUSTER RESERVE')}</span><p>{t('每次喷气都会用掉一点燃料。用光了就无法再控制，任务失败。', 'Every puff uses fuel. If it runs out you can’t steer any more and the mission fails.')}</p></div>
           </div>
           <div className="intro-keys">
+            <span><kbd>1</kbd>{t('头锥保护罩：按 [1] 键打开面罩，露出国际对接口（IDA）对接', 'Nosecone hatch: press [1] to open and reveal the docking adapter (IDA)')}</span>
             <span><kbd>R</kbd>{t('往空间站方向加速', 'Speed up toward the station')}</span>
             <span><kbd>F</kbd>{t('刹车 / 往后退', 'Brake / back away')}</span>
             <span><kbd>{t('空格', 'Space')}</kbd>{t('自动刹车：帮你把速度减到 0（也耗燃料）', 'Assist brake: slows you to zero (uses fuel too)')}</span>
             <span><kbd>{t('拖动', 'Drag')}</kbd>{t('转动观察角度；“侧视图”最容易看清离黄圈多远', 'Turn the camera; “Side view” shows the ring distance best')}</span>
           </div>
-          <p className="intro-tip">{t('小提示：画面里的标签（比如“黄圈：8 米等待点”）可以点开再看这份讲解；不想要时，点画面右上角的“标签”按钮关掉。', 'Tip: the labels in the 3D scene (like “Yellow ring: 8 m hold point”) reopen this guide. Turn them off with the “Labels” button at the top right of the scene.')}</p>
+          <p className="intro-tip">{t('小提示：你可以随时切换回左侧导航的「第 0 关」查阅全套飞船与空间站构造图解与详细工程档案。', 'Tip: You can switch back to "Level 0" in the sidebar at any time to explore the full spacecraft and station diagrams.')}</p>
         </>
       )
     }
@@ -108,7 +124,7 @@ export function IntroTour() {
     <div className="intro-tour">
       <nav className="intro-steps" aria-label={t('讲解步骤', 'Guide steps')}>
         {steps.map((s, i) => (
-          <button key={i} className={i === step ? 'active' : i < step ? 'done' : ''} onClick={() => go(i)} aria-current={i === step ? 'step' : undefined}>
+          <button key={i} aria-label={s.tab} className={i === step ? 'active' : i < step ? 'done' : ''} onClick={() => go(i)} aria-current={i === step ? 'step' : undefined}>
             <i>{i + 1}</i><span>{s.tab}</span>
           </button>
         ))}

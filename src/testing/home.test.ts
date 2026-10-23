@@ -14,7 +14,8 @@ describe('Home Mission Selector Data & Store Interface', () => {
     expect(liftoff.specs.timeZh).toContain('发射点火');
     expect(liftoff.specs.locationZh).toContain('发射场');
     expect(liftoff.scienceTip.termZh).toBe('第一宇宙速度与级间分离');
-    expect(liftoff.isImplemented).toBe(false);
+    expect(liftoff.isImplemented).toBe(true);
+    expect(liftoff.historicalScenarios?.find((s) => s.id === 'saturn-v')?.isAvailable).toBe(true);
 
     // 2 太空站对接 (原项目实现)
     expect(docking.num).toBe(2);
@@ -30,14 +31,16 @@ describe('Home Mission Selector Data & Store Interface', () => {
     expect(departure.titleZh).toBe('太空站离开');
     expect(departure.specs.stageZh).toContain('弹簧');
     expect(departure.scienceTip.termZh).toBe('撤离安全走廊与弹簧分离');
-    expect(departure.isImplemented).toBe(false);
+    expect(departure.isImplemented).toBe(true);
+    expect(departure.historicalScenarios?.find((s) => s.id === 'iss-undock')?.isAvailable).toBe(true);
 
     // 4 舱体降落
     expect(landing.num).toBe(4);
     expect(landing.titleZh).toBe('舱体降落');
     expect(landing.specs.locationZh).toContain('东风着陆场');
     expect(landing.scienceTip.termZh).toBe('黑障区与触地反推火箭');
-    expect(landing.isImplemented).toBe(false);
+    expect(landing.isImplemented).toBe(true);
+    expect(landing.historicalScenarios?.find((s) => s.id === 'dongfeng-field')?.isAvailable).toBe(true);
   });
 
   it('manages navigation between home screen and simulator via useSession', () => {
@@ -60,4 +63,39 @@ describe('Home Mission Selector Data & Store Interface', () => {
       expect(mission.summaryZh.length).toBeGreaterThan(30);
     }
   });
+
+  it('supports Level 0 (第零关) as orientation stage before flying', () => {
+    // Select Level 0
+    useSession.getState().setActiveLevel(0);
+    expect(useSession.getState().activeLevel).toBe(0);
+
+    // Switch to flight level 1
+    useSession.getState().select(1);
+    expect(useSession.getState().activeLevel).toBe(1);
+    expect(useSession.getState().config.id).toBe(1);
+
+    // Can switch back to Level 0
+    useSession.getState().setActiveLevel(0);
+    expect(useSession.getState().activeLevel).toBe(0);
+  });
+
+  it('validates 4 scenarios for mission 2 with distinct live/unmade status', () => {
+    const docking = HOME_MISSIONS.find((m) => m.id === 2);
+    expect(docking).toBeDefined();
+    expect(docking?.historicalScenarios).toHaveLength(4);
+
+    const [iss, tg, astp, mir] = docking!.historicalScenarios!;
+    expect(iss.isAvailable).toBe(true);
+    expect(tg.isAvailable).toBe(false);
+    expect(astp.isAvailable).toBe(false);
+    expect(mir.isAvailable).toBe(false);
+
+    // Each scenario has descriptive copy for subtext
+    for (const sc of docking!.historicalScenarios!) {
+      expect(sc.descZh.length).toBeGreaterThan(10);
+      expect(sc.titleZh.length).toBeGreaterThan(3);
+    }
+  });
 });
+
+

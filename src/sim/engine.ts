@@ -9,7 +9,7 @@ export const emptyCommand = (): ControlCommand => ({ translation:[0,0,0],rotatio
 export const clamp = (n:number,low=-1,high=1) => Math.max(low,Math.min(high,n));
 export function createState(config:ScenarioConfig):SimulationState {
   const orientation = new Quaternion().setFromEuler(new Euler(...config.attitude.map(a=>a*RAD) as Vec3));
-  return {position:[...config.position],velocity:[...config.velocity],orientation:orientation.toArray(),angularVelocity:[0,0,0],fuel:config.fuel,time:0,hold:0,status:'ready',thrust:[0,0,0],torque:[0,0,0]};
+  return {position:[...config.position],velocity:[...config.velocity],orientation:orientation.toArray(),angularVelocity:[0,0,0],fuel:config.fuel,time:0,hold:0,status:'ready',thrust:[0,0,0],torque:[0,0,0],hatch:{state:'closed',progress:0}};
 }
 export function attitude(state:SimulationState):Vec3 {
   const e = new Euler().setFromQuaternion(new Quaternion(...state.orientation),'XYZ');
@@ -204,7 +204,37 @@ export function step(state:SimulationState,command:ControlCommand,c:ScenarioConf
 
   if (state.status !== 'flying') return state;
 
-  const s:SimulationState={...state,position:[...state.position],velocity:[...state.velocity],angularVelocity:[...state.angularVelocity],orientation:[...state.orientation],thrust:[0,0,0],torque:[0,0,0],time:state.time+dt};
+  const s:SimulationState={
+    ...state,
+    position:[...state.position],
+    velocity:[...state.velocity],
+    angularVelocity:[...state.angularVelocity],
+    orientation:[...state.orientation],
+    thrust:[0,0,0],
+    torque:[0,0,0],
+    time:state.time+dt,
+    hatch: state.hatch ? { ...state.hatch } : undefined
+  };
+
+  // 舱门开启动画推进
+  if (s.hatch) {
+    if (s.hatch.state === 'opening') {
+      const next = s.hatch.progress + dt / 1.2;
+      if (next >= 1) {
+        s.hatch = { state: 'open', progress: 1 };
+      } else {
+        s.hatch = { state: 'opening', progress: next };
+      }
+    } else if (s.hatch.state === 'closing') {
+      const next = s.hatch.progress - dt / 1.2;
+      if (next <= 0) {
+        s.hatch = { state: 'closed', progress: 0 };
+      } else {
+        s.hatch = { state: 'closing', progress: next };
+      }
+    }
+  }
+
   let cost=0;
   for(let i=0;i<3;i++) {
     if(c.translation[i]) s.thrust[i]=command.brake?clamp(-s.velocity[i]/(ACCELERATION*dt)):clamp(command.translation[i]);
@@ -232,13 +262,33 @@ export function step(state:SimulationState,command:ControlCommand,c:ScenarioConf
     }
   };
 
+  const impact = findCollidersImpact(state.position, s.position);
+  if (impact) {
+    if (impact.point[1] < -.75) {
+      fail('escape');
+    } else {
+      fail('collision', impact.point, impact.normal);
+    }
+    return s;
+  }
+
+  // 终末对接前舱门开启安全检查 (< 1.5m 必须打开舱门，否则头锥阻挡无法建立硬捕获)
+  if (c.id === 4 && s.hatch?.state === 'closed' && state.position[2] >= 1.5 && s.position[2] < 1.5) {
+    s.position[2] = 1.49;
+    fail('hatch_closed', s.position, [0, 0, 1]);
+    return s;
+  }
+
   // Evaluate contact on the swept path, not just at the endpoint.
   if(state.position[2]>.35 && s.position[2]<=.35) {
     const t=(state.position[2]-.35)/(state.position[2]-s.position[2]);
     const contact:SimulationState={...s,position:state.position.map((v,i)=>v+(s.position[i]-v)*t) as Vec3};
     const latErr = lateralError(contact);
-    if(latErr < .75) {
-      const reason = c.id < 4 ? 'collision' : captureFailure(contact, c);
+    if(contact.position[1] < -.75) {
+      // 往下飞偏离对接口，下方为开阔太空无障碍舱壁，属于越出引导走廊失败
+      fail('escape');
+    } else if(latErr < .75) {
+      const reason = c.id === 1 ? (angleError(contact) < 30 ? undefined : 'alignment') : (c.id < 4 ? 'collision' : captureFailure(contact, c));
       s.position = contact.position;
       if(reason) {
         fail(reason, contact.position, [0, 0, 1]);
@@ -247,14 +297,14 @@ export function step(state:SimulationState,command:ControlCommand,c:ScenarioConf
         s.velocity = [0, 0, 0];
         s.angularVelocity = [0, 0, 0];
       }
-    } else if(latErr <= 3.0) {
-      // 撞上对接口周围圆环与前部舱壁结构
+    } else if(latErr <= 1.25) {
+      // 仅在接近对接口外沿金属圆环（半径约 0.8~1.2m）时判定撞击金属圈
       s.position = contact.position;
       fail('collision', contact.position, [0, 0, 1]);
     } else {
-      // 偏离对接口舱体较远（向下或向侧面飞过头），检查是否撞击空间站其他结构
+      // 偏离对接口舱体较远，检查是否撞击空间站其他结构（如太阳翼横梁）
       const impact = findCollidersImpact(state.position, s.position);
-      if (impact) {
+      if (impact && impact.point[1] >= -.75) {
         fail('collision', impact.point, impact.normal);
       } else {
         // 未撞击任何结构，属于越出教学走廊
@@ -266,12 +316,22 @@ export function step(state:SimulationState,command:ControlCommand,c:ScenarioConf
   if(s.status==='flying') {
     const impact = findCollidersImpact(state.position, s.position);
     if (impact) {
-      fail('collision', impact.point, impact.normal);
+      if (impact.point[1] < -.75) {
+        // 往下飞越过边界，判定为脱离训练区而非撞击
+        fail('escape');
+      } else {
+        fail('collision', impact.point, impact.normal);
+      }
     }
   }
 
   if(s.status==='flying' && s.position[2]<=.35) {
-    if (lateralError(s) <= 3.0) {
+    if (c.id === 1 && s.position[1] >= -.75 && lateralError(s) < .75 && angleError(s) < 30) {
+      s.status = 'success';
+      s.position[2] = .35;
+      s.velocity = [0, 0, 0];
+      s.angularVelocity = [0, 0, 0];
+    } else if (s.position[1] >= -.75 && lateralError(s) <= 1.25) {
       fail('collision', s.position, [0, 0, 1]);
     } else {
       fail('escape');
@@ -282,9 +342,9 @@ export function step(state:SimulationState,command:ControlCommand,c:ScenarioConf
   // 超过边界判定为失败 (escape)，失去推力并保持无动力自然漂浮
   if(s.status==='flying') {
     const isOutOfBounds =
-      s.position[1] < -10 ||         // 往下飞超出边界 (向下偏离超过 10 米)
-      s.position[1] > 14 ||          // 向上偏离过远
-      Math.abs(s.position[0]) > 18 || // 向左/右横向偏离过远
+      s.position[1] < -4.5 ||        // 往下飞超出边界 (向下偏离超过 4.5 米)
+      s.position[1] > 12 ||          // 向上偏离过远
+      Math.abs(s.position[0]) > 16 || // 向左/右横向偏离过远
       s.position[2] > 75 ||          // 倒飞远离空间站过远
       s.position[2] < -20 ||         // 穿过空间站后方
       Math.hypot(...s.position) > 85;
@@ -305,6 +365,10 @@ export function step(state:SimulationState,command:ControlCommand,c:ScenarioConf
 }
 // Deterministic feedback demonstration, using exactly the player's dynamics.
 export function demonstration(s:SimulationState,c:ScenarioConfig):ControlCommand {
+  if (s.hatch && s.hatch.state !== 'open' && (c.id === 4 || c.targetZ <= 0.35 || s.position[2] < 35)) {
+    s.hatch.state = 'open';
+    s.hatch.progress = 1;
+  }
   const command=emptyCommand();
   for(let i=0;i<3;i++) {
     const error=(i===2?c.targetZ:0)-s.position[i];

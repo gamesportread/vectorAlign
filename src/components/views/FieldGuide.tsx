@@ -1,4 +1,3 @@
-import { ArrowRight } from 'lucide-react';
 import { scenarios } from '../../sim/scenarios';
 import { useSession } from '../../store';
 
@@ -49,44 +48,7 @@ export function FieldGuide() {
           )}
         </p>
       </article>
-
-      <article className="sources">
-        <h2>{t('资料与致谢', 'Sources & credits')}</h2>
-        <a
-          href="https://www.nasa.gov/international-space-station/harmony-module/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          {t('NASA · 和谐号节点舱', 'NASA · Harmony module')} <ArrowRight size={15} />
-        </a>
-        <a
-          href="https://science.nasa.gov/resource/international-space-station-3d-model/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          {t('NASA · 国际空间站 3D 官方模型', 'NASA VTAD · International Space Station model')} <ArrowRight size={15} />
-        </a>
-        <a
-          href="https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/base-map/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          {t('NASA 地球观测站 · 蓝色弹珠', 'NASA Earth Observatory · Blue Marble')} <ArrowRight size={15} />
-        </a>
-        <a
-          href="https://www.nasa.gov/stem-content/crew-orbital-docking-simulation-coding-sim/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          {t('NASA STEM · 载人轨道对接模拟', 'NASA STEM · Crew Orbital Docking Simulation')} <ArrowRight size={15} />
-        </a>
-        <p>
-          {t(
-            '独立教育项目，与 NASA 无隶属或背书关系。真实载人龙飞船（Dragon）通常自主对接；此处手动控制用于原理学习。2026 Space Apps 赛题适配和资格尚待核实。',
-            'An independent educational project, not affiliated with or endorsed by NASA. Dragon normally docks autonomously; manual controls here teach the underlying principles. 2026 Space Apps challenge fit and eligibility remain unverified.'
-          )}
-        </p>
-      </article>
     </section>
   );
 }
+

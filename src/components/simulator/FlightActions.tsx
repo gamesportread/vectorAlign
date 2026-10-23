@@ -1,4 +1,4 @@
-import { BookOpen, GraduationCap, Pause, Play, RotateCcw, ShieldCheck } from 'lucide-react';
+import { BookOpen, Pause, Play, RotateCcw, ShieldCheck } from 'lucide-react';
 import { tone, useSession } from '../../store';
 
 export interface FlightActionsProps {
@@ -14,7 +14,6 @@ export function FlightActions({ onOpenBriefing }: FlightActionsProps) {
   const start = useSession((s) => s.start);
   const pause = useSession((s) => s.pause);
   const resume = useSession((s) => s.resume);
-  const introSeen = useSession((s) => s.introSeen);
 
   const t = (zh: string, en: string) => (language === 'zh' ? zh : en);
   const isFailed = flight.status === 'failed';
@@ -35,42 +34,31 @@ export function FlightActions({ onOpenBriefing }: FlightActionsProps) {
 
   return (
     <div className="flight-actions">
-      <div className="constraint">
-        <ShieldCheck size={17} />
-        <span>{config.constraints[language]}</span>
-      </div>
-
       <div className="action-buttons">
         <button
           className="icon-button reset"
           aria-label={t('重置任务', 'Reset mission')}
           onClick={() => reset()}
+          title={t('重置任务', 'Reset mission')}
         >
-          <RotateCcw size={18} />
-        </button>
-
-        <button
-          className={`secondary-button ${!introSeen ? 'guide-highlight' : ''}`}
-          onClick={() => useSession.getState().openIntro(0)}
-        >
-          <GraduationCap size={16} />
-          {t('新手讲解', 'Guide')}
-          {!introSeen && <span className="guide-new-badge">{t('推荐', 'New')}</span>}
+          <RotateCcw size={16} />
         </button>
 
         <button
           className="secondary-button"
           onClick={onOpenBriefing}
+          title={t('查看通关攻略', 'Mission strategy & briefing')}
         >
-          <BookOpen size={16} />
-          {t('任务简报', 'Briefing')}
+          <BookOpen size={15} />
+          {t('攻略', 'Briefing')}
         </button>
 
         <button
           className="secondary-button"
           onClick={() => start(true)}
+          title={t('观看自动示范', 'Watch AI demo')}
         >
-          <Play size={15} />
+          <Play size={14} />
           {t('观看示范', 'Watch demo')}
         </button>
 
@@ -78,7 +66,7 @@ export function FlightActions({ onOpenBriefing }: FlightActionsProps) {
           className="primary-button"
           onClick={handlePrimaryClick}
         >
-          {isFailed ? <RotateCcw size={17} /> : running ? <Pause size={17} /> : <Play size={17} />}
+          {isFailed ? <RotateCcw size={16} /> : running ? <Pause size={16} /> : <Play size={16} />}
           <span>
             {isFailed
               ? t('重新开始 (R)', 'Retry (R)')
@@ -89,6 +77,11 @@ export function FlightActions({ onOpenBriefing }: FlightActionsProps) {
               : t('开始训练', 'Take control')}
           </span>
         </button>
+      </div>
+
+      <div className="constraint">
+        <ShieldCheck size={14} />
+        <span>{config.constraints[language]}</span>
       </div>
     </div>
   );

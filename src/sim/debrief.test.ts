@@ -50,6 +50,19 @@ describe('debrief analysis engine', () => {
     expect(debriefEn.badgeTitle).toBe('Mission Accomplished');
   });
 
+  it('analyzes direct docking in mission 1 with positive evaluation', () => {
+    const record = createMockRecord(1, 'success', undefined, {
+      position: [0, 0, 0.35],
+      velocity: [0, 0, 0]
+    });
+    const debrief = analyzeFlight(record, 'zh');
+    expect(debrief.isSuccess).toBe(true);
+    expect(debrief.badgeTitle).toContain('直接对接成功');
+    expect(debrief.headline).toContain('直接平稳对接上了空间站');
+    const distMetric = debrief.metrics.find((m) => m.id === 'distance');
+    expect(distMetric?.passed).toBe(true);
+  });
+
   it('diagnoses mission 1 overshot hold point collision with plain language advice', () => {
     const record = createMockRecord(1, 'failed', 'collision', {
       position: [0, 0, 0.3], // Smashed into station past the 8m ring

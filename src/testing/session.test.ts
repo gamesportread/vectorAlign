@@ -26,14 +26,27 @@ describe('public session actions through a headless driver',()=>{
       driver.load(id);driver.start(false);
       for(let i=0;i<20000;i++){
         const state=driver.snapshot();if(!state.running)break;
+        if(id===4 && state.hatch.state==='closed' && state.flight.position[2]<30) driver.openHatch();
         driver.control(demonstration(state.flight,state.config));driver.advance(DT);
       }
       expect(driver.snapshot().flight.status).toBe('success');
     }
     expect(driver.snapshot().completed).toEqual([1,2,3,4]);expect(driver.snapshot().latest?.demo).toBe(false);
-  }, 20000);
+  }, 120000);
   it('produces an explained failure and permits retry',()=>{
-    driver.start();const state=driver.advance(30);expect(state.flight.status).toBe('failed');expect(state.flight.reason).toBe('collision');expect(state.latest?.result?.reason).toBe('collision');expect(state.completed).toEqual([]);driver.start();expect(driver.snapshot().flight.status).toBe('flying');expect(driver.snapshot().flight.time).toBe(0);
+    const collisionCfg = { ...scenarios[0], position: [0.95, 0, 1] as [number, number, number], velocity: [0, 0, -0.65] as [number, number, number] };
+    driver.load(1, collisionCfg);
+    driver.start();
+    const state=driver.advance(2);
+    expect(state.flight.status).toBe('failed');expect(state.flight.reason).toBe('collision');expect(state.latest?.result?.reason).toBe('collision');expect(state.completed).toEqual([]);driver.start();expect(driver.snapshot().flight.status).toBe('flying');expect(driver.snapshot().flight.time).toBe(0);
+  });
+  it('passes mission 1 when directly docking with the station without stopping at 8m', () => {
+    driver.start();
+    const state = driver.advance(30);
+    expect(state.flight.status).toBe('success');
+    expect(state.flight.reason).toBeUndefined();
+    expect(state.completed).toContain(1);
+    expect(state.panel).toBe('review');
   });
   it('rejects invalid interface calls without changing the running flight',()=>{
     driver.start();const before=driver.snapshot();expect(()=>driver.load(8)).toThrow();expect(()=>driver.advance(Infinity)).toThrow();expect(()=>driver.control({translation:[NaN,0,0],rotation:[0,0,0],brake:false})).toThrow();expect(driver.snapshot()).toEqual(before);

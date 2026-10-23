@@ -137,10 +137,10 @@ describe('collision physics engine and dynamics', () => {
 
   it('fails with escape (not collision) when flying downwards past training boundary, and coasts powerlessly', () => {
     const s = flight();
-    s.position = [0, -10.05, 18];
+    s.position = [0, -4.55, 18];
     s.velocity = [0, -1.5, 0]; // Flying downwards
     const next = step(s, emptyCommand(), scenarios[0], DT);
-    expect(next.position[1]).toBeLessThan(-10);
+    expect(next.position[1]).toBeLessThan(-4.5);
     expect(next.status).toBe('failed');
     expect(next.reason).toBe('escape'); // Not 'collision'
     expect(next.thrust).toEqual([0, 0, 0]);
@@ -154,12 +154,23 @@ describe('collision physics engine and dynamics', () => {
 
   it('fails with escape when flying downwards past the docking plane outside station bulkheads', () => {
     const s = flight();
-    s.position = [0, -5.0, 0.36];
+    s.position = [0, -1.5, 0.36];
     s.velocity = [0, 0, -1.0]; // Flying past z=0.35 below the station (0.36 - 1/60 = 0.3433 <= 0.35)
     const passed = step(s, emptyCommand(), scenarios[3], DT);
     expect(passed.status).toBe('failed');
     expect(passed.reason).toBe('escape'); // Missed the station, flew past into space
     expect(passed.thrust).toEqual([0, 0, 0]);
+  });
+
+  it('treats direct docking in mission 1 as success without reporting error', () => {
+    const s = flight(scenarios[0]);
+    s.position = [0, 0, 0.36];
+    s.velocity = [0, 0, -0.65]; // Approaching port at unbraked speed
+    const passed = step(s, emptyCommand(), scenarios[0], DT);
+    expect(passed.status).toBe('success');
+    expect(passed.reason).toBeUndefined();
+    expect(passed.velocity).toEqual([0, 0, 0]);
+    expect(passed.position[2]).toBeCloseTo(0.35, 2);
   });
 });
 

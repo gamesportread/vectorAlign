@@ -33,11 +33,23 @@ Prefer `npm run test:api` for routine verification. The small `src/testing/fligh
 
 Touch controls support press-and-hold, multiple pointers and cancellation. Mode switching clears commands. Window blur and backgrounding pause the simulation. Training constraints are shown under the scene. Demonstrations do not award progress; independently completing mission 4 unlocks configurable free flight.
 
+### 3D Scene Camera Mouse Controls (Shared Across All 3D Task Scenes)
+
+All 3D mission scenes (`src/Scene.tsx`, `src/components/liftoff/LiftoffScene3D.tsx`, and any future 3D mission scenes) MUST share the unified `<TaskCameraControls />` component (`src/components/scene/TaskCameraControls.tsx` & `src/components/scene/taskCameraConfig.ts`). Do not create separate `<OrbitControls />` or custom mouse handlers per scene.
+
+| Mouse Input | Action | Three.js Mapping |
+| --- | --- | --- |
+| Left-button drag | Rotate camera (`左键旋转`) | `MOUSE.ROTATE` (`enableRotate: true`) |
+| Right-button drag | Pan camera (`右键平移`) | `MOUSE.PAN` (`enablePan: true`, `screenSpacePanning: true`) |
+| Scroll wheel | Zoom camera (`滚轮缩放`) | `MOUSE.DOLLY` (`enableZoom: true`) |
+
 ## Structure
 
 - `src/sim`: pure deterministic dynamics, configuration, capture and collision logic, test suite.
 - `src/store.ts`: session lifecycle, unified commands, fixed-step scheduler, feedback demonstrations and telemetry.
-- `src/Scene.tsx`: render-only scene and cameras.
+- `src/components/scene/TaskCameraControls.tsx` & `src/components/scene/taskCameraConfig.ts`: shared 3D camera controller (left-drag rotate, right-drag pan, wheel zoom, pan-preserving target follow) required for all current and future 3D task scenes.
+- `src/Scene.tsx`: render-only docking scene and cameras.
+- `src/components/liftoff/LiftoffScene3D.tsx`: render-only 3D rocket ascent scene.
 - `src/App.tsx`: bilingual lesson flow, touch / keyboard controls, debriefs, field guide, lab and installation.
 - `src/storage.ts`: device-local IndexedDB profile and latest flight.
 - `scripts/prepare-assets.mjs`: reproducible NASA-model processing and PWA icons.

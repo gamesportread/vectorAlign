@@ -58,43 +58,46 @@
   z-index: 3;
 }
 
+/* 360° Panorama Canvas Background */
+.home-panorama-canvas-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: auto;
+}
+
 /* Main UI layout shell */
 .home-ui {
   position: relative;
   z-index: 4;
   width: 100%;
   height: 100%;
-  padding: 40px 52px;
+  padding: 38px 48px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
-  overflow-y: auto;
+  overflow: hidden;
+  pointer-events: none; /* 让未被按钮遮挡的空白区域直接接收鼠标 360° 拖拽手势 */
 }
 
 /* Top-left Brand & Title */
 .home-header {
   max-width: 600px;
+  pointer-events: auto;
 }
 
 .home-brand-tag {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
   font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
   font-size: 11px;
   letter-spacing: 2px;
   color: #92a498;
   margin-bottom: 10px;
   text-transform: uppercase;
-}
-
-.home-brand-tag .indicator-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--lime, #b3f56b);
-  box-shadow: 0 0 10px var(--lime, #b3f56b);
 }
 
 .home-title {
@@ -115,250 +118,240 @@
   color: #ffffff;
 }
 
-.home-subtitle {
-  font-size: 14px;
-  letter-spacing: 1.5px;
-  color: #9db2a5;
-  margin-top: 6px;
-  margin-bottom: 0;
-  font-weight: 400;
-}
-
-/* Middle Layout Split: Left Briefing, Right Mission Scenario Selector */
-.home-content-row {
+/* Main single-screen layout container */
+.home-main-layout {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  gap: 40px;
-  margin-top: auto;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
+  width: 100%;
+  gap: 24px;
 }
 
-/* Left Briefing Card (Teen-friendly mission specs) */
-.home-briefing-card {
-  width: 500px;
-  max-width: 100%;
-  background: rgba(18, 23, 24, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
-  padding: 22px 24px;
-  backdrop-filter: blur(16px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
-  transition: all 0.3s ease;
-  animation: cardFadeIn 0.35s ease-out;
-}
-
-@keyframes cardFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.briefing-header {
+/* Left Cluster: 一级菜单 + 场景卡片（严格上下界对齐） */
+.home-left-cluster {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding-bottom: 12px;
-  margin-bottom: 14px;
-}
-
-.briefing-mission-badge {
-  font-family: var(--mono, monospace);
-  font-size: 11px;
-  letter-spacing: 1px;
-  color: var(--lime, #b3f56b);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.briefing-tagline {
-  font-size: 13px;
-  color: #c9dbcf;
-  font-weight: 500;
-}
-
-.briefing-specs-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 9px;
-  margin-bottom: 14px;
-}
-
-.spec-item {
-  display: flex;
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.spec-label {
-  width: 82px;
-  flex-shrink: 0;
-  color: #819488;
-  font-family: var(--mono, monospace);
-  font-size: 11px;
-}
-
-.spec-value {
-  color: #e2ede6;
-  font-weight: 450;
-}
-
-.briefing-summary {
-  font-size: 13px;
-  line-height: 1.7;
-  color: #b0c2b6;
-  margin: 0 0 14px 0;
-  border-top: 1px dashed rgba(255, 255, 255, 0.08);
-  padding-top: 12px;
-}
-
-/* Teen Science Explanation Box */
-.science-tip-box {
-  background: rgba(30, 42, 33, 0.55);
-  border-left: 3px solid var(--lime, #b3f56b);
-  border-radius: 0 6px 6px 0;
-  padding: 10px 14px;
-}
-
-.science-tip-title {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--lime, #b3f56b);
-  margin-bottom: 4px;
-}
-
-.science-tip-desc {
-  font-size: 12px;
-  line-height: 1.6;
-  color: #c0d1c4;
-  margin: 0;
-}
-
-/* Right-side Historical Scenario Selector (Reserved for future multi-missions) */
-.home-right-panel {
-  margin-left: auto;
-  width: 380px;
-  max-width: 100%;
-  display: flex;
-  flex-direction: column;
+  align-items: stretch; /* 确保菜单与卡片上下边沿完全齐平 */
   gap: 16px;
-  align-items: flex-end;
+  height: 346px; /* 固定统一高度，上下界严格水平对齐 */
+  max-height: calc(100vh - 170px);
+  pointer-events: auto;
 }
 
 .scenario-card {
-  width: 100%;
-  background: rgba(18, 23, 24, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  width: 440px;
+  height: 100%; /* 撑满 home-left-cluster，与左侧菜单完全等高对齐 */
+  background: rgba(14, 19, 21, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 12px;
-  padding: 20px 22px;
-  backdrop-filter: blur(16px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  padding: 16px 18px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin: 0;
+  overflow: hidden;
 }
 
 .scenario-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding-bottom: 10px;
+  padding-bottom: 8px;
+  flex-shrink: 0;
 }
 
 .scenario-card-title {
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 600;
   color: #e2ede6;
   display: flex;
   align-items: center;
   gap: 7px;
-}
-
-.scenario-card-badge {
-  font-family: var(--mono, monospace);
-  font-size: 10px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  background: rgba(179, 245, 107, 0.15);
-  color: var(--lime, #b3f56b);
-  border: 1px solid rgba(179, 245, 107, 0.3);
+  letter-spacing: 0.5px;
 }
 
 .scenario-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
-.scenario-item {
+.scenario-block {
   display: flex;
   flex-direction: column;
-  text-align: left;
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  background: rgba(25, 31, 33, 0.5);
-  cursor: pointer;
-  transition: all 0.2s ease;
+  gap: 6px;
 }
 
-.scenario-item:hover {
-  background: rgba(35, 44, 46, 0.7);
-  border-color: rgba(255, 255, 255, 0.2);
-}
-
-.scenario-item.active {
-  border-color: var(--lime, #b3f56b);
-  background: rgba(36, 52, 33, 0.65);
-}
-
-.scenario-top-line {
+.scenario-task-btn {
+  width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 4px;
+  justify-content: space-between;
+  gap: 12px;
+  text-align: left;
+  border-radius: 9px;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
 }
 
-.scenario-name {
-  font-size: 12px;
-  font-weight: 600;
-  color: #f1f5f3;
+/* 明显的任务按钮（参考进入模拟按钮，+外凸立体感） */
+.scenario-task-btn.task-btn-convex {
+  min-height: 48px;
+  padding: 0 16px;
+  background: linear-gradient(180deg, #c7ff7d 0%, #b2f56b 40%, #8ee03e 100%);
+  color: #0d1e0a;
+  border: 1px solid #c8ff82;
+  border-bottom: 3px solid #548f20;
+  /* 显著的外凸立体阴影与高光 */
+  box-shadow: 
+    0 5px 0 #3c6b16,
+    0 8px 22px rgba(179, 245, 107, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.18);
+  cursor: pointer;
 }
 
-.scenario-status {
-  font-size: 10px;
-  font-family: var(--mono, monospace);
-  padding: 1px 5px;
-  border-radius: 3px;
+.scenario-task-btn.task-btn-convex:hover {
+  background: linear-gradient(180deg, #d8ff8e 0%, #beff72 40%, #9bf046 100%);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 7px 0 #3c6b16,
+    0 12px 28px rgba(179, 245, 107, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
 }
 
-.scenario-status.active {
-  background: var(--lime, #b3f56b);
-  color: #122110;
-  font-weight: 600;
+.scenario-task-btn.task-btn-convex:active {
+  transform: translateY(3px);
+  border-bottom-width: 1px;
+  box-shadow: 
+    0 2px 0 #3c6b16,
+    0 4px 10px rgba(179, 245, 107, 0.25),
+    inset 0 2px 4px rgba(0, 0, 0, 0.25);
 }
 
-.scenario-status.pending {
-  background: rgba(255, 255, 255, 0.1);
-  color: #92a498;
+.scenario-task-btn.task-btn-convex .task-btn-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #0f200c;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
-.scenario-desc {
+.scenario-task-btn.task-btn-convex .task-btn-badge.available {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #0f200c;
+  color: #bbf777;
+  padding: 4px 10px;
+  border-radius: 6px;
   font-size: 11px;
-  color: #96a99c;
-  line-height: 1.4;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* 没做的任务按钮：方框样式体现未开放（虚线边框、扁平无外凸、禁止手势），标题文字保持清晰不发灰 */
+.scenario-task-btn.task-btn-disabled {
+  min-height: 42px;
+  padding: 0 14px;
+  background: rgba(14, 19, 21, 0.45);
+  border: 1px dashed rgba(255, 255, 255, 0.22);
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 1; /* 移除透明度衰减，使标题清晰可读 */
+}
+
+.scenario-task-btn.task-btn-disabled:hover {
+  background: rgba(20, 26, 29, 0.55);
+  border-color: rgba(255, 255, 255, 0.32);
+  /* 绝不位移、绝无外凸立体阴影 */
+  transform: none;
+  box-shadow: none;
+}
+
+.scenario-task-btn.task-btn-disabled .task-btn-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #f1f6f3; /* 清晰高对比度白字，不再是看不清的暗灰色 */
+  letter-spacing: 0.3px;
+}
+
+.scenario-task-btn.task-btn-disabled .task-btn-badge.locked {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #c8ddd0;
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: 10.5px;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  flex-shrink: 0;
+}
+
+/* 原来小字放到按钮下方 */
+.scenario-task-subtext {
+  padding: 0 4px 6px 4px;
+}
+
+.scenario-task-subtext.available .scenario-task-era {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #8edc61;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.scenario-task-subtext.available .scenario-task-desc {
+  font-size: 11.5px;
+  color: #b5c7ba;
+  line-height: 1.5;
   margin: 0;
 }
+
+.scenario-task-subtext.locked .scenario-task-era {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #8da495; /* 提升亮度，清晰易读 */
+  margin-bottom: 2px;
+}
+
+.scenario-task-subtext.locked .scenario-task-desc {
+  font-size: 11.5px;
+  color: #9cb2a3; /* 提升亮度，清晰易读 */
+  line-height: 1.45;
+  margin: 0;
+}
+
+
+.scenario-tooltip-bar {
+  margin-top: 10px;
+  font-size: 11px;
+  color: #e5be85;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(45, 34, 20, 0.65);
+  border: 1px solid rgba(229, 190, 133, 0.3);
+  border-radius: 6px;
+}
+
 
 /* Bottom Bar: Left 6 Menu Buttons, Right Enter Button */
 .home-bottom-row {
@@ -369,36 +362,40 @@
   flex-wrap: wrap;
 }
 
-/* Left Bottom: 6 Menu Options (Matching user reference layout) */
+/* Left Bottom: 6 Menu Options (Matching user reference layout, strictly aligned with scenario-card) */
 .home-menu-stack {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  width: 230px;
+  gap: 8px;
+  width: 200px;
+  height: 100%;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 .home-menu-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 44px;
-  padding: 0 18px;
+  flex: 1;
+  min-height: 44px;
+  padding: 0 16px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.38);
-  background: rgba(16, 22, 24, 0.6);
-  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(16, 22, 24, 0.72);
+  backdrop-filter: blur(14px);
   color: #e5ece8;
   font-size: 15px;
-  font-weight: 450;
-  letter-spacing: 1px;
+  font-weight: 500;
+  letter-spacing: 0.6px;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   position: relative;
 }
 
 .home-menu-btn:hover {
-  background: rgba(30, 42, 45, 0.85);
+  background: rgba(30, 42, 45, 0.9);
   border-color: rgba(255, 255, 255, 0.7);
   color: #ffffff;
   transform: translateX(4px);
@@ -406,7 +403,7 @@
 }
 
 .home-menu-btn.active {
-  background: rgba(43, 62, 38, 0.82);
+  background: rgba(43, 62, 38, 0.9);
   border-color: var(--lime, #b3f56b);
   color: #ffffff;
   box-shadow: 0 0 18px rgba(179, 245, 107, 0.35);
@@ -422,29 +419,10 @@
   border-radius: 2px;
 }
 
-.home-menu-btn .menu-badge {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: #ff5722;
-  color: #ffffff;
-  font-size: 9px;
-  font-weight: 700;
-  padding: 2px 5px;
-  border-radius: 4px;
-  line-height: 1;
-}
-
-.home-menu-btn.active .menu-badge {
-  background: var(--lime, #b3f56b);
-  color: #122110;
-}
-
 /* Secondary menu divider or special styling for settings/credits */
 .home-menu-btn.secondary-action {
-  background: rgba(14, 18, 20, 0.45);
-  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(14, 18, 20, 0.55);
+  border-color: rgba(255, 255, 255, 0.22);
   font-size: 14px;
   color: #bdcbc2;
 }
@@ -454,50 +432,85 @@
   color: #ffffff;
 }
 
-/* Right Bottom: Enter Button */
-.home-enter-btn-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
-}
-
-.home-enter-btn {
+/* 360° Panorama HUD (Bonus Feature Controls) */
+.home-panorama-hud {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
-  height: 56px;
-  padding: 0 36px;
-  border-radius: 10px;
-  background: var(--lime, #b3f56b);
-  color: #111d0e;
-  border: 1px solid var(--lime, #b3f56b);
-  font-size: 18px;
-  font-weight: 650;
-  letter-spacing: 1.5px;
+  gap: 10px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(12, 18, 20, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+  pointer-events: auto;
+  user-select: none;
+}
+
+.panorama-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: #d8e5dc;
+  font-size: 12px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 8px 30px rgba(179, 245, 107, 0.35);
+  padding: 3px 6px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
 }
 
-.home-enter-btn:hover {
-  background: #c5ff86;
-  border-color: #c5ff86;
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 12px 38px rgba(179, 245, 107, 0.55);
+.panorama-pill-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
 }
 
-.home-enter-btn:active {
-  transform: translateY(1px);
+.panorama-pill-btn.active {
+  color: var(--lime, #b3f56b);
 }
 
-.home-enter-hint {
+.panorama-bearing {
   font-family: var(--mono, monospace);
   font-size: 11px;
-  color: #8da194;
-  letter-spacing: 0.5px;
+  color: var(--lime, #b3f56b);
+  background: rgba(179, 245, 107, 0.12);
+  border: 1px solid rgba(179, 245, 107, 0.25);
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-left: 2px;
 }
+
+.panorama-reset-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #cbdad0;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.panorama-reset-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.panorama-hint-text {
+  font-size: 11.5px;
+  color: #8da396;
+  letter-spacing: 0.3px;
+  padding-left: 4px;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 
 /* Return home button in Topbar */
 .home-return-btn {
@@ -593,6 +606,36 @@
   color: #b2c4b7;
 }
 
+.credits-sources-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.credits-source-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: rgba(25, 34, 30, 0.7);
+  border: 1px solid rgba(179, 245, 107, 0.25);
+  border-radius: 8px;
+  color: var(--lime, #b3f56b);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.credits-source-link:hover {
+  background: rgba(35, 50, 42, 0.9);
+  border-color: var(--lime, #b3f56b);
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+
 /* Settings modal grid */
 .settings-grid {
   display: flex;
@@ -654,38 +697,57 @@
 /* Responsive adjustments */
 @media (max-width: 1024px) {
   .home-ui {
-    padding: 28px 24px;
+    padding: 24px 28px;
   }
   .home-title {
     font-size: 38px;
   }
-  .home-briefing-card {
-    width: 100%;
+  .home-main-layout {
+    gap: 16px;
   }
-  .home-right-panel {
-    width: 100%;
-    align-items: flex-start;
+  .home-left-cluster {
+    height: 330px;
   }
-  .home-enter-btn-wrap {
-    width: 100%;
-    align-items: stretch;
-  }
-  .home-enter-btn {
-    width: 100%;
+  .scenario-card {
+    width: 360px;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .home-ui {
     padding: 20px 16px;
-    gap: 20px;
+    gap: 16px;
+    overflow-y: auto;
+    pointer-events: auto;
   }
   .home-title {
-    font-size: 30px;
+    font-size: 28px;
     letter-spacing: 2px;
+  }
+  .home-main-layout {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+  .home-left-cluster {
+    flex-direction: column;
+    height: auto;
+    max-height: none;
+    gap: 12px;
   }
   .home-menu-stack {
     width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .scenario-card {
+    width: 100%;
+    height: 300px;
+  }
+  .home-panorama-hud {
+    align-self: flex-start;
   }
   .controls-help-grid {
     grid-template-columns: 1fr;

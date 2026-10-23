@@ -40,7 +40,8 @@ blob-report/
 *.tsbuildinfo
 .sites-runtime/
 
-# Python cache
+# Python cache & local generation scripts
 __pycache__/
 *.py[cod]
 *$py.class
+scripts/build_dragon_v2.py

@@ -1,4 +1,4 @@
-import type { FlightRecord, Language, Failure, SimulationState } from './types';
+import type { FlightRecord, Language, Failure, SimulationState, ScenarioConfig } from './types';
 import { angleError, lateralError, lateralSpeed } from './engine';
 import { formatTime } from '../utils/formatters';
 
@@ -16,7 +16,7 @@ export interface DebriefAnalysis {
   scenarioId: number;
   reason?: Failure;
   badgeTitle: string;
-  badgeType: 'success' | 'collision' | 'overspeed' | 'drift' | 'alignment' | 'fuel' | 'escape' | 'timeout';
+  badgeType: 'success' | 'collision' | 'overspeed' | 'drift' | 'alignment' | 'fuel' | 'escape' | 'timeout' | 'hatch' | 'hatch_closed';
   headline: string;
   causeExplanation: string;
   physicsInsight: string;
@@ -43,18 +43,21 @@ export function analyzeFlight(record: FlightRecord, language: Language): Debrief
 
   // 1. 构建指标对比表
   const metrics: DebriefMetricItem[] = [];
+  const isDirectDock = cfg.id === 1 && isSuccess && finalDistance <= 0.36;
 
   // 指标 A: 终点距离 / 停泊位置
   if (cfg.id === 1) {
     const distDiff = Math.abs(finalDistance - cfg.targetZ);
-    const distPass = distDiff <= cfg.positionTolerance;
+    const distPass = isDirectDock || distDiff <= cfg.positionTolerance;
     metrics.push({
       id: 'distance',
-      name: t('停泊点距离', 'Hold Point Distance'),
+      name: isDirectDock ? t('对接口距离 (直接对接)', 'Port Distance (Direct Dock)') : t('停泊点距离', 'Hold Point Distance'),
       valueText: `${finalDistance.toFixed(2)} m`,
-      limitText: `${cfg.targetZ.toFixed(2)} m (±${cfg.positionTolerance} m)`,
+      limitText: isDirectDock ? `≤ 0.35 m (${t('直接对接', 'Direct Dock')})` : `${cfg.targetZ.toFixed(2)} m (±${cfg.positionTolerance} m)`,
       passed: distPass,
-      comment: distPass
+      comment: isDirectDock
+        ? t('直接入锁对接成功', 'Direct docking capture success')
+        : distPass
         ? t('精准停在黄圈内', 'Stopped accurately within yellow ring')
         : finalDistance < cfg.targetZ
         ? t('冲过了停泊点', 'Overshot past hold point')
@@ -73,15 +76,15 @@ export function analyzeFlight(record: FlightRecord, language: Language): Debrief
   }
 
   // 指标 B: 接触 / 相对速度
-  const speedPass = finalSpeed <= cfg.speedTolerance;
+  const speedPass = isDirectDock ? true : finalSpeed <= cfg.speedTolerance;
   metrics.push({
     id: 'speed',
-    name: t('相对合速度', 'Relative Speed'),
+    name: isDirectDock ? t('对接接触合速度', 'Contact Speed') : t('相对合速度', 'Relative Speed'),
     valueText: `${finalSpeed.toFixed(2)} m/s`,
-    limitText: `≤ ${cfg.speedTolerance.toFixed(2)} m/s`,
+    limitText: isDirectDock ? (isZh ? '对接捕获已锁死' : 'Latched firmly') : `≤ ${cfg.speedTolerance.toFixed(2)} m/s`,
     passed: speedPass,
     comment: speedPass
-      ? t('速度安全平稳', 'Safe approach speed')
+      ? (isDirectDock ? t('接口锁紧已完全固定', 'Latches engaged, securely fixed') : t('速度安全平稳', 'Safe approach speed'))
       : finalSpeed > cfg.speedTolerance * 3
       ? t('严重超速！危险冲击', 'Severe overspeed! Dangerous impact')
       : t('超过安全允许速度', 'Exceeded safe speed limit')
@@ -113,26 +116,58 @@ export function analyzeFlight(record: FlightRecord, language: Language): Debrief
       : t('接口角度倾斜', 'Ports tilted, outside latch angle')
   });
 
+  // 指标 E: 头锥舱门状态 (关卡 4 或发生舱门阻挡时)
+  if (cfg.id === 4 || reason === 'hatch' || reason === 'hatch_closed') {
+    const isHatchOpen = res?.hatch?.state === 'open';
+    metrics.push({
+      id: 'hatch',
+      name: t('头锥舱门状态', 'Nose Cone Hatch'),
+      valueText: isHatchOpen ? t('已打开 (可对接)', 'Open (Ready to dock)') : t('已关闭 (阻挡对接)', 'Closed (Blocked)'),
+      limitText: t('必须完全开启', 'Must be fully open'),
+      passed: isHatchOpen,
+      comment: isHatchOpen ? t('对接口完全露出，机械锁可用', 'Port exposed, mechanical latches ready') : t('舱门未开启，阻挡建立硬捕获', 'Hatch closed, blocking hard capture')
+    });
+  }
+
   // 2. 判定诊断原因与通俗解析
   if (isSuccess) {
     return {
       isSuccess: true,
       scenarioId: cfg.id,
-      badgeTitle: t('任务圆满完成', 'Mission Accomplished'),
+      badgeTitle: isDirectDock
+        ? t('特别通关 · 直接对接成功！', 'Special Pass · Direct Docking Accomplished!')
+        : t('任务圆满完成', 'Mission Accomplished'),
       badgeType: 'success',
-      headline: t('完成得很好。', 'Mission accomplished.'),
-      causeExplanation: t(
-        '教科书级的平稳操作！所有关键指标（距离、速度、横向偏航和姿态角度）均严格处于安全捕获公差内，飞船平稳达到目标条件。',
-        'Textbook flight execution! All critical parameters remained strictly within capture limits.'
-      ),
-      physicsInsight: t(
-        '你成功掌握了太空中“动量控制”的节奏——通过反向喷火及时归零动能，完美克制了无阻力环境下的惯性漂移。',
-        'You mastered momentum control in space—cancelling kinetic energy through counter-thrust to conquer inertia.'
-      ),
-      pilotTips: [
-        t('保持这种“轻点微调、提早减速”的良好手感。', 'Keep this habit: gentle micro-bursts and early braking.'),
-        t('在更复杂的后续多自由度关卡中，先稳住姿态，再进行平移接近。', 'In multi-DOF missions, stabilize attitude before translating.')
-      ],
+      headline: isDirectDock
+        ? t('虽然第一关没在黄圈停下来，但你直接平稳对接上了空间站！', 'You didn’t stop at the 8 m hold point, but docked directly with the station!')
+        : t('完成得很好。', 'Mission accomplished.'),
+      causeExplanation: isDirectDock
+        ? t(
+            '飞船沿着中心对齐线一路平稳滑行进入对接口，直接触发机械锁紧并完成入锁！原本第 1 关是练习在 8 米等待点停泊，但直接平稳对接口同样判定为成功通关，不视作失控报错。',
+            'The ship glided along the centerline into the docking port, triggering mechanical latching! Mission 1 trains hold-point stopping, but directly docking is equally considered a successful pass.'
+          )
+        : t(
+            '教科书级的平稳操作！所有关键指标（距离、速度、横向偏航和姿态角度）均严格处于安全捕获公差内，飞船平稳达到目标条件。',
+            'Textbook flight execution! All critical parameters remained strictly within capture limits.'
+          ),
+      physicsInsight: isDirectDock
+        ? t(
+            '在真实太空任务中，宇航员会在 8 米等待点先停一停确认各项设备正常；不过如果航向端正，直接接触对接口也能完成对接。你已经提前领悟了最终关卡的核心目标！',
+            'Real missions pause at 8 m for safety checks, but direct contact on centerline also docks. You’ve already grasped the final mission goal!'
+          )
+        : t(
+            '你成功掌握了太空中“动量控制”的节奏——通过反向喷火及时归零动能，完美克制了无阻力环境下的惯性漂移。',
+            'You mastered momentum control in space—cancelling kinetic energy through counter-thrust to conquer inertia.'
+          ),
+      pilotTips: isDirectDock
+        ? [
+            t('太棒了！你实际上已经提前体验了第 4 关（全流程对接）的核心操作。', 'Awesome! You basically experienced the core goal of Mission 4 in advance.'),
+            t('接下来可以挑战第 2 关和第 3 关，练习如何应对横向漂移与机头旋转。', 'Next, try missions 2 and 3 to practice handling sideways drift and attitude rotation.')
+          ]
+        : [
+            t('保持这种“轻点微调、提早减速”的良好手感。', 'Keep this habit: gentle micro-bursts and early braking.'),
+            t('在更复杂的后续多自由度关卡中，先稳住姿态，再进行平移接近。', 'In multi-DOF missions, stabilize attitude before translating.')
+          ],
       metrics
     };
   }
@@ -273,6 +308,31 @@ export function analyzeFlight(record: FlightRecord, language: Language): Debrief
     };
   }
 
+  if (reason === 'hatch' || reason === 'hatch_closed') {
+    return {
+      isSuccess: false,
+      scenarioId: cfg.id,
+      reason: 'hatch_closed',
+      badgeTitle: t('舱门未开启 · 无法对接', 'Hatch Closed · Docking Blocked'),
+      badgeType: 'hatch_closed',
+      headline: t('舱门未开启，头锥保护罩阻挡了对接口！', 'Nose cone hatch closed: docking port blocked!'),
+      causeExplanation: t(
+        '舱门未开启！对接机构（IDA）被头锥保护罩阻挡，无法建立硬捕获。下次请在进入最后 8 米前按‘1’开启舱门。',
+        'Hatch not opened! The docking adapter (IDA) was blocked by the nose cone shield, preventing hard capture. Next time, press "1" to open the hatch before the final 8 meters.'
+      ),
+      physicsInsight: t(
+        '在真实载人龙飞船（Crew Dragon）上，头锥就像一个坚固的防护罩，在火箭发射升空和返回地球大气层时，保护对接口和前部推进器免受剧烈空气摩擦产生的高温烧蚀。进入太空轨道后，宇航员必须在对接前打开头锥舱门，露出里面的国际对接机构（IDA）与机械锁扣，才能与空间站紧紧锁紧。',
+        'On SpaceX Crew Dragon, the nose cone acts as a protective shield during launch and re-entry to protect sensitive docking mechanisms (IDA) and forward thrusters from extreme aerodynamic heat. In orbit, it must open prior to docking so the mechanism can lock onto the space station.'
+      ),
+      pilotTips: [
+        t('按键盘数字键【1】（或轻触屏幕上的“舱门”按钮）即可开启或关闭头锥舱门。', 'Press key [1] (or tap the on-screen Hatch button) to open or close the nose cone.'),
+        t('建议在距离空间站 8 米前就提前开启舱门，确保对接口完全就绪。', 'Open the hatch early before entering the final 8 meters to ensure the docking port is ready.'),
+        t('观察画面上方的舱门状态，确认显示为“已打开 (可对接)”后再轻柔对准进场。', 'Check the HUD status: ensure it shows "Open (Ready to dock)" before final gentle approach.')
+      ],
+      metrics
+    };
+  }
+
   // 默认其他原因 (escape / timeout / unknown)
   return {
     isSuccess: false,
@@ -302,4 +362,47 @@ export function analyzeFlight(record: FlightRecord, language: Language): Debrief
     ],
     metrics
   };
+}
+
+export function generateDebrief(
+  cfg: ScenarioConfig,
+  reason: Failure | undefined,
+  finalDistance: number,
+  finalSpeed: number,
+  finalLateral: number,
+  finalAngle: number,
+  _t: (zh: string, en: string) => string = (zh) => zh
+): DebriefAnalysis {
+  const record: FlightRecord = {
+    scenario: cfg.id,
+    demo: false,
+    config: cfg,
+    date: new Date().toISOString(),
+    samples: [
+      {
+        time: 10,
+        distance: finalDistance,
+        speed: finalSpeed,
+        lateral: finalLateral,
+        angle: finalAngle,
+        fuel: 80,
+        position: [finalLateral, 0, finalDistance]
+      }
+    ],
+    events: [],
+    result: {
+      position: [finalLateral, 0, finalDistance],
+      velocity: [0, 0, -finalSpeed],
+      orientation: [0, 0, 0, 1],
+      angularVelocity: [0, 0, 0],
+      fuel: 80,
+      time: 10,
+      hold: 0,
+      status: reason ? 'failed' : 'success',
+      reason,
+      thrust: [0, 0, 0],
+      torque: [0, 0, 0]
+    }
+  };
+  return analyzeFlight(record, 'zh');
 }

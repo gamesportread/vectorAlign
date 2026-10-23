@@ -57,10 +57,10 @@ export const HOME_MISSIONS: HomeMissionItem[] = [
     titleEn: 'Liftoff',
     taglineZh: '动力冲云霄 · 直抵星辰大海',
     taglineEn: 'Powered Ascent to Orbit',
-    badgeZh: '筹备中',
-    badgeEn: 'In Dev',
+    badgeZh: '已就绪',
+    badgeEn: 'Ready',
     image: '/images/home/liftoff.jpg',
-    isImplemented: false,
+    isImplemented: true,
     specs: {
       timeZh: 'T - 00:00:00 发射点火至入轨关机（约 580 秒）',
       timeEn: 'T - 00:00:00 Ignition to Orbit Insertion (~580s)',
@@ -85,28 +85,28 @@ export const HOME_MISSIONS: HomeMissionItem[] = [
     },
     historicalScenarios: [
       {
-        id: 'cz2f',
-        titleZh: '长征二号F · 载人火箭发射',
-        titleEn: 'Long March 2F Crewed Launch',
-        eraZh: '神舟载人航天工程',
-        eraEn: 'Shenzhou Program',
-        descZh: '经典神箭，托举航天员飞向苍穹，高可靠安全性保障。',
-        descEn: 'Reliable launch vehicle carrying crew into space.',
-        statusZh: '研发中',
-        statusEn: 'Coming Soon',
-        isAvailable: false
-      },
-      {
         id: 'saturn-v',
         titleZh: '土星五号 · 登月火箭起飞',
         titleEn: 'Saturn V Apollo Launch',
-        eraZh: '阿波罗计划 1969',
+        eraZh: 'NASA 阿波罗计划 1969',
         eraEn: 'Apollo Program 1969',
-        descZh: '人类历史上最壮观的巨型火箭发射模拟。',
-        descEn: 'The most colossal moon rocket launch in human history.',
-        statusZh: '研发中',
-        statusEn: 'Coming Soon',
-        isAvailable: false
+        descZh: '人类历史上最壮观的三级巨型火箭发射模拟：从点火拔地而起、重力转向穿越最大动压 (Max-Q)、一二级分离到 7.8 km/s 第一宇宙速度圆轨入轨！',
+        descEn: 'Command the colossal 3-stage moon rocket from pad ignition, gravity turn & Max-Q, stage separation to 7.8 km/s orbital insertion!',
+        statusZh: '已开放',
+        statusEn: 'Available',
+        isAvailable: true
+      },
+      {
+        id: 'cz5',
+        titleZh: '长征五号 · “胖五”空间站核心舱发射',
+        titleEn: 'Long March 5 · Heavy-Lift Station Launch',
+        eraZh: '中国文昌航天发射场 · 空间站工程',
+        eraEn: 'Wenchang Launch Site · Space Station Program',
+        descZh: '中国现役推力最大的旗舰“胖五”重型火箭，从海南文昌海滨拔地而起，将 22.5 吨空间站天和核心舱直接送入近地轨道！',
+        descEn: 'China’s premier heavy cryogenic rocket launching the 22.5-tonne Tianhe space station core module directly into orbit from tropical Wenchang.',
+        statusZh: '已开放',
+        statusEn: 'Available',
+        isAvailable: true
       }
     ]
   },
@@ -149,8 +149,8 @@ export const HOME_MISSIONS: HomeMissionItem[] = [
         id: 'iss-standard',
         titleZh: '国际空间站 (ISS) 标准对接演练',
         titleEn: 'ISS Standard Autonomous & Manual Docking',
-        eraZh: '现役主任务 · 包含 4 关循序渐进演练',
-        eraEn: 'Active Simulator · 4 Progressive Training Missions',
+        eraZh: '现役主任务',
+        eraEn: 'Active Simulator',
         descZh: '循序渐进掌握惯性刹车、消除横向漂移、三轴姿态对准，最后完成 50 米完整对接！',
         descEn: 'Master braking, drift cancellation, attitude alignment, and full 50-meter docking.',
         statusZh: '已开放',
@@ -203,10 +203,10 @@ export const HOME_MISSIONS: HomeMissionItem[] = [
     titleEn: 'Station Departure',
     taglineZh: '锁钩轻释 · 沿安全走廊启程',
     taglineEn: 'Undocking & Safe Departure',
-    badgeZh: '筹备中',
-    badgeEn: 'In Dev',
+    badgeZh: '已就绪',
+    badgeEn: 'Ready',
     image: '/images/home/departure.jpg',
-    isImplemented: false,
+    isImplemented: true,
     specs: {
       timeZh: '任务完成准备撤离 · 脱离走廊滑行 T + 00:00 ~ T + 00:45',
       timeEn: 'Mission Completion · Departure Corridor T + 00:00 ~ T + 00:45',
@@ -236,11 +236,11 @@ export const HOME_MISSIONS: HomeMissionItem[] = [
         titleEn: 'ISS Radial Departure Corridor',
         eraZh: '国际空间站标准撤离规程',
         eraEn: 'Standard ISS Undocking Protocol',
-        descZh: '掌握弹簧脱离后的反向小脉冲控制与绕飞安全检查。',
-        descEn: 'Learn gentle spring separation and fly-around inspection.',
-        statusZh: '研发中',
-        statusEn: 'Coming Soon',
-        isAvailable: false
+        descZh: '掌握机械弹簧无动力推离、0~5米羽流禁火区滑行、撤离走廊纠偏与再入前头锥闭合。',
+        descEn: 'Master gentle spring push-off, 0–5 m plume keep-out glide, corridor centering, and nosecone closure.',
+        statusZh: '已开放',
+        statusEn: 'Available',
+        isAvailable: true
       }
     ]
   },
@@ -252,10 +252,10 @@ export const HOME_MISSIONS: HomeMissionItem[] = [
     titleEn: 'Capsule Landing',
     taglineZh: '穿越烈焰 · 伞花绽放平安着陆',
     taglineEn: 'Atmospheric Reentry & Touchdown',
-    badgeZh: '筹备中',
-    badgeEn: 'In Dev',
+    badgeZh: '已就绪',
+    badgeEn: 'Ready',
     image: '/images/home/landing.jpg',
-    isImplemented: false,
+    isImplemented: true,
     specs: {
       timeZh: '脱轨制动后约 90 分钟 · 穿越黑障区至触地前 1 秒',
       timeEn: '90m Post-Deorbit · Plasma Blackout to 1s Pre-Touchdown',
@@ -285,11 +285,11 @@ export const HOME_MISSIONS: HomeMissionItem[] = [
         titleEn: 'Dongfeng Steppe Precision Landing',
         eraZh: '神舟载人飞船回家之路',
         eraEn: 'Shenzhou Return Protocol',
-        descZh: '模拟黑障区穿透、主伞开伞姿态与离地 1 米反推点火缓冲。',
-        descEn: 'Experience chute deployment and retro-rocket soft touchdown.',
-        statusZh: '研发中',
-        statusEn: 'Coming Soon',
-        isAvailable: false
+        descZh: '亲历 2000℃ 黑障区防热大底守卫、引导伞与千平米红白主伞开伞，以及离地 1.5 米反推点火缓冲。',
+        descEn: 'Experience 2000°C blackout attitude control, dual parachute deployment, and 1.5 m retro-rocket soft touchdown.',
+        statusZh: '已开放',
+        statusEn: 'Available',
+        isAvailable: true
       }
     ]
   }

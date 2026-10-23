@@ -5,7 +5,7 @@ test('capture high definition earth visual screenshot', async ({ page }) => {
   page.on('console', msg => logs.push(`[${msg.type()}] ${msg.text()}`));
   page.on('pageerror', err => logs.push(`[error] ${err.message}`));
 
-  await page.goto('/');
+  await page.goto('/?screen=simulator');
   await expect(page.locator('canvas')).toBeVisible();
 
   // Wait for 3D textures to fully stream and render several frames

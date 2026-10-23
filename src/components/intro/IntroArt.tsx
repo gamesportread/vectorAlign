@@ -116,7 +116,14 @@ export function SceneMap({ t, selected, seen, onSelect }: { t: T; selected: stri
 /* ---------- 第 2 步：飞船放大看 ---------- */
 export function shipHotspots(t: T): Hotspot[] {
   return [
-    { id: 'nose', name: t('尖头 = 飞船的门', 'Pointy end = door'), text: t('画面里那个“头”就是这里。它是飞船的舱门，也叫“对接口”。对接时，这个门要正对着空间站的门，慢慢贴上去，然后自动锁紧。', 'That “head” you see is the hatch, also called the docking port. It must face the station’s door, touch gently, and then lock.') },
+    {
+      id: 'nose',
+      name: t('尖头 = 头锥保护罩（含对接口）', 'Pointy end = Nosecone Hatch & Port'),
+      text: t(
+        '头锥保护罩（Nosecone Hatch）：就像飞船的头盔面罩！在穿过大气层发射时挡风挡热；到了太空准备对接空间站时，按下 [1] 键打开它，露出对接口（IDA），才能和空间站锁扣锁在一起！国际对接口（IDA）：飞船头部的锁扣大门，带有高精度的锁扣环。打开头锥后，必须把对接口平稳对准空间站的 PMA-2 接口！',
+        'Nosecone Hatch: Just like a helmet visor for the spacecraft! It shields against heat and wind during launch; once in space, press [1] to open it, reveal the International Docking Adapter (IDA), and lock with the station! International Docking Adapter (IDA): The docking doorway at the ship nose with precision latching rings. Once open, align it smoothly with the station’s PMA-2 port!'
+      )
+    },
     { id: 'window', name: t('窗户', 'Window'), text: t('宇航员坐在里面可以往外看。不过对接时主要靠摄像头和屏幕上的数字。', 'Astronauts can look out, but docking mostly relies on cameras and the numbers on screen.') },
     { id: 'body', name: t('乘员舱', 'Crew cabin'), text: t('宇航员坐的地方，形状像个圆锥。整艘飞船长约 3 米，比一辆小汽车还短一点。', 'Where astronauts sit; shaped like a cone. The whole ship is about 3 m long, a bit shorter than a small car.') },
     { id: 'tail', name: t('尾部（装燃料）', 'Back (fuel)'), text: t('这里装着喷气用的燃料。燃料有限，每喷一次气都会用掉一点；用光了，就再也没法改变速度了。', 'Holds the fuel for thrusting. Fuel is limited: every puff uses some, and when it runs out you can’t change speed any more.') },

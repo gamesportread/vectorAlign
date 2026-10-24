@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { useGLTF } from '@react-three/drei';
 import { 
   BackSide, 
   BufferAttribute, 
@@ -123,49 +124,174 @@ function CosmicStarfield() {
   );
 }
 
-// 任务专属 3D 氛围元素 (太空站太阳翼反光、地平线弧光等)
-function MissionAmbience3D({ taskId }: { taskId: number }) {
+// NASA 阿耳忒弥斯 SLS 重型火箭与移动发射台（升空主模型）
+function SLSArtemisModel() {
+  const { scene } = useGLTF('/models/sls_artemis_launch.glb');
+  const clone = useMemo(() => {
+    const copy = scene.clone(true);
+    copy.traverse((obj) => {
+      if (obj instanceof Mesh) {
+        obj.castShadow = false;
+        obj.receiveShadow = false;
+      }
+    });
+    return copy;
+  }, [scene]);
+
+  const groupRef = useRef<Group>(null);
+  const flameLightRef = useRef<any>(null);
+  const flareRef = useRef<Mesh>(null);
+
+  useFrame(({ clock }) => {
+    const t = clock.getElapsedTime();
+    if (flameLightRef.current) {
+      // 真实 RS-25 与固体助推器点火剧烈火光呼吸微颤
+      flameLightRef.current.intensity = 5.2 + Math.sin(t * 16) * 0.9 + Math.cos(t * 31) * 0.6;
+    }
+    if (flareRef.current) {
+      const s = 1.0 + Math.sin(t * 14) * 0.08;
+      flareRef.current.scale.set(s, s, s);
+    }
+  });
+
+  return (
+    <group
+      ref={groupRef}
+      position={[15.5, -9.5, -38]}
+      rotation={[0, -0.65, 0]}
+      scale={1.05}
+    >
+      <primitive object={clone} />
+
+      {/* 底部发射台主喷管耀眼火光 */}
+      <pointLight
+        ref={flameLightRef}
+        position={[0, -0.8, 0]}
+        color="#ff7b24"
+        intensity={5.5}
+        distance={55}
+        decay={2}
+      />
+
+      {/* 地面火焰耀斑核心发光体 */}
+      <mesh ref={flareRef} position={[0, -1.1, 0]}>
+        <sphereGeometry args={[1.8, 16, 16]} />
+        <meshBasicMaterial color="#fff4d0" transparent opacity={0.65} depthWrite={false} />
+      </mesh>
+
+      {/* 发射塔金属构架泛光与照明 */}
+      <pointLight
+        position={[3.5, 17, -1.5]}
+        color="#ffe2ba"
+        intensity={2.8}
+        distance={40}
+        decay={2}
+      />
+
+      {/* 发射平台侧翼烟雾照亮 */}
+      <pointLight
+        position={[-5, -1, 3]}
+        color="#ffaa55"
+        intensity={2.2}
+        distance={35}
+        decay={2}
+      />
+    </group>
+  );
+}
+
+useGLTF.preload('/models/sls_artemis_launch.glb');
+
+// 国际空间站 (ISS) 3D 模型
+function NASAStationModel() {
+  const { scene } = useGLTF('/models/iss.glb');
+  const clone = useMemo(() => {
+    const copy = scene.clone(true);
+    copy.traverse((obj) => {
+      if (obj instanceof Mesh) {
+        obj.castShadow = false;
+        obj.receiveShadow = false;
+      }
+    });
+    return copy;
+  }, [scene]);
+
   const groupRef = useRef<Group>(null);
 
   useFrame((_, delta) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y += delta * 0.015;
+      groupRef.current.rotation.y += delta * 0.025;
+      groupRef.current.rotation.x += delta * 0.008;
     }
   });
 
-  if (taskId === 2 || taskId === 3) {
-    // 空间站对接与离开：远景轨道微光与空间标定信标
-    return (
-      <group ref={groupRef} position={[60, 15, -160]}>
-        {/* 空间站微光信标 */}
-        <mesh position={[0, 0, 0]}>
-          <boxGeometry args={[12, 1.2, 1.2]} />
-          <meshStandardMaterial color="#88a090" metalness={0.8} roughness={0.3} />
-        </mesh>
-        {/* 远景太阳能帆板微光 */}
-        <mesh position={[0, 6, 0]}>
-          <boxGeometry args={[24, 0.2, 8]} />
-          <meshStandardMaterial color="#8a6840" metalness={0.9} roughness={0.2} emissive="#4d351a" emissiveIntensity={0.3} />
-        </mesh>
-        <pointLight color="#7de8be" intensity={1.5} distance={100} />
-      </group>
-    );
-  }
+  return (
+    <group
+      ref={groupRef}
+      position={[16, 1.5, -35]}
+      rotation={[0.35, -0.75, 0.2]}
+      scale={0.52}
+    >
+      <primitive object={clone} />
+      <pointLight position={[0, 8, 10]} color="#b5e0ff" intensity={2.2} distance={60} decay={2} />
+      <pointLight position={[-10, -5, -10]} color="#ffd299" intensity={1.5} distance={50} decay={2} />
+    </group>
+  );
+}
 
+useGLTF.preload('/models/iss.glb');
+
+// 龙飞船返回舱 3D 模型
+function DragonCapsuleModel() {
+  const { scene } = useGLTF('/models/dragon.glb');
+  const clone = useMemo(() => {
+    const copy = scene.clone(true);
+    copy.traverse((obj) => {
+      if (obj instanceof Mesh) {
+        obj.castShadow = false;
+        obj.receiveShadow = false;
+      }
+    });
+    return copy;
+  }, [scene]);
+
+  const groupRef = useRef<Group>(null);
+
+  useFrame((_, delta) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y += delta * 0.03;
+      groupRef.current.rotation.z += delta * 0.01;
+    }
+  });
+
+  return (
+    <group
+      ref={groupRef}
+      position={[15, -1.0, -32]}
+      rotation={[-0.35, 0.85, -0.2]}
+      scale={2.2}
+    >
+      <primitive object={clone} />
+      <pointLight position={[5, 4, 10]} color="#fff1db" intensity={2.5} distance={40} decay={2} />
+      <pointLight position={[-6, -4, -5]} color="#ff7733" intensity={1.8} distance={35} decay={2} />
+    </group>
+  );
+}
+
+useGLTF.preload('/models/dragon.glb');
+
+// 任务专属 3D 实体模型展示
+function MissionAmbience3D({ taskId }: { taskId: number }) {
   if (taskId === 1) {
-    // 升空：低空远景发射台探照光柱
-    return (
-      <group position={[120, -60, -180]} rotation={[0.2, 0.4, 0]}>
-        <pointLight color="#ffb86c" intensity={2} distance={200} />
-        <mesh position={[0, 20, 0]}>
-          <cylinderGeometry args={[2, 0.5, 50, 16]} />
-          <meshBasicMaterial color="#ffd8a8" transparent opacity={0.15} side={DoubleSide} depthWrite={false} />
-        </mesh>
-      </group>
-    );
+    return <SLSArtemisModel />;
   }
-
-  return null;
+  if (taskId === 2 || taskId === 3) {
+    return <NASAStationModel />;
+  }
+  if (taskId === 4) {
+    return <DragonCapsuleModel />;
+  }
+  return <SLSArtemisModel />;
 }
 
 // 360° 相机旋转与阻尼控制器
@@ -250,10 +376,12 @@ function PanoramaCameraRig({
   }, [gl]);
 
   useFrame((_, delta) => {
-    // 自动巡航慢速平滑漂移（当用户未交互且开启 autoRotate 时）
+    // 自动巡航慢速平滑漂移：在模型周围优雅往复巡航（约 ±14°），保持 3D 模型始终处于主视区，同时呈现立体的空间视差
     const now = performance.now();
     if (autoRotate && !isDraggingRef.current && now - lastInteractionRef.current > 1800) {
-      targetRotRef.current.yaw -= delta * 0.045; // 每秒约 2.5 度的优雅慢速旋转
+      const t = (now - lastInteractionRef.current - 1800) * 0.0003;
+      targetRotRef.current.yaw = Math.sin(t) * 0.22;
+      targetRotRef.current.pitch = Math.sin(t * 0.6) * 0.04;
     }
 
     // 弹性平滑插值 (Lerp Damping)
@@ -295,8 +423,13 @@ export function HomePanorama({
         camera={{ position: [0, 0, 0], fov: 65, near: 0.1, far: 1200 }}
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
       >
-        <ambientLight intensity={0.8} />
-        <directionalLight position={[100, 80, 50]} intensity={1.5} color="#eef8ff" />
+        <ambientLight intensity={0.9} />
+        {/* 正面主光源，照亮火箭与航天器正面细节 */}
+        <directionalLight position={[-20, 30, 40]} intensity={1.8} color="#fffcf5" />
+        {/* 侧后方轮廓光，勾勒结构边缘与高光 */}
+        <directionalLight position={[60, 40, -60]} intensity={1.2} color="#9ec7e8" />
+        {/* 下方微弱地面反射光 */}
+        <directionalLight position={[0, -50, -20]} intensity={0.4} color="#554433" />
 
         {/* 360° 天球全景背景 */}
         <PanoramaSphere selectedTaskId={selectedTaskId} />
@@ -304,8 +437,10 @@ export function HomePanorama({
         {/* 星际粒子与深度星场 */}
         <CosmicStarfield />
 
-        {/* 场景 3D 光影氛围 */}
-        <MissionAmbience3D taskId={selectedTaskId} />
+        {/* 场景 3D 实体模型 */}
+        <Suspense fallback={null}>
+          <MissionAmbience3D taskId={selectedTaskId} />
+        </Suspense>
 
         {/* 360° 全景旋转摄像机控制 */}
         <PanoramaCameraRig

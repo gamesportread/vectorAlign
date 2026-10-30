@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NASA Artemis SLS Block 1 · 工程级 3D 火箭模型检视器 (Blender MCP)</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #060b14;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+      color: #f8fafc;
+    }
+    #canvas-container {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      cursor: grab;
+    }
+    #canvas-container:active {
+      cursor: grabbing;
+    }
+
+    /* Top-Left Header */
+    .hud-header {
+      position: fixed;
+      top: 22px;
+      left: 26px;
+      z-index: 20;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .hud-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #fb923c;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
+    }
+    .hud-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #fb923c;
+      box-shadow: 0 0 10px #fb923c;
+    }
+    .hud-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: #ffffff;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
+    }
+    .hud-subtitle {
+      font-size: 12px;
+      color: rgba(226, 232, 240, 0.76);
+      letter-spacing: 0.03em;
+    }
+
+    /* Top-Right Mode & Utility Toolbar */
+    .hud-toolbar {
+      position: fixed;
+      top: 22px;
+      right: 26px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px;
+      background: rgba(8, 14, 28, 0.76);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      box-shadow: 0 10px 32px rgba(0, 0, 0, 0.55);
+    }
+    .tool-btn {
+      appearance: none;
+      border: 1px solid transparent;
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(241, 245, 249, 0.88);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 7px 13px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      white-space: nowrap;
+    }
+    .tool-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.14);
+    }
+    .tool-btn.active {
+      color: #ffffff;
+      background: linear-gradient(135deg, rgba(234, 88, 12, 0.92), rgba(249, 115, 22, 0.82));
+      border-color: rgba(253, 186, 116, 0.5);
+      box-shadow: 0 2px 12px rgba(249, 115, 22, 0.4);
+    }
+
+    /* Left Engineering Specs Card */
+    .specs-panel {
+      position: fixed;
+      top: 108px;
+      left: 26px;
+      z-index: 20;
+      width: 310px;
+      padding: 16px 18px;
+      background: rgba(8, 14, 28, 0.74);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: 16px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+      transition: all 0.25s ease;
+    }
+    .specs-tag {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #38bdf8;
+      margin-bottom: 4px;
+    }
+    .specs-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+    .specs-desc {
+      font-size: 12.2px;
+      line-height: 1.55;
+      color: rgba(226, 232, 240, 0.84);
+      margin-bottom: 12px;
+    }
+    .specs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 10px;
+    }
+    .spec-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .spec-label {
+      font-size: 10.5px;
+      color: rgba(148, 163, 184, 0.9);
+    }
+    .spec-value {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #f8fafc;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Bottom Subsystem Camera Preset Dock */
+    .hud-controls {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 8px;
+      background: rgba(8, 14, 28, 0.78);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7);
+      max-width: 96vw;
+      overflow-x: auto;
+    }
+    .cam-btn {
+      appearance: none;
+      border: 1px solid transparent;
+      background: transparent;
+      color: rgba(241, 245, 249, 0.84);
+      font-size: 12.2px;
+      font-weight: 600;
+      padding: 7px 13px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      white-space: nowrap;
+    }
+    .cam-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .cam-btn.active {
+      color: #ffffff;
+      background: linear-gradient(135deg, rgba(234, 88, 12, 0.92), rgba(249, 115, 22, 0.82));
+      border-color: rgba(253, 186, 116, 0.45);
+      box-shadow: 0 2px 14px rgba(249, 115, 22, 0.45);
+    }
+
+    /* 3D Callout Pins Overlay */
+    #callouts-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 15;
+    }
+    .callout-pin {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      pointer-events: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px 4px 6px;
+      border-radius: 999px;
+      background: rgba(8, 15, 32, 0.82);
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      color: #f8fafc;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.65);
+      transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+      white-space: nowrap;
+    }
+    .callout-pin:hover, .callout-pin.active {
+      background: rgba(234, 88, 12, 0.92);
+      border-color: rgba(253, 186, 116, 0.85);
+      transform: translate(-50%, -50%) scale(1.07);
+      z-index: 18;
+    }
+    .callout-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(56, 189, 248, 0.25);
+      color: #7dd3fc;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .callout-pin:hover .callout-num, .callout-pin.active .callout-num {
+      background: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+    }
+
+    /* Bottom-Right Camera Hint */
+    .hud-hint {
+      position: fixed;
+      bottom: 26px;
+      right: 26px;
+      z-index: 20;
+      pointer-events: none;
+      font-size: 11.5px;
+      color: rgba(203, 213, 225, 0.68);
+      letter-spacing: 0.03em;
+    }
+
+    /* Loading Indicator */
+    #loading-overlay {
+      position: fixed;
+      top: 82px;
+      right: 26px;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(8, 14, 28, 0.85);
+      border: 1px solid rgba(251, 146, 60, 0.4);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      pointer-events: none;
+    }
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2.5px solid rgba(251, 146, 60, 0.25);
+      border-top-color: #fb923c;
+      animation: spin 0.8s linear infinite;
+    }
+    .loading-text {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: #f8fafc;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 900px) {
+      .specs-panel { display: none; }
+      .hud-hint { display: none; }
+    }
+  </style>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+    <div class="loading-text" id="loading-status">正在加载 Blender 4K PBR 火箭模型...</div>
+  </div>
+
+  <div id="canvas-container"></div>
+  <div id="callouts-layer"></div>
+
+  <div class="hud-header">
+    <div class="hud-badge"><span class="hud-dot"></span>NASA ARTEMIS I / II · SLS BLOCK 1 &amp; ORION</div>
+    <div class="hud-title">阿耳忒弥斯 SLS 重型运载火箭 3D 工程模型</div>
+    <div class="hud-subtitle">Blender 5.2 建模 · 4K PBR 喷涂隔热层与再生冷却流道贴图 · 360° 无遮挡检视</div>
+  </div>
+
+  <div class="hud-toolbar">
+    <button class="tool-btn active" id="btn-mode-engineering">🛠️ 纯净工程模型</button>
+    <button class="tool-btn" id="btn-mode-launch">🔥 点火升空场景</button>
+    <button class="tool-btn active" id="btn-toggle-callouts">📍 结构标注: 开</button>
+    <button class="tool-btn" id="btn-lighting">☀️ 光照: 肯尼迪晨光</button>
+    <button class="tool-btn" id="btn-autorotate">🔄 自动环绕: 关</button>
+  </div>
+
+  <div class="specs-panel" id="specs-panel">
+    <div class="specs-tag" id="spec-tag">FULL VEHICLE STACK · 整箭总览</div>
+    <div class="specs-name" id="spec-name">NASA 太空发射系统 (SLS Block 1)</div>
+    <div class="specs-desc" id="spec-desc">
+      NASA 阿耳忒弥斯登月计划超重型运载火箭，由 8.4 米直径液氢/液氧芯级、两枚 5 段式固体火箭助推器（SRB）、临时低温推进级（ICPS）及猎户座载人飞船（Orion）组成。
+    </div>
+    <div class="specs-grid">
+      <div class="spec-item">
+        <span class="spec-label">整箭总高 / 芯级直径</span>
+        <span class="spec-value" id="spec-v1">98.1 m / 8.4 m</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-label">起飞总推力</span>
+        <span class="spec-value" id="spec-v2">39,140 kN (880万磅)</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-label">起飞总质量</span>
+        <span class="spec-value" id="spec-v3">2,608,000 kg</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-label">地月转移轨道运力</span>
+        <span class="spec-value" id="spec-v4">&gt; 27,000 kg (TLI)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hud-controls">
+    <button class="cam-btn active" data-view="full">全景总览</button>
+    <button class="cam-btn" data-view="engines">4× RS-25D 主发动机</button>
+    <button class="cam-btn" data-view="aft">尾裙与 BSM 分离火箭</button>
+    <button class="cam-btn" data-view="lh2">芯级氢箱与 NASA 蠕虫标</button>
+    <button class="cam-btn" data-view="intertank">箱间段加强筋与助推鼻锥</button>
+    <button class="cam-btn" data-view="orion">LVSA · ICPS · 猎户座服务舱</button>
+    <button class="cam-btn" data-view="las">发射逃逸塔 (LAS)</button>
+  </div>
+
+  <div class="hud-hint">鼠标操作：左键拖拽旋转 · 右键拖拽平移 · 滚轮缩放特写</div>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+    import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+    import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+    import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+    const container = document.getElementById('canvas-container');
+    const calloutsLayer = document.getElementById('callouts-layer');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const loadingStatus = document.getElementById('loading-status');
+
+    // 1. Scene, Camera & Renderer
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(36, window.innerWidth / window.innerHeight, 0.15, 800);
+    camera.position.set(-10.5, 15.2, 34.0);
+
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      powerPreference: 'high-performance'
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.12;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    container.appendChild(renderer.domElement);
+
+    // 2. Post-Processing
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    const bloomPass = new UnrealBloomPass(
+      new THREE.Vector2(window.innerWidth, window.innerHeight),
+      0.18,
+      0.45,
+      0.92
+    );
+    composer.addPass(bloomPass);
+    composer.addPass(new OutputPass());
+
+    // 3. Unified OrbitControls (Left: Rotate, Right: Pan, Wheel: Dolly)
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.screenSpacePanning = true;
+    controls.mouseButtons = {
+      LEFT: THREE.MOUSE.ROTATE,
+      MIDDLE: THREE.MOUSE.DOLLY,
+      RIGHT: THREE.MOUSE.PAN
+    };
+    controls.target.set(0.0, 14.5, 0.0);
+    controls.minDistance = 1.6;
+    controls.maxDistance = 120.0;
+    controls.autoRotate = false;
+    controls.autoRotateSpeed = 0.75;
+
+    // 4. High-Contrast Aerospace Environment Map for Metallic Nozzles & Alloys
+    const pmremGenerator = new THREE.PMREMGenerator(renderer);
+    const envScene = new THREE.Scene();
+    const envMat = new THREE.ShaderMaterial({
+      side: THREE.BackSide,
+      vertexShader: `
+        varying vec3 vDir;
+        void main() {
+          vDir = normalize(position);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        varying vec3 vDir;
+        void main() {
+          float y = vDir.y;
+          vec3 ground = vec3(0.10, 0.11, 0.14);
+          vec3 horizon = vec3(0.75, 0.55, 0.42);
+          vec3 sky = vec3(0.28, 0.46, 0.78);
+          vec3 zenith = vec3(0.06, 0.12, 0.26);
+          vec3 col = y < 0.0
+            ? mix(horizon * 0.5, ground, clamp(-y * 3.0, 0.0, 1.0))
+            : mix(horizon, mix(sky, zenith, smoothstep(0.08, 0.65, y)), smoothstep(0.0, 0.12, y));
+          // Studio specular highlight strips for metallic Inconel nozzle reflections
+          float strip1 = pow(max(0.0, dot(vDir, normalize(vec3(-0.6, 0.5, 0.6)))), 24.0);
+          float strip2 = pow(max(0.0, dot(vDir, normalize(vec3(0.7, 0.3, -0.5)))), 18.0);
+          col += vec3(1.4, 1.35, 1.25) * strip1 + vec3(0.8, 0.95, 1.2) * strip2;
+          gl_FragColor = vec4(col, 1.0);
+        }
+      `
+    });
+    envScene.add(new THREE.Mesh(new THREE.SphereGeometry(50, 32, 16), envMat));
+    scene.environment = pmremGenerator.fromScene(envScene, 0.03).texture;
+    pmremGenerator.dispose();
+
+    // 5. Sky Background Dome & Subtle Engineering Floor Grid
+    const skyMat = new THREE.ShaderMaterial({
+      side: THREE.BackSide,
+      depthWrite: false,
+      uniforms: {
+        uPreset: { value: 0.0 }
+      },
+      vertexShader: `
+        varying vec3 vWorldPos;
+        void main() {
+          vec4 wp = modelMatrix * vec4(position, 1.0);
+          vWorldPos = wp.xyz;
+          gl_Position = projectionMatrix * viewMatrix * wp;
+        }
+      `,
+      fragmentShader: `
+        varying vec3 vWorldPos;
+        uniform float uPreset;
+        void main() {
+          vec3 d = normalize(vWorldPos);
+          float elev = clamp((d.y + 0.12) / 1.12, 0.0, 1.0);
+          // Preset 0: Kennedy Dawn, Preset 1: Dark Engineering Studio, Preset 2: Florida Daylight
+          vec3 cBot0 = vec3(0.05, 0.08, 0.15);
+          vec3 cMid0 = vec3(0.14, 0.22, 0.36);
+          vec3 cTop0 = vec3(0.02, 0.04, 0.09);
+          vec3 col0 = mix(cBot0, mix(cMid0, cTop0, smoothstep(0.15, 0.75, elev)), smoothstep(0.0, 0.18, elev));
+          float horizonGlow = exp(-pow((d.y + 0.02) * 9.0, 2.0));
+          col0 += vec3(0.32, 0.14, 0.05) * horizonGlow;
+
+          vec3 col1 = mix(vec3(0.02, 0.03, 0.05), vec3(0.07, 0.10, 0.16), smoothstep(0.0, 0.6, 1.0 - abs(d.y)));
+          vec3 col2 = mix(vec3(0.45, 0.62, 0.82), vec3(0.09, 0.24, 0.52), smoothstep(0.0, 0.85, elev));
+
+          vec3 finalCol = uPreset < 0.5 ? col0 : (uPreset < 1.5 ? col1 : col2);
+          gl_FragColor = vec4(finalCol, 1.0);
+        }
+      `
+    });
+    scene.add(new THREE.Mesh(new THREE.SphereGeometry(380, 48, 32), skyMat));
+
+    // Precision Engineering Pad Floor Grid at Y = 0
+    const gridHelper = new THREE.GridHelper(48, 48, 0x38bdf8, 0x1e293b);
+    gridHelper.position.y = -0.01;
+    gridHelper.material.transparent = true;
+    gridHelper.material.opacity = 0.35;
+    scene.add(gridHelper);
+
+    // 6. 4-Point Aerospace Lighting Rig
+    const hemiLight = new THREE.HemisphereLight(0x9ec5ff, 0x3b2d22, 0.95);
+    scene.add(hemiLight);
+
+    const keyLight = new THREE.DirectionalLight(0xfff8ed, 2.8);
+    keyLight.position.set(-22, 34, 28);
+    keyLight.castShadow = true;
+    keyLight.shadow.mapSize.set(2048, 2048);
+    scene.add(keyLight);
+
+    const fillLight = new THREE.DirectionalLight(0x8bb8ff, 1.35);
+    fillLight.position.set(26, 22, 20);
+    scene.add(fillLight);
+
+    const rimLight = new THREE.DirectionalLight(0xffb36b, 1.65);
+    rimLight.position.set(12, 28, -28);
+    scene.add(rimLight);
+
+    const bottomNozzleLight = new THREE.PointLight(0xffaa55, 6.5, 16, 1.5);
+    bottomNozzleLight.position.set(0, 0.2, 1.5);
+    scene.add(bottomNozzleLight);
+
+    // 7. Subsystem Engineering Data & Camera Presets (for Z=0..29.2m -> Y=0..29.2m model)
+    const SUBSYSTEMS = {
+      full: {
+        num: '00',
+        label: '整箭总览',
+        pos: new THREE.Vector3(-10.5, 15.2, 34.0),
+        target: new THREE.Vector3(0.0, 14.5, 0.0),
+        pinWorld: null,
+        tag: 'FULL VEHICLE STACK · 整箭总览',
+        name: 'NASA 太空发射系统 (SLS Block 1)',
+        desc: 'NASA 阿耳忒弥斯登月计划超重型运载火箭，由 8.4 米直径液氢/液氧芯级、两枚 5 段式固体火箭助推器（SRB）、临时低温推进级（ICPS）及猎户座载人飞船（Orion）组成。',
+        v1: '98.1 m / 8.4 m',
+        v2: '39,140 kN (880万磅)',
+        v3: '2,608,000 kg',
+        v4: '> 27,000 kg (TLI)'
+      },
+      engines: {
+        num: '01',
+        label: '4× RS-25D 主发动机',
+        pos: new THREE.Vector3(-2.6, 0.85, 4.8),
+        target: new THREE.Vector3(0.0, 1.15, 0.0),
+        pinWorld: new THREE.Vector3(0.46, 0.85, 0.55),
+        tag: 'CORE PROPULSION · 芯级主推进系统',
+        name: '4× Aerojet Rocketdyne RS-25D 发动机',
+        desc: '源自航天飞机主发动机（SSME）改进型，采用分级燃烧循环与 180 道因科镍合金（Inconel）再生冷却流道管壁、9 道不锈钢加强环箍及双液压 TVC 摆动机构。',
+        v1: '4 × 1,860 kN (海平面)',
+        v2: '4 × 2,279 kN (真空)',
+        v3: '452.3 s (真空比冲)',
+        v4: 'LOX / LH2 (液氧/液氢)'
+      },
+      aft: {
+        num: '02',
+        label: '尾裙与 BSM 分离火箭',
+        pos: new THREE.Vector3(-4.2, 2.3, 6.2),
+        target: new THREE.Vector3(-0.6, 2.1, 0.0),
+        pinWorld: new THREE.Vector3(-1.78, 2.0, 0.65),
+        tag: 'AFT SKIRT & HOLD-DOWN · 尾部裙板与发射支座',
+        name: 'SRB 尾裙 · 8 座牵制锁脚与尾部服务桅杆 (TSM)',
+        desc: '助推器扩张形尾裙底部分布 8 座锻造钢牵制支座（Hold-Down Posts）与 8 枚尾部助推分离固体火箭（BSM）；芯级两侧设低温液氢/液氧尾部服务桅杆（TSM）。',
+        v1: '8 × HDP 高强钢锁栓',
+        v2: '16 × BSM 分离火箭/枚',
+        v3: '3 杆三脚推力斜撑',
+        v4: '白色防热涂层 + 追踪标'
+      },
+      lh2: {
+        num: '03',
+        label: '芯级氢箱与 NASA 蠕虫标',
+        pos: new THREE.Vector3(-4.8, 9.2, 8.2),
+        target: new THREE.Vector3(0.0, 9.2, 0.0),
+        pinWorld: new THREE.Vector3(-1.78, 9.6, 0.52),
+        tag: 'CRYOGENIC LH2 TANK & SRB · 低温贮箱与固体助推',
+        name: '芯级液氢贮箱 (SOFI) & 5 段式固体助推器',
+        desc: '芯级覆有 NCFI 24-124 聚氨酯喷涂泡沫隔热层（SOFI），浅赭色环带为搅拌摩擦焊环缝；两侧 5 段式 D6AC 钢壳体助推器涂有经典红色 NASA Worm 标志。',
+        v1: '2,030,000 L (液氢容积)',
+        v2: '-253 °C (液氢深冷温度)',
+        v3: '2 × 16,000 kN (SRB推力)',
+        v4: 'PBAN 复合固体推进剂'
+      },
+      intertank: {
+        num: '04',
+        label: '箱间段加强筋与助推鼻锥',
+        pos: new THREE.Vector3(-4.5, 13.8, 7.4),
+        target: new THREE.Vector3(0.0, 13.5, 0.0),
+        pinWorld: new THREE.Vector3(0.0, 13.0, 1.15),
+        tag: 'INTERTANK & SRB FRUSTUM · 箱间段与助推前锥',
+        name: '箱间段 (Intertank) 机械加强筋与外置液氧管',
+        desc: '连接下部液氢箱与上部液氧箱的核心承力段，外部设有 72 道整体机加纵向加强筋、重型 SRB 主推力横梁承力座，以及向下引出的双侧外部液氧输送主管（LOX Downcomers）。',
+        v1: '72 道纵向机加加强筋',
+        v2: '双路外置 LOX 输送管',
+        v3: '8 × 前锥 BSM 分离喷嘴',
+        v4: '黑白格光学滚转追踪环'
+      },
+      orion: {
+        num: '05',
+        label: '猎户座飞船与上面级',
+        pos: new THREE.Vector3(-3.6, 22.8, 6.2),
+        target: new THREE.Vector3(0.0, 22.6, 0.0),
+        pinWorld: new THREE.Vector3(0.0, 23.8, 0.72),
+        tag: 'UPPER STAGE & ORION · 上面级与猎户座飞船',
+        name: 'LVSA 锥体 · ICPS 推进级 · 猎户座服务舱与指令舱',
+        desc: '包含深棕泡沫级间适配器（LVSA）、搭载 RL10 氢氧发动机的临时低温推进级（ICPS）、印有 NASA Meatball / 美国国旗 / ESA 标志的欧洲服务舱（ESM）与玻璃钢保护罩（BPC）。',
+        v1: '1 × RL10B-2 氢氧发动机',
+        v2: '465.5 s (ICPS 真空比冲)',
+        v3: '4 名宇航员深空乘员舱',
+        v4: 'NASA + ESA 联合研制'
+      },
+      las: {
+        num: '06',
+        label: '发射逃逸塔 (LAS)',
+        pos: new THREE.Vector3(-2.3, 27.3, 4.1),
+        target: new THREE.Vector3(0.0, 27.2, 0.0),
+        pinWorld: new THREE.Vector3(0.0, 27.3, 0.28),
+        tag: 'LAUNCH ABORT SYSTEM · 发射逃逸塔系统',
+        name: '猎户座发射逃逸塔 (LAS) 与反流主喷管',
+        desc: '由逃逸主发动机（4 枚大倾角反流喷管置于气动伞罩下方）、8 向钛合金姿态控制发动机环（ACM）、4 枚抛离发动机（Jettison Motor）及顶端金属 Q-Ball 迎角皮托管组成。',
+        v1: '1,780 kN (逃逸瞬间推力)',
+        v2: '4 × 反流斜置主喷管',
+        v3: '8 × ACM 径向姿控喷口',
+        v4: '顶端 Q-Ball 气动传感器'
+      }
+    };
+
+    // Create 3D Callout DOM Pins
+    const calloutElements = [];
+    Object.entries(SUBSYSTEMS).forEach(([key, data]) => {
+      if (!data.pinWorld) return;
+      const el = document.createElement('button');
+      el.className = 'callout-pin';
+      el.dataset.view = key;
+      el.innerHTML = `<span class="callout-num">${data.num}</span><span>${data.label}</span>`;
+      el.addEventListener('click', () => selectSubsystem(key));
+      calloutsLayer.appendChild(el);
+      calloutElements.push({ key, el, worldPos: data.pinWorld });
+    });
+
+    // 8. Model Loading & Mode Switching (Engineering Model vs Liftoff Scene)
+    const loader = new GLTFLoader();
+    let currentRoot = null;
+    let currentMode = 'engineering'; // 'engineering' | 'launch'
+
+    function loadRocketModel(mode) {
+      currentMode = mode;
+      const url = mode === 'engineering' ? './models/sls_artemis_rocket.glb' : './models/sls_artemis_launch.glb';
+      loadingOverlay.style.display = 'flex';
+      loadingStatus.textContent = mode === 'engineering'
+        ? '正在加载 Blender 4K PBR 纯净工程火箭模型...'
+        : '正在加载 Blender 点火升空与发射塔场景...';
+
+      if (currentRoot) {
+        scene.remove(currentRoot);
+        currentRoot = null;
+      }
+
+      const maxAniso = renderer.capabilities.getMaxAnisotropy();
+
+      loader.load(
+        url,
+        (gltf) => {
+          const root = gltf.scene;
+          // In launch mode, shift root by Y = -11.75 so rocket coordinates align with our camera presets & callout pins!
+          if (mode === 'launch') {
+            root.position.y = -11.75;
+          }
+
+          root.traverse((child) => {
+            if (child.isLight || child.isCamera) {
+              child.visible = false;
+              return;
+            }
+            if (!child.isMesh) return;
+            child.castShadow = true;
+            child.receiveShadow = true;
+
+            const mat = child.material;
+            if (mat) {
+              ['map', 'roughnessMap', 'metalnessMap', 'normalMap', 'bumpMap'].forEach((tKey) => {
+                if (mat[tKey]) {
+                  mat[tKey].anisotropy = maxAniso;
+                  mat[tKey].needsUpdate = true;
+                }
+              });
+
+              const mName = mat.name || '';
+              if (mName.includes('Engine_Nozzle')) {
+                mat.metalness = 0.88;
+                mat.roughness = 0.28;
+                mat.envMapIntensity = 1.65;
+              } else if (mName.includes('Silver_Alloy') || mName.includes('Titanium')) {
+                mat.metalness = 0.85;
+                mat.roughness = 0.26;
+                mat.envMapIntensity = 1.5;
+              } else if (mName.includes('Core_Stage_PBR') || mName.includes('SOFI')) {
+                mat.envMapIntensity = 0.65;
+              } else if (mName.includes('SRB_PBR') || mName.includes('Upper_Stage_PBR')) {
+                mat.envMapIntensity = 0.95;
+              }
+            }
+          });
+
+          currentRoot = root;
+          scene.add(root);
+          loadingOverlay.style.display = 'none';
+          window.__MODEL_LOADED__ = true;
+        },
+        (xhr) => {
+          if (xhr.total > 0) {
+            const pct = Math.round((xhr.loaded / xhr.total) * 100);
+            loadingStatus.textContent = `正在加载 3D 模型... ${pct}%`;
+          }
+        },
+        (err) => {
+          console.error('Error loading GLB:', err);
+          loadingStatus.textContent = '模型加载失败，请检查本地服务';
+        }
+      );
+    }
+
+    loadRocketModel('engineering');
+
+    // 9. Camera Tweening & UI Updates
+    let activeTween = null;
+
+    function selectSubsystem(key) {
+      const data = SUBSYSTEMS[key];
+      if (!data) return;
+
+      document.querySelectorAll('.cam-btn[data-view]').forEach((b) => {
+        b.classList.toggle('active', b.dataset.view === key);
+      });
+      calloutElements.forEach((c) => {
+        c.el.classList.toggle('active', c.key === key);
+      });
+
+      document.getElementById('spec-tag').textContent = data.tag;
+      document.getElementById('spec-name').textContent = data.name;
+      document.getElementById('spec-desc').textContent = data.desc;
+      document.getElementById('spec-v1').textContent = data.v1;
+      document.getElementById('spec-v2').textContent = data.v2;
+      document.getElementById('spec-v3').textContent = data.v3;
+      document.getElementById('spec-v4').textContent = data.v4;
+
+      activeTween = {
+        startPos: camera.position.clone(),
+        endPos: data.pos.clone(),
+        startTarget: controls.target.clone(),
+        endTarget: data.target.clone(),
+        startTime: performance.now(),
+        duration: 850
+      };
+    }
+
+    document.querySelectorAll('.cam-btn[data-view]').forEach((btn) => {
+      btn.addEventListener('click', () => selectSubsystem(btn.dataset.view));
+    });
+
+    renderer.domElement.addEventListener('pointerdown', () => {
+      activeTween = null;
+    });
+
+    // Toolbar Buttons
+    const btnModeEng = document.getElementById('btn-mode-engineering');
+    const btnModeLaunch = document.getElementById('btn-mode-launch');
+    btnModeEng.addEventListener('click', () => {
+      if (currentMode === 'engineering') return;
+      btnModeEng.classList.add('active');
+      btnModeLaunch.classList.remove('active');
+      gridHelper.visible = true;
+      loadRocketModel('engineering');
+    });
+    btnModeLaunch.addEventListener('click', () => {
+      if (currentMode === 'launch') return;
+      btnModeLaunch.classList.add('active');
+      btnModeEng.classList.remove('active');
+      gridHelper.visible = false;
+      loadRocketModel('launch');
+    });
+
+    let showCallouts = true;
+    const btnCallouts = document.getElementById('btn-toggle-callouts');
+    btnCallouts.addEventListener('click', () => {
+      showCallouts = !showCallouts;
+      calloutsLayer.style.display = showCallouts ? 'block' : 'none';
+      btnCallouts.textContent = `📍 结构标注: ${showCallouts ? '开' : '关'}`;
+      btnCallouts.classList.toggle('active', showCallouts);
+    });
+
+    let lightPreset = 0;
+    const lightNames = ['肯尼迪晨光', '工程暗房', '佛州晴空'];
+    const btnLighting = document.getElementById('btn-lighting');
+    btnLighting.addEventListener('click', () => {
+      lightPreset = (lightPreset + 1) % 3;
+      skyMat.uniforms.uPreset.value = lightPreset;
+      btnLighting.textContent = `☀️ 光照: ${lightNames[lightPreset]}`;
+      if (lightPreset === 0) {
+        keyLight.intensity = 2.8;
+        fillLight.intensity = 1.35;
+        rimLight.intensity = 1.65;
+      } else if (lightPreset === 1) {
+        keyLight.intensity = 3.2;
+        fillLight.intensity = 1.1;
+        rimLight.intensity = 2.1;
+      } else {
+        keyLight.intensity = 3.6;
+        fillLight.intensity = 1.85;
+        rimLight.intensity = 1.2;
+      }
+    });
+
+    const btnAutoRotate = document.getElementById('btn-autorotate');
+    btnAutoRotate.addEventListener('click', () => {
+      controls.autoRotate = !controls.autoRotate;
+      btnAutoRotate.textContent = `🔄 自动环绕: ${controls.autoRotate ? '开' : '关'}`;
+      btnAutoRotate.classList.toggle('active', controls.autoRotate);
+    });
+
+    // Support ?view=engines|aft|lh2|intertank|orion|las URL query parameter
+    const urlView = new URLSearchParams(window.location.search).get('view');
+    if (urlView && SUBSYSTEMS[urlView]) {
+      selectSubsystem(urlView);
+    }
+
+    // 10. Render & Callout Projection Loop
+    const tempVec = new THREE.Vector3();
+    function animate() {
+      requestAnimationFrame(animate);
+
+      if (activeTween) {
+        const t = Math.min((performance.now() - activeTween.startTime) / activeTween.duration, 1.0);
+        const ease = 1.0 - Math.pow(1.0 - t, 3);
+        camera.position.lerpVectors(activeTween.startPos, activeTween.endPos, ease);
+        controls.target.lerpVectors(activeTween.startTarget, activeTween.endTarget, ease);
+        if (t >= 1.0) activeTween = null;
+      }
+
+      controls.update();
+
+      // Update 3D Callout Pin Screen Positions
+      if (showCallouts) {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        for (const item of calloutElements) {
+          tempVec.copy(item.worldPos);
+          tempVec.project(camera);
+          if (tempVec.z > 1.0) {
+            item.el.style.display = 'none';
+          } else {
+            const sx = (tempVec.x * 0.5 + 0.5) * w;
+            const sy = (-tempVec.y * 0.5 + 0.5) * h;
+            item.el.style.display = 'inline-flex';
+            item.el.style.left = `${sx}px`;
+            item.el.style.top = `${sy}px`;
+          }
+        }
+      }
+
+      composer.render();
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      composer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>

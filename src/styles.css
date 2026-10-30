@@ -2283,6 +2283,187 @@
     font-size: 8.5px;
     line-height: 1.1;
   }
+
+  /* Liftoff Console - Cockpit Screen (Single-Screen No Scroll) */
+  .cockpit-screen .liftoff-canvas-wrap {
+    min-height: 0 !important;
+    height: 100%;
+  }
+
+  .cockpit-screen .liftoff-lower-console {
+    flex-shrink: 0;
+    margin-top: 0;
+    gap: 8px;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+  }
+
+  .cockpit-screen .ksp-panel {
+    padding: 6px 10px;
+    gap: 5px;
+    border-radius: 8px;
+  }
+
+  .cockpit-screen .ksp-panel-header {
+    padding-bottom: 4px;
+    margin-bottom: 0;
+  }
+
+  .cockpit-screen .ksp-panel-header h3 {
+    font-size: 11.5px;
+    gap: 5px;
+  }
+
+  .cockpit-screen .ksp-panel-sub {
+    font-size: 10px;
+  }
+
+  .cockpit-screen .ksp-propulsion-body {
+    gap: 8px;
+  }
+
+  .cockpit-screen .ksp-stage-stack {
+    gap: 3px;
+    justify-content: center;
+  }
+
+  .cockpit-screen .ksp-stage-card {
+    padding: 3px 6px;
+    border-radius: 5px;
+  }
+
+  .cockpit-screen .stage-card-top {
+    font-size: 10px;
+    margin-bottom: 2px;
+  }
+
+  .cockpit-screen .stage-card-top strong {
+    font-size: 10.5px;
+  }
+
+  .cockpit-screen .stage-badge {
+    font-size: 8.5px;
+    padding: 1px 4px;
+  }
+
+  .cockpit-screen .stage-fuel-track {
+    height: 4px;
+    border-radius: 2px;
+  }
+
+  .cockpit-screen .stage-card-meta {
+    font-size: 9px;
+    margin-top: 1px;
+  }
+
+  .cockpit-screen .ksp-throttle-col {
+    min-width: 140px;
+    gap: 4px;
+    justify-content: space-between;
+  }
+
+  .cockpit-screen .throttle-box {
+    padding: 4px 6px;
+    border-radius: 6px;
+  }
+
+  .cockpit-screen .throttle-header {
+    font-size: 10px;
+    margin-bottom: 2px;
+  }
+
+  .cockpit-screen .throttle-header strong {
+    font-size: 11px;
+  }
+
+  .cockpit-screen .throttle-slider {
+    height: 14px;
+    margin: 2px 0;
+  }
+
+  .cockpit-screen .throttle-quick-btns {
+    gap: 4px;
+    margin-top: 2px;
+  }
+
+  .cockpit-screen .throttle-quick-btns button {
+    padding: 2px 4px;
+    font-size: 9.5px;
+  }
+
+  .cockpit-screen .ksp-stage-trigger-btn {
+    padding: 5px 8px;
+    font-size: 11px;
+    gap: 5px;
+    border-radius: 6px;
+  }
+
+  .cockpit-screen .ksp-les-btn {
+    padding: 3px 6px;
+    font-size: 9.5px;
+    gap: 4px;
+    border-radius: 5px;
+  }
+
+  .cockpit-screen .ksp-navball-layout {
+    display: grid;
+    grid-template-columns: 98px 1fr;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .cockpit-screen .navball-svg-wrap {
+    width: 96px;
+    height: 96px;
+    margin: auto;
+  }
+
+  .cockpit-screen .navball-svg-wrap svg {
+    width: 96px !important;
+    height: 96px !important;
+  }
+
+  .cockpit-screen .ksp-attitude-controls {
+    gap: 3px;
+  }
+
+  .cockpit-screen .sas-mode-grid {
+    gap: 3px;
+  }
+
+  .cockpit-screen .sas-mode-btn {
+    padding: 3px 6px;
+    font-size: 9.5px;
+    border-radius: 4px;
+  }
+
+  .cockpit-screen .pitch-steer-row {
+    gap: 4px;
+  }
+
+  .cockpit-screen .pitch-steer-btn {
+    padding: 4px 6px;
+    font-size: 10px;
+    border-radius: 5px;
+  }
+
+  .cockpit-screen .aero-stress-meter {
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .cockpit-screen .aero-stress-top {
+    font-size: 9px;
+    margin-bottom: 2px;
+  }
+
+  .cockpit-screen .aero-stress-bar {
+    height: 4px;
+  }
+
+  .cockpit-screen .mobile-console-switcher {
+    display: none;
+  }
 }
 
 @media (max-width: 700px) {
@@ -2383,6 +2564,47 @@
     padding: 1px 2px 0;
     font-size: 7.5px;
     flex-direction: row;
+  }
+
+  .cockpit-screen .mobile-console-switcher {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 2px;
+    flex-shrink: 0;
+  }
+
+  .cockpit-screen .mobile-console-switcher button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 4px 6px;
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #9cb0a4;
+  }
+
+  .cockpit-screen .mobile-console-switcher button.active {
+    background: rgba(184, 245, 102, 0.15);
+    border-color: rgba(184, 245, 102, 0.4);
+    color: var(--lime, #b8f566);
+  }
+
+  .cockpit-screen .liftoff-lower-console {
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .cockpit-screen .liftoff-lower-console.show-propulsion [data-testid="ksp-navball-panel"] {
+    display: none !important;
+  }
+
+  .cockpit-screen .liftoff-lower-console.show-attitude [data-testid="ksp-propulsion-panel"] {
+    display: none !important;
   }
 }
 

@@ -104,9 +104,9 @@ export const HOME_MISSIONS: HomeMissionItem[] = [
         eraEn: 'Wenchang Launch Site · Space Station Program',
         descZh: '中国现役推力最大的旗舰“胖五”重型火箭，从海南文昌海滨拔地而起，将 22.5 吨空间站天和核心舱直接送入近地轨道！',
         descEn: 'China’s premier heavy cryogenic rocket launching the 22.5-tonne Tianhe space station core module directly into orbit from tropical Wenchang.',
-        statusZh: '已开放',
-        statusEn: 'Available',
-        isAvailable: true
+        statusZh: '研发中',
+        statusEn: 'Coming Soon',
+        isAvailable: false
       }
     ]
   },

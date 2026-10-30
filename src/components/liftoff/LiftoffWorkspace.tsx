@@ -4,6 +4,7 @@ import {
   BookOpen,
   Check,
   ChevronRight,
+  Compass,
   Crosshair,
   Flame,
   Gauge,
@@ -268,22 +269,27 @@ function getLiftoffInFlightGuidance(
 
 export interface LiftoffWorkspaceProps {
   initialVehicleId?: 'saturn-v' | 'cz5' | 'cz2f';
+  initialActiveLevel?: number;
   isOpenMobile: boolean;
   onToggleMobile: () => void;
   onCloseMobile: () => void;
+  onActiveLevelChange?: (level: number) => void;
 }
 
 export function LiftoffWorkspace({
   initialVehicleId = 'saturn-v',
+  initialActiveLevel = 1,
   isOpenMobile,
   onToggleMobile,
-  onCloseMobile
+  onCloseMobile,
+  onActiveLevelChange
 }: LiftoffWorkspaceProps) {
   const language = useSession((s) => s.language);
   const t = (zh: string, en: string) => (language === 'zh' ? zh : en);
 
   const [vehicleId, setVehicleId] = useState<'saturn-v' | 'cz5' | 'cz2f'>(initialVehicleId);
-  const [activeLevel, setActiveLevel] = useState<number>(0);
+  const [activeLevel, setActiveLevel] = useState<number>(initialActiveLevel);
+  const [mobileConsoleTab, setMobileConsoleTab] = useState<'propulsion' | 'attitude'>('propulsion');
   const [completedLevels, setCompletedLevels] = useState<number[]>([]);
   const [scenario, setScenario] = useState<LiftoffScenarioConfig>(() => getLiftoffScenario(1));
   const [state, setState] = useState<LiftoffState>(() =>
@@ -329,6 +335,7 @@ export function LiftoffWorkspace({
 
   const selectLevel = (id: number, nextVehId: 'saturn-v' | 'cz5' | 'cz2f' = vehicleId) => {
     onCloseMobile();
+    onActiveLevelChange?.(id);
     if (id === 0) {
       runtimeRef.current.running = false;
       setRunning(false);
@@ -641,28 +648,11 @@ export function LiftoffWorkspace({
           )}
         </p>
 
-        {/* 运载火箭型号切换器 */}
-        <div className="liftoff-vehicle-switch" role="group" aria-label={t('选择运载火箭', 'Select Rocket')}>
-          <button
-            type="button"
-            className={`liftoff-vehicle-btn ${vehicleId === 'saturn-v' ? 'active' : ''}`}
-            onClick={() => {
-              setVehicleId('saturn-v');
-              if (activeLevel > 0) selectLevel(activeLevel, 'saturn-v');
-            }}
-          >
-            🚀 {t('土星五号 (NASA)', 'Saturn V')}
-          </button>
-          <button
-            type="button"
-            className={`liftoff-vehicle-btn ${vehicleId === 'cz5' || vehicleId === 'cz2f' ? 'active' : ''}`}
-            onClick={() => {
-              setVehicleId('cz5');
-              if (activeLevel > 0) selectLevel(activeLevel, 'cz5');
-            }}
-          >
-            🇨🇳 {t('长征五号 (胖五)', 'Long March 5')}
-          </button>
+        {/* 运载火箭型号（NASA Saturn V） */}
+        <div className="liftoff-vehicle-switch single-vehicle" role="group" aria-label={t('运载火箭型号', 'Launch Vehicle')}>
+          <div className="liftoff-vehicle-btn active">
+            🚀 {t('土星五号 · NASA AS-506 登月火箭', 'Saturn V · NASA AS-506 Moon Rocket')}
+          </div>
         </div>
 
         <div className="progress-caption">
@@ -1078,8 +1068,32 @@ export function LiftoffWorkspace({
               </div>
             </section>
 
+            {/* 移动端控制台面板切换器 */}
+            <div className="mobile-console-switcher" role="tablist" aria-label={t('控制台切换', 'Console Switcher')}>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={mobileConsoleTab === 'propulsion'}
+                className={mobileConsoleTab === 'propulsion' ? 'active' : ''}
+                onClick={() => setMobileConsoleTab('propulsion')}
+              >
+                <Flame size={12} />
+                <span>{t('推进系统 & 分离', 'Propulsion & Staging')}</span>
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={mobileConsoleTab === 'attitude'}
+                className={mobileConsoleTab === 'attitude' ? 'active' : ''}
+                onClick={() => setMobileConsoleTab('attitude')}
+              >
+                <Compass size={12} />
+                <span>{t('姿态导航球 & 转向', 'Navball & Steering')}</span>
+              </button>
+            </div>
+
             {/* 下方双列控制台：左侧 KSP 级间分离与节流阀，右侧 KSP 导航球与姿态控制 */}
-            <div className="liftoff-lower-console">
+            <div className={`liftoff-lower-console show-${mobileConsoleTab}`}>
               {/* 左面板：多级火箭燃料栈与油门/分离 */}
               <div className="ksp-panel" data-testid="ksp-propulsion-panel">
                 <div className="ksp-panel-header">

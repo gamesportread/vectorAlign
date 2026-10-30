@@ -211,6 +211,7 @@ export default function App() {
     return 'docking';
   });
   const [liftoffVehicleId, setLiftoffVehicleId] = useState<'saturn-v' | 'cz5' | 'cz2f'>('saturn-v');
+  const [liftoffActiveLevel, setLiftoffActiveLevel] = useState<number>(1);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [installHelpOpen, setInstallHelpOpen] = useState(false);
   const [installEvent, setInstallEvent] = useState<(Event & { prompt: () => Promise<void> }) | null>(null);
@@ -255,7 +256,10 @@ export default function App() {
   };
 
   const isFlying = flight.status === 'flying';
-  const isCockpit = tab === 'mission' && session.activeLevel > 0;
+  const isCockpit =
+    tab === 'mission' &&
+    ((activeProgram === 'docking' && session.activeLevel > 0) ||
+     (activeProgram === 'liftoff' && liftoffActiveLevel > 0));
 
   if (session.screen === 'home') {
     return (
@@ -263,7 +267,8 @@ export default function App() {
         onEnterSimulator={(taskId = 2, scenarioId = 'iss-standard') => {
           if (taskId === 1) {
             setActiveProgram('liftoff');
-            setLiftoffVehicleId(scenarioId === 'cz5' || scenarioId === 'cz2f' ? 'cz5' : 'saturn-v');
+            setLiftoffVehicleId('saturn-v');
+            setLiftoffActiveLevel(1);
           } else if (taskId === 3) {
             setActiveProgram('departure');
           } else if (taskId === 4) {
@@ -273,7 +278,7 @@ export default function App() {
           }
           setTab('mission');
           session.setScreen('simulator');
-          useSession.setState({ activeLevel: 0 });
+          useSession.setState({ activeLevel: taskId === 1 ? 1 : 0 });
         }}
       />
     );
@@ -287,15 +292,20 @@ export default function App() {
         canInstall={Boolean(installEvent)}
         onPromptInstall={() => void installEvent?.prompt()}
         onOpenInstallHelp={() => setInstallHelpOpen(true)}
-        onReturnHome={() => session.setScreen('home')}
+        onReturnHome={() => {
+          session.setScreen('home');
+          setLiftoffActiveLevel(0);
+        }}
       />
 
       {activeProgram === 'liftoff' && tab === 'mission' ? (
         <LiftoffWorkspace
           initialVehicleId={liftoffVehicleId}
+          initialActiveLevel={liftoffActiveLevel}
           isOpenMobile={mobileMenuOpen}
           onToggleMobile={() => setMobileMenuOpen(!mobileMenuOpen)}
           onCloseMobile={() => setMobileMenuOpen(false)}
+          onActiveLevelChange={setLiftoffActiveLevel}
         />
       ) : activeProgram === 'departure' && tab === 'mission' ? (
         <DepartureWorkspace

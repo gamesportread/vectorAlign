@@ -139,6 +139,10 @@ export function HomeView({ onEnterSimulator }: HomeViewProps) {
             <span>VECTOR</span>
             <span className="title-accent">ALIGN</span>
           </h1>
+          <div className="home-title-sub">
+            <span className="home-title-sub-dot" />
+            <span>{t('选择任务 · 驾驶 NASA 航天器', 'Mission Select · Fly NASA Spacecraft')}</span>
+          </div>
         </header>
 
         {/* Main single-screen layout: Left Cluster (Menu + 场景 Card with matching top/bottom bounds) + Right 360 HUD */}
@@ -204,6 +208,10 @@ export function HomeView({ onEnterSimulator }: HomeViewProps) {
 
             {/* 二级菜单卡片：放置于一级菜单右侧，上下界与菜单对齐 */}
             <aside className="scenario-card" aria-label={t('二级菜单', 'Secondary Menu')}>
+              <div className="scenario-card-tab">
+                <span className="scenario-card-tab-label">{t('任务档案', 'MISSION FILES')}</span>
+                <span className="scenario-card-tab-title">{t(currentMission.titleZh, currentMission.titleEn)}</span>
+              </div>
               <div className="scenario-list">
                 {currentMission.historicalScenarios?.map((s) => (
                   <div key={s.id} className={`scenario-block ${s.isAvailable ? 'available' : 'unavailable'}`}>
@@ -349,7 +357,7 @@ export function HomeView({ onEnterSimulator }: HomeViewProps) {
             </div>
 
             <div style={{ marginTop: 10 }}>
-              <strong style={{ fontSize: 13, color: '#e5ece8', display: 'block', marginBottom: 8 }}>
+              <strong className="controls-help-title">
                 {t('键盘飞行操作说明', 'Flight Controls Cheatsheet')}
               </strong>
               <div className="controls-help-grid">
@@ -481,10 +489,10 @@ export function HomeView({ onEnterSimulator }: HomeViewProps) {
             <div className="dev-modal-icon-badge">
               <Rocket size={28} />
             </div>
-            <h3 style={{ margin: 0, fontSize: 18, color: '#f1f5f3' }}>
+            <h3 className="dev-modal-title">
               {t(`【${currentMission.titleZh}】模拟工程正在全力构建中`, `[${currentMission.titleEn}] is currently being constructed`)}
             </h3>
-            <p style={{ margin: 0, fontSize: 13, lineHeight: 1.7, color: '#b0c2b6' }}>
+            <p className="dev-modal-desc">
               {t(
                 `本阶段任务（${currentMission.titleZh}）包含${currentMission.specs.stageZh}等复杂航天物理流程。目前开发团队正在进行轨道动力学参数与三维场景的高精度测绘。`,
                 `This mission phase involves advanced trajectory simulations. Our engineering team is currently tuning dynamic parameters and 3D scenes.`
@@ -502,7 +510,7 @@ export function HomeView({ onEnterSimulator }: HomeViewProps) {
               </div>
             </div>
 
-            <div className="modal-actions" style={{ marginTop: 14 }}>
+            <div className="modal-actions">
               <button
                 type="button"
                 className="secondary-button"

@@ -59,7 +59,7 @@ export const HOME_MISSIONS: HomeMissionItem[] = [
     taglineEn: 'Powered Ascent to Orbit',
     badgeZh: '已就绪',
     badgeEn: 'Ready',
-    image: '/images/home/liftoff.jpg',
+    image: '/images/home/toon/liftoff.jpg',
     isImplemented: true,
     specs: {
       timeZh: 'T - 00:00:00 发射点火至入轨关机（约 580 秒）',
@@ -120,7 +120,7 @@ export const HOME_MISSIONS: HomeMissionItem[] = [
     taglineEn: 'Precision Orbital Rendezvous',
     badgeZh: '已就绪',
     badgeEn: 'Ready',
-    image: '/images/home/docking.jpg',
+    image: '/images/home/toon/docking.jpg',
     isImplemented: true,
     specs: {
       timeZh: '飞行第 2 天 · 距离 50 米逼近至机械锁紧（约 15 分钟）',
@@ -205,7 +205,7 @@ export const HOME_MISSIONS: HomeMissionItem[] = [
     taglineEn: 'Undocking & Safe Departure',
     badgeZh: '已就绪',
     badgeEn: 'Ready',
-    image: '/images/home/departure.jpg',
+    image: '/images/home/toon/departure.jpg',
     isImplemented: true,
     specs: {
       timeZh: '任务完成准备撤离 · 脱离走廊滑行 T + 00:00 ~ T + 00:45',
@@ -254,7 +254,7 @@ export const HOME_MISSIONS: HomeMissionItem[] = [
     taglineEn: 'Atmospheric Reentry & Touchdown',
     badgeZh: '已就绪',
     badgeEn: 'Ready',
-    image: '/images/home/landing.jpg',
+    image: '/images/home/toon/landing.jpg',
     isImplemented: true,
     specs: {
       timeZh: '脱轨制动后约 90 分钟 · 穿越黑障区至触地前 1 秒',

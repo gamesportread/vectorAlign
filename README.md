@@ -45,6 +45,11 @@ All 3D mission scenes (`src/Scene.tsx`, `src/components/liftoff/LiftoffScene3D.t
 
 ## Structure
 
+- `public/models/`: 核心 3D 资产（均已纳入 Git 仓库版本管理，克隆即可开箱即用）：
+  - `sls_artemis_launch.glb` (26 MB): NASA SLS Block 1 重型火箭与移动发射台点火全貌 3D 模型（主页 360° 全景核心展品）。
+  - `sls_artemis_rocket.glb` (24 MB): NASA SLS Block 1 纯净火箭工程模型（供 `public/artemis.html` 检视）。
+  - `dragon.glb` (67 MB): SpaceX 载人龙飞船（Crew Dragon）3D 模型，支持鼻锥舱门物理开合与姿控喷口。
+  - `iss.glb` (13 MB): NASA 官方国际空间站（ISS）高保真 3D 模型与 PMA-2 对接口。
 - `src/sim`: pure deterministic dynamics, configuration, capture and collision logic, test suite.
 - `src/store.ts`: session lifecycle, unified commands, fixed-step scheduler, feedback demonstrations and telemetry.
 - `src/components/scene/TaskCameraControls.tsx` & `src/components/scene/taskCameraConfig.ts`: shared 3D camera controller (left-drag rotate, right-drag pan, wheel zoom, pan-preserving target follow) required for all current and future 3D task scenes.
